@@ -11,6 +11,7 @@ const EN=lang==='en';
 window.CRM_LANG=lang;
 
 const W={
+'المواد والأصناف':'Catalogue','المواد':'Catalogue','الأصناف والخدمات':'Items and services','الأقسام والمجموعات':'Categories and groups','السلال الجاهزة':'Ready baskets','تقارير المواد':'Catalogue reports',
 // header, tabs, sign-in
 'لوحة الإدارة | جاهز':'Admin panel | Jahiz','لوحة الإدارة':'Admin panel','أقسام لوحة الإدارة':'Admin panel sections',
 'لوحة المتابعة':'Dashboard','الطلبات':'Requests','العملاء':'Clients','المعاملات':'Transactions','المراسلات':'Messages','السجل':'Log','الموظفون':'Staff','حسابي':'My account','خروج':'Sign out',

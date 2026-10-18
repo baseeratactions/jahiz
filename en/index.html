@@ -28,9 +28,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500;700&family=Tajawal:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="../assets/market.css?v=20261018x">
-<script src="../assets/lang.js?v=20261018x" defer></script>
-<script src="../assets/who.js?v=20261018x" defer></script>
+<link rel="stylesheet" href="../assets/market.css?v=20261018z">
+<script src="../assets/lang.js?v=20261018z" defer></script>
+<script src="../assets/who.js?v=20261018z" defer></script>
 </head>
 <body>
 <div class="basmala" aria-hidden="true"><svg viewBox="0 0 120 120" width="96" height="96"><defs><path id="bsT" d="M20.6 67 A40 40 0 1 1 99.4 67"/><path id="bsB" d="M12.5 74.5 A49.5 49.5 0 0 0 107.5 74.5"/></defs><circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="60" cy="60" r="29" fill="none" stroke="currentColor" stroke-width=".8"/><text font-size="8.6" text-anchor="middle"><textPath href="#bsT" startOffset="50%">بسم الله الواحد الأحد الفرد الصمد</textPath></text><text font-size="7.6" text-anchor="middle"><textPath href="#bsB" startOffset="50%">والصلاة والسلام على محمد خير الأنام</textPath></text><text x="60" y="61" font-size="11" text-anchor="middle">بسم الله</text><text x="60" y="74" font-size="6" text-anchor="middle">✦</text><text x="15" y="66" font-size="5" text-anchor="middle">✦</text><text x="105" y="66" font-size="5" text-anchor="middle">✦</text></svg></div>
@@ -38,6 +38,7 @@
   <a class="brand" href="#home"><img src="../assets/jahiz-mark-v3.svg" alt="" width="40" height="40"><span><b>Jahiz</b><small>Ready at your door</small></span></a>
   <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span><span></span><span></span></button>
   <nav id="nav" aria-label="Main menu"><ul class="menu">
+    <li><a href="#baskets">Baskets</a></li>
     <li><a href="#shop" data-kind="food">Food</a></li>
     <li><a href="#shop" data-kind="goods">Supplies</a></li>
     <li><a href="#shop" data-kind="service">Services</a></li>
@@ -72,10 +73,17 @@
   <div id="today" class="today-in" role="region" aria-label="Today in Doha" hidden></div>
   <div class="stats">
     <div><b class="num" data-n="cats">27</b><span>categories of goods and services</span></div>
-    <div><b class="num" data-n="items">100</b><span>products and services with indicative prices</span></div>
+    <div><b class="num" data-n="items">490</b><span>products and services with indicative prices</span></div>
     <div><b>100%</b><span>accredited, licensed partners</span></div>
     <div><b>On delivery</b><span>pay cash or card when you receive</span></div>
   </div>
+</div></section>
+
+<section class="sec alt" id="baskets"><div class="wrap">
+  <h2>Ready daily, weekly and monthly baskets</h2>
+  <p class="lead">Pick a ready basket for your household and save up to <span data-n="maxdisc">10</span>% against buying each item on its own, or choose specific items from the categories below. You can adjust a basket in the order notes.</p>
+  <div class="row"><div class="kinds" id="periods" role="group" aria-label="Basket period"></div></div>
+  <div class="bkts" id="bkts"></div>
 </div></section>
 
 <section class="sec" id="shop"><div class="wrap">
@@ -109,6 +117,7 @@
     <div class="panel"><b>Basket</b><div class="bl" id="basket"></div>
       <div class="total"><span>Estimated total</span><b class="num" id="bTotal">0</b></div>
       <p class="mute" style="margin:0;font-size:13.5px">Indicative prices; the fulfilling partner confirms the final price and delivery fee first.</p>
+      <p class="bmin" id="bMin" hidden></p>
       <span class="err" id="eBasket"></span></div>
     <div class="panel">
       <form class="form" id="oForm" novalidate>
@@ -211,9 +220,10 @@
 <a class="fab" id="fab" href="#order" hidden>🛍️ Basket <span class="n num">0</span></a>
 <a class="wa-fab" href="https://wa.me/97472232609" target="_blank" rel="noopener" aria-label="Message us on WhatsApp" title="Message us on WhatsApp"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-3.9-.5-5.6-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.7 5 .8.4 1.4.6 1.9.7.8.3 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg></a>
 <div class="toast" id="toast" hidden></div>
-<script src="../assets/config.js?v=20261018x"></script>
-<script src="../assets/market-data.js?v=20261018x"></script>
-<script src="../assets/market.js?v=20261018x"></script>
-<script src="../assets/today.js?v=20261018x"></script>
+<script src="../assets/config.js?v=20261018z"></script>
+<script src="../assets/market-data.js?v=20261018z"></script>
+<script src="../assets/market-store.js?v=20261018z"></script>
+<script src="../assets/market.js?v=20261018z"></script>
+<script src="../assets/today.js?v=20261018z"></script>
 </body>
 </html>
