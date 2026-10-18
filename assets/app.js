@@ -3,7 +3,7 @@
 const EN=document.documentElement.lang==='en';
 const CFG=window.JAHIZ_CONFIG||{};
 const D=window.DETAILS||{};
-const AVG=300;
+const AVG=70;
 const fmt=n=>n.toLocaleString('en-US');
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -92,7 +92,7 @@ function buildMenu(){
 const chips=$('chips');
 [['all',T.all],...ents].forEach(([k,n])=>{const b=document.createElement('button');b.className='chip';b.type='button';b.textContent=n;b.dataset.k=k;b.setAttribute('aria-pressed',k==='all');b.onclick=()=>setEnt(k);chips.appendChild(b)});
 function setEnt(k){ent=k;chips.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x.dataset.k===k));render()}
-function weight(s){return s.p<=400?1:(s.p<=750?2:3)}
+function weight(s){return s.p<=100?1:(s.p<=180?2:3)}
 function covered(s,p){return s.kind==='gov'&&(p.scope==='all'||s.core)}
 function units(s){return s.core?weight(s):0}
 function svcRow(s){const r=document.createElement('div');r.className='svc';
