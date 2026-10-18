@@ -19,7 +19,7 @@ function css(t){const p=t.primary,a=t.accent,dk=mix(p,'#000000',.55),lt=mix(p,'#
 :root[data-theme="light"] body:not(.crm){${pub}}
 body:not(.crm) .top,body:not(.crm) footer{background:var(--pub-bar,var(--navy));color:var(--pub-ink,var(--navy-ink))}
 body:not(.crm) .burger span{background:currentColor}`}
-function apply(t){if(!t||!hex(t.primary)||!hex(t.accent)||/^#(0e5e4a|0b6b53|2f855a)$/i.test(t.primary))t=DEF;let el=document.getElementById('siteTheme');
+function apply(t){if(!t||!hex(t.primary)||!hex(t.accent)||/^#(0e5e4a|0b6b53)$/i.test(t.primary))t=DEF;let el=document.getElementById('siteTheme');
   if(!el){el=document.createElement('style');el.id='siteTheme';document.head.appendChild(el)}el.textContent=css(t);
   const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t.primary}
 let saved=null;try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
