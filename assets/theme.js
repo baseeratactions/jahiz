@@ -2,7 +2,7 @@
 // Site colours chosen by the manager (لوحة الإدارة ← الإعدادات ← ألوان الموقع). Loaded in <head> of every page:
 // applies the last known colours at once, then asks the server for the current choice and keeps it for next time.
 (function(){
-const KEY='jahiz_theme',DEF={primary:'#2f855a',accent:'#f39219'};
+const KEY='jahiz_theme_v2',DEF={primary:'#2f855a',accent:'#f39219'};
 const hex=s=>/^#[0-9a-f]{6}$/i.test(s||'');
 const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
 const toHex=a=>'#'+a.map(x=>Math.max(0,Math.min(255,Math.round(x))).toString(16).padStart(2,'0')).join('');
@@ -28,7 +28,7 @@ window.SITE_THEME={DEF,apply,contrast,mix,hex,
   remember(t){saved={t,at:Date.now()};try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}apply(t)},
   get current(){return (saved&&saved.t)||DEF}};
 // refresh from the server at most every 10 minutes
-function refresh(){const api=(window.JAHIZ_CONFIG||{}).API;if(!api||(saved&&Date.now()-saved.at<6e5))return;
+function refresh(){const C=window.JAHIZ_CONFIG||{},api=C.API;if(!api||C.SHARED_SERVER||(saved&&Date.now()-saved.at<6e5))return;
   fetch(api,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'theme'})}).then(r=>r.json()).then(j=>{if(j&&j.ok){const t=j.theme&&hex(j.theme.primary)?j.theme:DEF;window.SITE_THEME.remember(t)}}).catch(()=>{})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh);else refresh();
 })();

@@ -3,7 +3,7 @@
 // the last saved version is applied at once from this browser's copy, then the server is asked whether there is a newer one.
 // With nothing saved on the server, the built-in data.js and details.js stay as they are.
 (function(){
-const KEY='jahiz_catalog';
+const KEY='jahiz_catalog_v2';
 const DT=typeof DATA!=='undefined'?DATA:null;
 const BUILT={data:Object.assign({},DT||{}),details:window.DETAILS||{}};
 // what the management chose to hide (one service, a whole authority or field, a package) is left out for visitors
@@ -30,7 +30,7 @@ window.CATALOG={get ver(){return saved?saved.ver:''},use,visible,
   raw(){return JSON.parse(JSON.stringify(saved?withNew({data:saved.data,details:saved.details}):BUILT))},
   remember(c){saved=c&&c.ver?c:null;try{saved?localStorage.setItem(KEY,JSON.stringify(saved)):localStorage.removeItem(KEY)}catch(e){}}};
 const t0=Date.now();let touched=false;['pointerdown','keydown','input'].forEach(e=>addEventListener(e,()=>{touched=true},{once:true,capture:true}));
-function check(){const api=(window.JAHIZ_CONFIG||{}).API;if(!api)return;
+function check(){const C=window.JAHIZ_CONFIG||{},api=C.API;if(!api||C.SHARED_SERVER)return;
   fetch(api,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'catalog',ver:saved?saved.ver:''})}).then(r=>r.json()).then(j=>{
     if(!j||!j.ok||j.same)return;const was=saved?saved.ver:'';if(j.ver===was)return;
     window.CATALOG.remember(j.ver?{ver:j.ver,data:j.data,details:j.details}:null);
