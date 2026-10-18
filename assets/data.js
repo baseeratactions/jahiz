@@ -3031,5 +3031,154 @@ DATA.CONSULT = [
     }
    }
   ]
- }
+ },
+{
+ "code": "CU",
+ "ar": "تسويق المزادات لشركات المزادات",
+ "en": "Auction marketing for auction companies",
+ "about_ar": "لشركات ومنظمي المزادات في قطر: نسوّق مزاداتكم إلكترونياً بالعربية والإنجليزية، ونجهز ترخيص المزاد الإلكتروني ومتطلباته.",
+ "about_en": "For auction companies and organisers in Qatar: we market your sales online in Arabic and English and prepare the e-auction licence and its requirements.",
+ "items": [
+  {
+   "c": "CU-01",
+   "p": 3500,
+   "from": true,
+   "unit_ar": "للمزاد",
+   "unit_en": "per auction",
+   "ar": {
+    "n": "حملة تسويق إلكتروني لمزاد",
+    "inc": "خطة الحملة، محتوى عربي وإنجليزي، 6 تصاميم للمنشورات والقصص، صفحة للمزاد بنموذج تسجيل اهتمام، إدارة الإعلانات الممولة في Google وMeta وX، تقرير نتائج بعد المزاد",
+    "about": "نعلن عن مزادكم للمشترين المهتمين قبل موعده بأسبوع على الأقل، ونقيس الإقبال حتى يوم المزايدة.",
+    "docs": [
+     "السجل التجاري وترخيص المزاد",
+     "قائمة الأصناف وصورها وشروط المزاد",
+     "موعد ومكان المعاينة ورابط المزايدة",
+     "الميزانية الإعلانية المقترحة"
+    ],
+    "time": "7 إلى 10 أيام قبل موعد المزاد",
+    "out": "حملة منشورة، صفحة المزاد، قائمة المهتمين، تقرير نتائج",
+    "note": "الميزانية الإعلانية تُدفع للمنصات مباشرة ومنفصلة عن أتعابنا. لا نضمن عدد المزايدين أو سعر البيع."
+   },
+   "en": {
+    "n": "Online marketing campaign for an auction",
+    "inc": "Campaign plan, Arabic and English copy, 6 post and story designs, an auction page with an interest form, paid ads managed on Google, Meta and X, results report after the sale",
+    "about": "We announce your auction to interested buyers at least a week ahead and track interest until bidding day.",
+    "docs": [
+     "Commercial registration and auction licence",
+     "Item list, photos and auction terms",
+     "Inspection date, place and bidding link",
+     "Proposed ad budget"
+    ],
+    "time": "7 to 10 days before the auction",
+    "out": "Published campaign, auction page, list of interested buyers, results report",
+    "note": "The ad budget is paid to the platforms directly, separate from our fees. Bidder numbers and sale prices are not guaranteed."
+   }
+  },
+  {
+   "c": "CU-02",
+   "p": 6500,
+   "from": true,
+   "unit_ar": "شهرياً",
+   "unit_en": "per month",
+   "ar": {
+    "n": "اشتراك تسويق شهري لشركة مزادات",
+    "inc": "إدارة حسابات التواصل، 12 منشوراً شهرياً، حملة مختصرة لكل مزاد، تحسين الظهور في Google وخرائط Google، تقرير شهري",
+    "about": "فريق تسويق ثابت لشركتكم يغطي كل مزاداتكم خلال الشهر.",
+    "docs": [
+     "السجل التجاري",
+     "الهوية البصرية للشركة",
+     "صلاحيات الحسابات الحالية",
+     "جدول المزادات المتوقعة"
+    ],
+    "time": "يبدأ خلال أسبوع من الاتفاق",
+    "out": "خطة محتوى شهرية، منشورات وحملات، تقرير شهري",
+    "note": "الميزانية الإعلانية منفصلة. الحد الأدنى للاشتراك 3 أشهر."
+   },
+   "en": {
+    "n": "Monthly marketing subscription for an auction company",
+    "inc": "Social media management, 12 posts a month, a short campaign for every auction, Google Search and Maps visibility, monthly report",
+    "about": "A steady marketing team for your company covering all your auctions each month.",
+    "docs": [
+     "Commercial registration",
+     "Brand identity",
+     "Access to current accounts",
+     "Expected auction calendar"
+    ],
+    "time": "Starts within a week of signing",
+    "out": "Monthly content plan, posts and campaigns, monthly report",
+    "note": "Ad budget is separate. Minimum subscription is 3 months."
+   }
+  },
+  {
+   "c": "CU-03",
+   "p": 7500,
+   "from": true,
+   "unit_ar": "للمشروع",
+   "unit_en": "per project",
+   "ar": {
+    "n": "تجهيز شركة مزادات للعمل الإلكتروني",
+    "inc": "موقع ثنائي اللغة يعرض المزادات القادمة ونتائجها، صفحة Google للأعمال، واتساب للأعمال، شروط المزايدة وسياسة الخصوصية، تدريب الفريق",
+    "about": "نجهز الحضور الرقمي الكامل لشركة المزادات لتستقبل المزايدين وتعرض مزاداتها بنفسها.",
+    "docs": [
+     "السجل التجاري",
+     "الشعار والهوية",
+     "نماذج مزادات سابقة إن وجدت",
+     "النطاق المطلوب إن وجد"
+    ],
+    "time": "3 إلى 5 أسابيع",
+    "out": "موقع منشور، حسابات أعمال مفعلة، دليل استخدام",
+    "note": "رسوم النطاق والاستضافة والبرامج الخارجية، إن وجدت، تُدفع لمزوديها."
+   },
+   "en": {
+    "n": "Getting an auction company ready to work online",
+    "inc": "A bilingual site showing upcoming auctions and results, Google Business Profile, WhatsApp Business, bidding terms and privacy policy, team training",
+    "about": "We set up the full digital presence an auction company needs to receive bidders and show its own sales.",
+    "docs": [
+     "Commercial registration",
+     "Logo and identity",
+     "Past auction examples if any",
+     "Preferred domain if any"
+    ],
+    "time": "3 to 5 weeks",
+    "out": "Published site, active business accounts, user guide",
+    "note": "Domain, hosting and third-party software fees, if any, are paid to their providers."
+   }
+  },
+  {
+   "c": "CU-04",
+   "p": 2500,
+   "from": true,
+   "unit_ar": "للملف",
+   "unit_en": "per file",
+   "ar": {
+    "n": "ملف ترخيص المزاد الإلكتروني لدى وزارة التجارة والصناعة",
+    "inc": "تجهيز طلب الترخيص وقائمة البضائع، إعلان مكان المعاينة قبل 24 ساعة، ضبط الدفع بالبطاقة أو التحويل، تقرير ما بعد المزاد للوزارة",
+    "about": "المزاد الإلكتروني في قطر يحتاج ترخيصاً من وزارة التجارة والصناعة، ونجهز الملف ومتطلباته قبل وبعد المزاد.",
+    "docs": [
+     "السجل التجاري",
+     "قائمة البضائع المعروضة",
+     "مكان المعاينة",
+     "بيانات المفوض"
+    ],
+    "time": "حسب مدة الوزارة، عادة أيام عمل قليلة",
+    "out": "طلب ترخيص مقدم، إعلان المعاينة، تقرير ما بعد المزاد",
+    "note": "الرسوم الحكومية منفصلة وتُدفع بالإيصال الرسمي. القرار للوزارة."
+   },
+   "en": {
+    "n": "E-auction licence file with the Ministry of Commerce and Industry",
+    "inc": "Licence application and goods list, inspection notice 24 hours ahead, card or transfer payment set-up, post-auction report to the Ministry",
+    "about": "An online auction in Qatar needs a licence from the Ministry of Commerce and Industry; we prepare the file and its requirements before and after the sale.",
+    "docs": [
+     "Commercial registration",
+     "List of goods offered",
+     "Inspection location",
+     "Authorised person's details"
+    ],
+    "time": "Depends on the Ministry, usually a few working days",
+    "out": "Licence application submitted, inspection notice, post-auction report",
+    "note": "Government fees are separate and paid against the official receipt. The decision is the Ministry's."
+   }
+  }
+ ]
+}
 ];
