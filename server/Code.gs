@@ -113,6 +113,7 @@ function doPost(e) {
     if (req.action === 'register') return json(publicRegister(req));
     if (req.action === 'theme') { var th = prop('THEME'); return json({ok: true, theme: th ? JSON.parse(th) : null}); }
     if (req.action === 'catalog') return json(catalogGet(req.ver));
+    if (req.action === 'market') return json(marketGet(req.ver, false));
     if (req.action === 'track') return json(publicTrack(req));
     if (req.action === 'reviews') return json(publicReviews());
     if (req.action === 'ads') return json(publicAds());
@@ -183,6 +184,8 @@ function doPost(e) {
       case 'saveTheme': return json(saveTheme(req.theme));
       case 'saveSite': return json(withLock(function () { return saveSite(req.site); }));
       case 'saveCatalog': return json(withLock(function () { return catalogSave(req.catalog); }));
+      case 'marketAdmin': return json(marketGet('', true));
+      case 'saveMarket': return json(withLock(function () { return marketSave(req.market, req.priv); }));
       case 'adsList': return json({ok: true, rows: rows('Ads')});
       case 'adsSave': return json(withLock(function () { return adSave(req); }));
       case 'adsDel': return json(withLock(function () { return adDelete(req.id); }));
@@ -256,7 +259,7 @@ function can(p) { return STAFF.role === 'admin' || (p !== 'admin' && permsOf(STA
 // which permission each staff action needs (the browser hides what an employee cannot do; this is the real check)
 function permFor(r) {
   var a = r.action, sh = r.sheet;
-  if (['staffUsers', 'staffSave', 'report', 'reportEmail', 'saveTheme', 'setLock', 'saveCatalog', 'reviewSet', 'adsList', 'adsSave', 'adsDel', 'saveSite'].indexOf(a) >= 0) return 'admin';
+  if (['staffUsers', 'staffSave', 'report', 'reportEmail', 'saveTheme', 'setLock', 'saveCatalog', 'marketAdmin', 'saveMarket', 'reviewSet', 'adsList', 'adsSave', 'adsDel', 'saveSite'].indexOf(a) >= 0) return 'admin';
   if (a === 'auditTrail') return 'finance';
   if (a === 'reply') return 'messages';
   if (a === 'sendEmail') return 'email';
@@ -493,6 +496,58 @@ function catalogSave(c) {
   p.setProperty('CATALOG_N', String(parts.length)); p.setProperty('CATALOG_VER', v);
   audit('settings', '', '', '', 'الخدمات والأسعار: حفظ ونشر (' + Object.keys(codes).length + ' خدمة)');
   secLog('medium', 'تغيير الخدمات والأسعار المعروضة في الموقع', STAFF.username, Object.keys(codes).length + ' خدمة');
+  return {ok: true, ver: v};
+}
+// the marketplace catalogue edited in the admin panel (لوحة الإدارة ← المواد): categories, items, ready baskets and their public
+// details go to the public 'market' action; cost, partners, stock and internal notes ("priv") are returned to staff only.
+// Both are kept as JSON in 40,000-character pieces, in the sheets "Market" and "MarketPrivate".
+function chunkRead(name, n) {
+  var sh = SpreadsheetApp.getActive().getSheetByName(name);
+  if (!sh || !n) return null;
+  var txt = sh.getRange(1, 2, n, 1).getValues().map(function (r) { return String(r[0]).replace(/^~/, ''); }).join('');
+  try { return JSON.parse(txt); } catch (e) { return null; }
+}
+function chunkWrite(name, obj) {
+  var txt = JSON.stringify(obj), parts = [];
+  if (txt.length > 3000000) return 0;
+  for (var i = 0; i < txt.length; i += CAT_CHUNK) parts.push([parts.length + 1, '~' + txt.slice(i, i + CAT_CHUNK)]);
+  var ss = SpreadsheetApp.getActive(), sh = ss.getSheetByName(name) || ss.insertSheet(name);
+  sh.clearContents(); sh.getRange(1, 1, parts.length, 2).setValues(parts);
+  return parts.length;
+}
+function marketGet(ver, staff) {
+  var v = prop('MARKET_VER'), n = +prop('MARKET_N') || 0;
+  if (!v || !n) return {ok: true, ver: ''};
+  if (!staff && ver && ver === v) return {ok: true, ver: v, same: true};
+  var m = chunkRead('Market', n);
+  if (!m) return {ok: true, ver: ''};
+  var out = {ok: true, ver: v, market: m};
+  if (staff) out.priv = chunkRead('MarketPrivate', +prop('MARKET_PN') || 0) || {};
+  return out;
+}
+// like catClean, except that an item picture ("img") may be an https link or a small uploaded jpeg, png or webp
+function marketClean(v, key) {
+  if (key === 'img') return typeof v === 'string' && v.length <= 120000 && /^(https:\/\/[^\s<>"`]+|data:image\/(png|jpe?g|webp);base64,[A-Za-z0-9+\/=]+)$/.test(v) ? v : '';
+  if (typeof v === 'string') return v.replace(/[<>"`]/g, '').slice(0, 2000);
+  if (Array.isArray(v)) return v.map(function (x) { return marketClean(x); });
+  if (v && typeof v === 'object') { var o = {}; Object.keys(v).forEach(function (k) { o[catClean(k)] = marketClean(v[k], k); }); return o; }
+  return v;
+}
+function marketSave(m, priv) {
+  var p = PropertiesService.getScriptProperties();
+  if (!m) { p.deleteProperty('MARKET_VER'); p.deleteProperty('MARKET_N'); audit('settings', '', '', '', 'المواد: العودة إلى الكتالوج الأصلي'); return {ok: true, ver: ''}; }
+  if (!m.CATS || !m.CATS.length) return {ok: false, error: 'invalid'};
+  var codes = {}, dup = '';
+  m.CATS.forEach(function (c) { (c.items || []).forEach(function (x) { if (codes[x[0]]) dup = x[0]; codes[x[0]] = 1; }); });
+  (m.BASKETS || []).forEach(function (b) { if (codes[b.code]) dup = b.code; codes[b.code] = 1; });
+  if (dup) return {ok: false, error: 'duplicate_code', code: dup};
+  var n = chunkWrite('Market', marketClean(m));
+  if (!n) return {ok: false, error: 'too_large'};
+  var pn = chunkWrite('MarketPrivate', catClean(priv || {}));
+  var v = String(new Date().getTime());
+  p.setProperty('MARKET_N', String(n)); p.setProperty('MARKET_PN', String(pn)); p.setProperty('MARKET_VER', v);
+  audit('settings', '', '', '', 'المواد: حفظ ونشر (' + Object.keys(codes).length + ' صنف وسلة)');
+  secLog('medium', 'تغيير أصناف وأسعار السوق المعروضة في الموقع', STAFF.username, Object.keys(codes).length + ' صنف وسلة');
   return {ok: true, ver: v};
 }
 // ---------- accounting and HR helpers ----------
