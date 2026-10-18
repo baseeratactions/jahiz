@@ -2,7 +2,7 @@
 // Site colours chosen by the manager (لوحة الإدارة ← الإعدادات ← ألوان الموقع). Loaded in <head> of every page:
 // applies the last known colours at once, then asks the server for the current choice and keeps it for next time.
 (function(){
-const KEY='jahiz_theme_v2',DEF={primary:'#2f855a',accent:'#f39219'};
+const KEY='jahiz_theme_v2',DEF={primary:'#6d28d9',accent:'#db2777'};
 const hex=s=>/^#[0-9a-f]{6}$/i.test(s||'');
 const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
 const toHex=a=>'#'+a.map(x=>Math.max(0,Math.min(255,Math.round(x))).toString(16).padStart(2,'0')).join('');
@@ -19,7 +19,7 @@ function css(t){const p=t.primary,a=t.accent,dk=mix(p,'#000000',.55),lt=mix(p,'#
 :root[data-theme="light"] body:not(.crm){${pub}}
 body:not(.crm) .top,body:not(.crm) footer{background:var(--pub-bar,var(--navy));color:var(--pub-ink,var(--navy-ink))}
 body:not(.crm) .burger span{background:currentColor}`}
-function apply(t){if(!t||!hex(t.primary)||!hex(t.accent)||/^#(0e5e4a|0b6b53)$/i.test(t.primary))t=DEF;let el=document.getElementById('siteTheme');
+function apply(t){if(!t||!hex(t.primary)||!hex(t.accent)||/^#(0e5e4a|0b6b53|2f855a)$/i.test(t.primary))t=DEF;let el=document.getElementById('siteTheme');
   if(!el){el=document.createElement('style');el.id='siteTheme';document.head.appendChild(el)}el.textContent=css(t);
   const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t.primary}
 let saved=null;try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
