@@ -92,7 +92,8 @@ a{color:inherit}
 .flow li i{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-style:normal;font-size:20px;background:var(--pri-soft)}
 .flow li b{display:block;font-size:15.5px}
 .flow li span{color:var(--mute);font-size:14px;line-height:1.55}
-@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero{padding-block:36px 28px}}
+.hero .wrap>*{min-width:0}
+@media (max-width:860px){.hero .wrap{grid-template-columns:minmax(0,1fr)}.hero{padding-block:36px 28px}}
 
 /* trust strip */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
@@ -317,3 +318,11 @@ body.signed-client #whoLi{display:none!important}
 .ilist td small{color:var(--mute)}.ilist .u{color:var(--mute);font-size:13px}.ilist tr.out{opacity:.6}
 .items{align-items:start}
 @media (max-width:700px){.catbar{position:static;flex-direction:column;align-items:stretch}.catbar>*{min-width:0;max-width:100%}.catbar .grpnav{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}.grpnav .chip{white-space:nowrap}.vsw{margin-inline-start:0}}
+/* phones: categories as a compact two-column grid, ready baskets as a swipeable row instead of one long column */
+@media (max-width:640px){
+ .cats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .cat{padding:12px}
+ .bkts{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding-bottom:10px;margin-inline:-16px;padding-inline:16px;scroll-padding-inline:16px;scrollbar-width:none}
+ .bkts::-webkit-scrollbar{display:none}
+ .bkt{flex:0 0 82%;scroll-snap-align:start}
+}

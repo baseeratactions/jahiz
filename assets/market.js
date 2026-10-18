@@ -40,11 +40,11 @@ const T={
 
 // ---- catalogue ----
 const all=[];
-M.CATS.forEach(c=>c.items.forEach(([code,ar,en,p,uar,uen,g])=>{const gr=(c.groups||[])[g];all.push({c:code,n:EN?en:ar,p,u:EN?uen:uar,cat:c,g:g|0,gn:gr?(EN?gr[1]:gr[0]):'',d:M.DETAILS[code]||{}})}));
+M.CATS.forEach(c=>c.items.forEach(([code,ar,en,p,uar,uen,g])=>{const gr=(c.groups||[])[g];all.push({c:code,n:EN?en:ar,o:EN?ar:en,p,u:EN?uen:uar,cat:c,g:g|0,gn:gr?(EN?gr[1]:gr[0]):'',go:gr?(EN?gr[0]:gr[1]):'',d:M.DETAILS[code]||{}})}));
 const nItems=all.length;
 // ready baskets sit in the same basket and order as single items
 const BCAT={ar:'سلال جاهزة',en:'Ready baskets',about_ar:'سلة يومية أسبوعية شهرية',about_en:'daily weekly monthly basket'};
-M.BASKETS.forEach(b=>all.push({c:b.code,n:EN?b.en:b.ar,p:b.price,u:L('للسلة','per basket'),cat:BCAT,gn:(M.PERIODS[b.period]||{})[EN?'en':'ar']||'',bk:b}));
+M.BASKETS.forEach(b=>all.push({c:b.code,n:EN?b.en:b.ar,o:EN?b.ar:b.en,p:b.price,u:L('للسلة','per basket'),cat:BCAT,gn:(M.PERIODS[b.period]||{})[EN?'en':'ar']||'',bk:b}));
 const byCode=Object.fromEntries(all.map(s=>[s.c,s]));
 const catName=c=>EN?c.en:c.ar;
 const kinds=Object.keys(M.KINDS);
@@ -73,8 +73,14 @@ function itemCard(s){const q=cart.get(s.c)||0,d=s.d||{},out=d.st==='out',sp=spec
 const qtyHTML=(s,q)=>`<span class="qty"><button type="button" data-dec="${s.c}" aria-label="${esc(T.dec+' '+s.n)}">−</button><output class="num">${q}</output><button type="button" data-inc="${s.c}" aria-label="${esc(T.inc+' '+s.n)}">+</button></span>`;
 // Arabic matches anywhere in a word (prefixes such as «ال»), English from the start of a word so «ac» does not hit «packed»
 // the category summary is searched only when no item name, group or specification matches, so «AC» does not list every accredited partner
-function match(s,q,wide){const t=(s.n+' '+catName(s.cat)+' '+s.gn+' '+s.c+' '+(s.d?specs(s.d).join(' ')+' '+(s.d.barcode||'')+' '+(s.d.tags||''):'')+(wide?' '+(EN?s.cat.about_en:s.cat.about_ar):'')).toLowerCase();q=q.toLowerCase();
-  return EN?new RegExp('(^|[^a-z0-9])'+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).test(t):t.includes(q)}
+// both languages are searched on either page, and Arabic spelling variants (أ/إ/ا، ة/ه، ى/ي and diacritics) count as the same letter
+const norm=x=>String(x||'').toLowerCase().replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+// common local names for the same product, so «بندورة» finds tomatoes and «رز» finds rice
+const SYN={'بندوره':'طماطم','رز':'ارز','بطاطا':'بطاطس','بطيخ احمر':'بطيخ','جاج':'دجاج','فراخ':'دجاج','كوسه':'كوسا','مكيف':'تكييف','مكيفات':'تكييف','غساله':'غسال'};
+// every word of the query must be found, in any order; an English word of one or two letters («ac») must be the whole word
+function match(s,q,wide){const t=norm([s.n,s.o,s.cat.ar,s.cat.en,s.gn,s.go,s.c].concat(s.d?[specs(s.d).join(' '),s.d.origin_en,s.d.origin,s.d.barcode,s.d.tags]:[]).concat(wide?[s.cat.about_en,s.cat.about_ar]:[]).filter(Boolean).join(' '));
+  const one=w=>/[\u0600-\u06FF]/.test(w)?t.includes(w)||(SYN[w]&&t.includes(SYN[w])):new RegExp('(^|[^a-z0-9])'+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+(w.length<3?'($|[^a-z0-9])':'')).test(t);
+  q=norm(q);return (SYN[q]&&t.includes(SYN[q]))||q.split(/\s+/).filter(Boolean).every(one)}
 function render(){const box=$('catalog');if(!box)return;const q=($('sq').value||'').trim();
   kbox&&kbox.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===kind));
   if(q){let hits=all.filter(s=>match(s,q));if(!hits.length)hits=all.filter(s=>match(s,q,true));
