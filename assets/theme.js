@@ -2,8 +2,8 @@
 // Site colours chosen by the manager (لوحة الإدارة ← الإعدادات ← ألوان الموقع). Loaded in <head> of every page:
 // applies the last known colours at once, then asks the server for the current choice and keeps it for next time.
 (function(){
-// public pages are always light green, also when the device is in dark mode (owner, 2026-10-18); the colour picker still sets the admin panel and the accent
-const PUBLIC_GREEN='#2f855a';
+// public pages always use Jahiz's own violet brand in light tints, also in dark mode; the colour picker sets the admin panel only
+const PUBLIC_COLOUR='#6d28d9';
 const KEY='jahiz_theme_v2',DEF={primary:'#6d28d9',accent:'#db2777'};
 const hex=s=>/^#[0-9a-f]{6}$/i.test(s||'');
 const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
@@ -12,7 +12,7 @@ const mix=(a,b,t)=>toHex(rgb(a).map((x,i)=>x+(rgb(b)[i]-x)*t));
 const lum=h=>{const c=rgb(h).map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]};
 const contrast=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
 function css(t){const p=t.primary,a=t.accent,dk=mix(p,'#000000',.55),lt=mix(p,'#ffffff',.55),
-    G=PUBLIC_GREEN,pub=`--navy:${G};--pri:${G};--hero-em:${G};--bg:${mix(G,'#ffffff',.93)};--hero-bg:${mix(G,'#ffffff',.85)};--hero-card:${mix(G,'#ffffff',.93)};--chip:${mix(G,'#ffffff',.88)};--line:${mix(G,'#ffffff',.8)};--pub-bar:${mix(G,'#ffffff',.78)};--pub-ink:${mix(G,'#000000',.6)};--bar-line:rgba(0,0,0,.18);--bar-hover:rgba(0,0,0,.06);--bar-soft:rgba(255,255,255,.55)`;
+    G=PUBLIC_COLOUR,pub=`--navy:${G};--pri:${G};--hero-em:${G};--bg:${mix(G,'#ffffff',.93)};--hero-bg:${mix(G,'#ffffff',.85)};--hero-card:${mix(G,'#ffffff',.93)};--chip:${mix(G,'#ffffff',.88)};--line:${mix(G,'#ffffff',.8)};--pub-bar:${mix(G,'#ffffff',.78)};--pub-ink:${mix(G,'#000000',.6)};--bar-line:rgba(0,0,0,.18);--bar-hover:rgba(0,0,0,.06);--bar-soft:rgba(255,255,255,.55)`;
   return `:root{--navy:${p};--pri:${p};--hero-em:${p};--amber:${a};--amber-soft:${mix(a,'#ffffff',.86)};--gold-line:${a};--gold-1:${mix(a,'#ffffff',.92)};--gold-2:${mix(a,'#ffffff',.65)}}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--navy:${dk};--pri:${lt};--hero-em:${mix(p,'#ffffff',.7)};--amber:${mix(a,'#ffffff',.15)};--amber-soft:${mix(a,'#000000',.7)}}}
 :root[data-theme="dark"]{--navy:${dk};--pri:${lt};--hero-em:${mix(p,'#ffffff',.7)};--amber:${mix(a,'#ffffff',.15)};--amber-soft:${mix(a,'#000000',.7)}}
