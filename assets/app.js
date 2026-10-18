@@ -315,7 +315,7 @@ function stampSVG(){const c='#2f5d8a';
    <text fill="${c}" font-family="Readex Pro,Tajawal,sans-serif" font-weight="700" font-size="${EN?12:15}" letter-spacing="${EN?2:0}"><textPath href="#stBot" startOffset="50%" text-anchor="middle">${T.stampCity}</textPath></text>
    <circle cx="34" cy="100" r="3" fill="${c}"/><circle cx="166" cy="100" r="3" fill="${c}"/>
    <path d="M70 94 Q100 70 130 94 Q100 118 70 94Z" fill="none" stroke="${c}" stroke-width="4"/><circle cx="100" cy="94" r="8" fill="${c}"/>
-   <text x="100" y="132" fill="${c}" text-anchor="middle" font-family="Readex Pro,Tajawal,sans-serif" font-weight="700" font-size="11">${EN?'EST. 2026':'تأسست 2026'}</text></svg>`}
+   <text x="100" y="132" fill="${c}" text-anchor="middle" font-family="Readex Pro,Tajawal,sans-serif" font-weight="700" font-size="11">${EN?'EST. 2001':'تأسست 2001'}</text></svg>`}
 
 // ---- visitor sign-up: name and mobile required, email and company optional; remembered in this browser ----
 const REG_KEY='jahiz_reg';let REG=null;
