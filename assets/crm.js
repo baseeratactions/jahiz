@@ -359,23 +359,23 @@ $('delT').onclick=async()=>{$('dlgT').close();if(!await ask('حذف المعام
 
 // ---- email ----
 const TPL={
-  recv:['تأكيد استلام الطلب','استلمنا طلبك | جاهز للمعاملات','السلام عليكم {name}،\n\nشكراً لتواصلك مع جاهز للمعاملات. استلمنا طلبك وسنراجعه ونعود إليك خلال ساعتين عمل بقائمة المستندات والسعر.\n\nمع التحية،\nفريق جاهز للمعاملات'],
-  docs:['طلب المستندات','المستندات المطلوبة لمعاملتك | جاهز للمعاملات','السلام عليكم {name}،\n\nلإتمام {service} نحتاج المستندات التالية:\n{docs}\n\nأتعاب جاهز: {fee} ر.ق، والرسوم الحكومية تُدفع منفصلة بإيصالها الرسمي.\nيمكنك الرد على هذا البريد بالمستندات أو إرسالها على واتساب ‎+974 72232609 أو البريد baseeratactions@gmail.com.\n\nمع التحية،\nفريق جاهز للمعاملات'],
-  status:['تحديث حالة المعاملة','تحديث على معاملتك {txn} | جاهز للمعاملات','السلام عليكم {name}،\n\nنبلغك أن حالة معاملتك ({service}) أصبحت: {status}.\n{ref}\nسنبلغك بأي تحديث جديد.\n\nمع التحية،\nفريق جاهز للمعاملات'],
-  done:['إنجاز المعاملة','تم إنجاز معاملتك {txn} | جاهز للمعاملات','السلام عليكم {name}،\n\nيسعدنا إبلاغك بإنجاز معاملتك ({service}).\n{expiry}\nسنسلّمك المستند والإيصالات الرسمية، وسنذكّرك قبل موعد التجديد.\n\nشكراً لثقتك،\nفريق جاهز للمعاملات'],
-  renew:['تذكير بالتجديد','تذكير: موعد تجديد قريب | جاهز للمعاملات','السلام عليكم {name}،\n\nنذكّرك بأن {service} ينتهي بتاريخ {expiryDate}. يمكننا تجديده لك قبل الموعد لتجنب الغرامات.\nرد على هذا البريد أو راسلنا على واتساب ‎+974 72232609 أو البريد baseeratactions@gmail.com لنبدأ.\n\nمع التحية،\nفريق جاهز للمعاملات'],
-  quote:['عرض سعر','عرض سعر من جاهز للمعاملات','السلام عليكم {name}،\n\nبناءً على طلبك، نرفق عرض السعر التالي:\n- الخدمة: {service}\n- أتعاب جاهز: {fee} ر.ق\n- الرسوم الحكومية التقديرية: {govFee} ر.ق (تُدفع بإيصال رسمي)\n\nالعرض ساري 14 يوماً.\n\nمع التحية،\nفريق جاهز للمعاملات'],
-  free:['رسالة حرة','','السلام عليكم {name}،\n\n\n\nمع التحية،\nفريق جاهز للمعاملات']
+  recv:['تأكيد استلام الطلب','استلمنا طلبك | جاهز','السلام عليكم {name}،\n\nشكراً لتواصلك مع جاهز. استلمنا طلبك وسنراجعه ونعود إليك خلال ساعتين عمل بقائمة المستندات والسعر.\n\nمع التحية،\nفريق جاهز'],
+  docs:['طلب المستندات','المستندات المطلوبة لمعاملتك | جاهز','السلام عليكم {name}،\n\nلإتمام {service} نحتاج المستندات التالية:\n{docs}\n\nأتعاب جاهز: {fee} ر.ق، والرسوم الحكومية تُدفع منفصلة بإيصالها الرسمي.\nيمكنك الرد على هذا البريد بالمستندات أو إرسالها على واتساب ‎+974 72232609 أو البريد baseeratactions@gmail.com.\n\nمع التحية،\nفريق جاهز'],
+  status:['تحديث حالة المعاملة','تحديث على معاملتك {txn} | جاهز','السلام عليكم {name}،\n\nنبلغك أن حالة معاملتك ({service}) أصبحت: {status}.\n{ref}\nسنبلغك بأي تحديث جديد.\n\nمع التحية،\nفريق جاهز'],
+  done:['إنجاز المعاملة','تم إنجاز معاملتك {txn} | جاهز','السلام عليكم {name}،\n\nيسعدنا إبلاغك بإنجاز معاملتك ({service}).\n{expiry}\nسنسلّمك المستند والإيصالات الرسمية، وسنذكّرك قبل موعد التجديد.\n\nشكراً لثقتك،\nفريق جاهز'],
+  renew:['تذكير بالتجديد','تذكير: موعد تجديد قريب | جاهز','السلام عليكم {name}،\n\nنذكّرك بأن {service} ينتهي بتاريخ {expiryDate}. يمكننا تجديده لك قبل الموعد لتجنب الغرامات.\nرد على هذا البريد أو راسلنا على واتساب ‎+974 72232609 أو البريد baseeratactions@gmail.com لنبدأ.\n\nمع التحية،\nفريق جاهز'],
+  quote:['عرض سعر','عرض سعر من جاهز','السلام عليكم {name}،\n\nبناءً على طلبك، نرفق عرض السعر التالي:\n- الخدمة: {service}\n- أتعاب جاهز: {fee} ر.ق\n- الرسوم الحكومية التقديرية: {govFee} ر.ق (تُدفع بإيصال رسمي)\n\nالعرض ساري 14 يوماً.\n\nمع التحية،\nفريق جاهز'],
+  free:['رسالة حرة','','السلام عليكم {name}،\n\n\n\nمع التحية،\nفريق جاهز']
 };
 // English versions of the same emails, for clients who signed up in English (or by choice in the dialog)
-const SIGN_EN='\n\nKind regards,\nJahiz for Transactions team',CONTACT_EN='WhatsApp +974 72232609 or email baseeratactions@gmail.com';
+const SIGN_EN='\n\nKind regards,\nJahiz team',CONTACT_EN='WhatsApp +974 72232609 or email baseeratactions@gmail.com';
 const TPL_EN={
-  recv:['Request received | Jahiz for Transactions','Dear {name},\n\nThank you for contacting Jahiz for Transactions. We have received your request and will review it and come back to you within two working hours with the documents needed and the price.'+SIGN_EN],
-  docs:['Documents needed for your transaction | Jahiz for Transactions','Dear {name},\n\nTo complete {service} we need the following documents:\n{docs}\n\nJahiz fee: {fee} QAR. Government fees are paid separately against their official receipt.\nYou can reply to this email with the documents, or send them by '+CONTACT_EN+'.'+SIGN_EN],
-  status:['Update on your transaction {txn} | Jahiz for Transactions','Dear {name},\n\nThe status of your transaction ({service}) is now: {status}.\n{ref}\nWe will let you know of any further update.'+SIGN_EN],
-  done:['Your transaction {txn} is completed | Jahiz for Transactions','Dear {name},\n\nWe are pleased to tell you that your transaction ({service}) is completed.\n{expiry}\nWe will hand you the document and the official receipts, and remind you before it is due for renewal.\n\nThank you for your trust,\nJahiz for Transactions team'],
-  renew:['Reminder: a renewal is coming up | Jahiz for Transactions','Dear {name},\n\nThis is a reminder that {service} expires on {expiryDate}. We can renew it for you before then to avoid fines.\nReply to this email or contact us by '+CONTACT_EN+' to start.'+SIGN_EN],
-  quote:['Quote from Jahiz for Transactions','Dear {name},\n\nAs requested, here is our quote:\n- Service: {service}\n- Jahiz fee: {fee} QAR\n- Estimated government fees: {govFee} QAR (paid against an official receipt)\n\nThe quote is valid for 14 days.'+SIGN_EN],
+  recv:['Request received | Jahiz','Dear {name},\n\nThank you for contacting Jahiz. We have received your request and will review it and come back to you within two working hours with the documents needed and the price.'+SIGN_EN],
+  docs:['Documents needed for your transaction | Jahiz','Dear {name},\n\nTo complete {service} we need the following documents:\n{docs}\n\nJahiz fee: {fee} QAR. Government fees are paid separately against their official receipt.\nYou can reply to this email with the documents, or send them by '+CONTACT_EN+'.'+SIGN_EN],
+  status:['Update on your transaction {txn} | Jahiz','Dear {name},\n\nThe status of your transaction ({service}) is now: {status}.\n{ref}\nWe will let you know of any further update.'+SIGN_EN],
+  done:['Your transaction {txn} is completed | Jahiz','Dear {name},\n\nWe are pleased to tell you that your transaction ({service}) is completed.\n{expiry}\nWe will hand you the document and the official receipts, and remind you before it is due for renewal.\n\nThank you for your trust,\nJahiz team'],
+  renew:['Reminder: a renewal is coming up | Jahiz','Dear {name},\n\nThis is a reminder that {service} expires on {expiryDate}. We can renew it for you before then to avoid fines.\nReply to this email or contact us by '+CONTACT_EN+' to start.'+SIGN_EN],
+  quote:['Quote from Jahiz','Dear {name},\n\nAs requested, here is our quote:\n- Service: {service}\n- Jahiz fee: {fee} QAR\n- Estimated government fees: {govFee} QAR (paid against an official receipt)\n\nThe quote is valid for 14 days.'+SIGN_EN],
   free:['','Dear {name},\n\n'+SIGN_EN]
 };
 const ST_EN={'جديدة':'New','بانتظار المستندات':'Waiting for documents','قيد التقديم':'Being submitted','قيد المتابعة لدى الجهة':'With the authority','بانتظار العميل':'Waiting for you','منجزة':'Completed','ملغاة':'Cancelled'};
@@ -607,7 +607,7 @@ $('delE').onclick=async()=>{$('dlgE').close();if(!await ask(L('حذف المصر
 
 // printable statement of a transaction and receipt for a payment (the browser's print dialog saves them as PDF)
 function printDoc(title,body){const w=window.open('','_blank');if(!w){toast(L('اسمح للموقع بفتح نافذة جديدة للطباعة','Allow pop-ups to print'));return}
-  const brand=L('جاهز للمعاملات ذ.م.م','Jahiz for Transactions LLC');
+  const brand=L('جاهز','Jahiz');
   w.document.write(`<!doctype html><html lang="${EN?'en':'ar'}" dir="${EN?'ltr':'rtl'}"><head><meta charset="utf-8"><title>${esc(title)}</title><style>
   body{font-family:Tahoma,Arial,sans-serif;color:#1d2733;margin:32px;font-size:14px;line-height:1.7}header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #0e5e4a;padding-bottom:12px;margin-bottom:18px}
   header b{font-size:22px;color:#0e5e4a}header small{display:block;color:#5d6b78}h1{font-size:20px;margin:0 0 4px}table{width:100%;border-collapse:collapse;margin:14px 0}th,td{border:1px solid #cfd6dd;padding:7px 10px;text-align:start}th{background:#f1f4f6}
@@ -627,7 +627,7 @@ function printStatement(id){const t=DB.Transactions.find(x=>x.id===id);if(!t)ret
   <tr class="tot"><td>${L('الإجمالي','Total')}</td><td>${money((+t.fee||0)+(+t.govFee||0))}</td></tr></tbody></table>
   <table><thead><tr><th>${L('تاريخ الدفع','Date')}</th><th>${L('رقم السند','Receipt')}</th><th>${L('الطريقة','Method')}</th><th>${L('المبلغ','Amount')}</th></tr></thead><tbody>${ps.map(p=>`<tr><td>${esc(p.date)}</td><td dir="ltr">${esc(p.receiptNo)}</td><td>${esc(trx(p.method))}</td><td>${money(p.amount)}</td></tr>`).join('')||`<tr><td colspan="4">${L('لا توجد دفعات بعد.','No payments yet.')}</td></tr>`}
   <tr class="tot"><td colspan="3">${L('المدفوع','Paid')}</td><td>${money(t.paid)}</td></tr><tr class="tot"><td colspan="3">${L('المتبقي','Balance due')}</td><td>${money(balance(t))}</td></tr></tbody></table>
-  <p class="note">${L('يُعدّ هذا الكشف ملخصاً لحساب المعاملة لدى جاهز للمعاملات، ويُرفق به أصل الإيصالات الحكومية عند التسليم.','This statement summarises the transaction account with Jahiz for Transactions. The original government receipts are handed over with the completed documents.')}</p>`)}
+  <p class="note">${L('يُعدّ هذا الكشف ملخصاً لحساب المعاملة لدى جاهز، ويُرفق به أصل الإيصالات الحكومية عند التسليم.','This statement summarises the transaction account with Jahiz. The original government receipts are handed over with the completed documents.')}</p>`)}
 // ---- site colours (admin): ready palettes or two chosen colours, saved on the server for every visitor ----
 const PALETTES=[
   {name:'زمردي وذهبي',en:'Emerald and gold',primary:'#0e5e4a',accent:'#c9a24d'},

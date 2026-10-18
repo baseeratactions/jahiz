@@ -1,20 +1,21 @@
 {
-  "name": "جاهز للمعاملات",
+  "name": "جاهز",
   "short_name": "جاهز",
-  "description": "خدمات حكومية بأسعار ثابتة، باقات للشركات، ودراسات واستشارات في الدوحة. ومنها حسابك لمتابعة معاملاتك.",
+  "description": "سوقك على مواقع التواصل: مواد غذائية ومستلزمات وخدمات من شركات معتمدة، يوصلها لك شريك موثوق.",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f6f7f9",
-  "theme_color": "#0e5e4a",
+  "background_color": "#f7f6f2",
+  "theme_color": "#0b6b53",
   "icons": [
-    {"src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
-    {"src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+    {"src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
   ],
   "shortcuts": [
     {"name": "حسابي", "url": "./portal.html"},
-    {"name": "اطلب خدمة", "url": "./#request"}
+    {"name": "سلّة الطلب", "url": "./#order"},
+    {"name": "انضم كشريك", "url": "./#partners"}
   ]
 }

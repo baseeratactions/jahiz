@@ -1,5 +1,5 @@
 /**
- * جاهز للمعاملات: خادم نظام العملاء والطلبات (Google Apps Script + Google Sheets)
+ * جاهز: خادم نظام العملاء والطلبات (Google Apps Script + Google Sheets)
  *
  * ما يفعله:
  *  - يستقبل طلبات الموقع ويحفظها في ورقة «الطلبات»، وينشئ العميل أو يربطه برقم جواله.
@@ -848,8 +848,8 @@ function clientSignup(r) {
     if (to) MailApp.sendEmail({to: to, name: 'موقع جاهز', subject: (res.pending ? 'حساب بانتظار التفعيل: ' : 'حساب جديد: ') + res.client.name,
       htmlBody: shell('<p>أنشأ عميل حساباً على الموقع.</p><p>الاسم: ' + escHtml(name) + '<br>الشركة: ' + escHtml(company || '—') + '<br>الجوال: ' + phone8 + '<br>اسم المستخدم: ' + escHtml(username) + '<br>رقم العميل: ' + res.client.id + '</p>' +
         (res.pending ? '<p><b>هذا الرقم مسجل لعميل لديه معاملات أو ملفات سابقة.</b> اتصل بالرقم للتأكد، ثم فعّل الحساب من نظام العملاء (ملف العميل ← الحساب).</p>' : ''))});
-    if (mailOk(email)) MailApp.sendEmail({to: email, name: r.lang === 'en' ? 'Jahiz for Transactions' : 'جاهز للمعاملات', replyTo: to || undefined,
-      subject: r.lang === 'en' ? 'Your Jahiz account' : 'تم إنشاء حسابك في جاهز للمعاملات',
+    if (mailOk(email)) MailApp.sendEmail({to: email, name: r.lang === 'en' ? 'Jahiz' : 'جاهز', replyTo: to || undefined,
+      subject: r.lang === 'en' ? 'Your Jahiz account' : 'تم إنشاء حسابك في جاهز',
       htmlBody: shell(r.lang === 'en'
         ? '<p>Hello ' + escHtml(name) + ',</p><p>Your account has been created. Username: <b>' + escHtml(username) + '</b>.</p>' + (res.pending ? '<p>Because this mobile number already has a file with us, we will call you to confirm it and then activate your account.</p>' : '<p>Sign in from the “My account” page to request services and follow your work.</p>')
         : '<p>السلام عليكم ' + escHtml(name) + '،</p><p>تم إنشاء حسابك. اسم المستخدم: <b>' + escHtml(username) + '</b>.</p>' + (res.pending ? '<p>لأن رقم جوالك مسجل لدينا مسبقاً، سنتصل بك للتأكد منه ثم نفعّل حسابك.</p>' : '<p>ادخل من صفحة «حسابي» لطلب الخدمات ومتابعة طلباتك ومعاملاتك وتنزيل ملفاتك.</p>'), r.lang === 'en')});
@@ -908,7 +908,7 @@ function clientForgot(r) {
   CacheService.getScriptCache().put('rs_' + acc.id, JSON.stringify({h: hashPw(acc.salt, 'reset:' + code), n: 0, exp: Date.now() + 15 * 60000}), 900);
   var en = (r.lang || clientLang(c.id)) === 'en';
   try {
-    MailApp.sendEmail({to: c.email, name: en ? 'Jahiz for Transactions' : 'جاهز للمعاملات', replyTo: prop('OFFICE_EMAIL') || undefined,
+    MailApp.sendEmail({to: c.email, name: en ? 'Jahiz' : 'جاهز', replyTo: prop('OFFICE_EMAIL') || undefined,
       subject: en ? 'Your password reset code: ' + code : 'رمز استعادة كلمة المرور: ' + code,
       htmlBody: shell(en
         ? '<p>Hello ' + escHtml(c.name) + ',</p><p>Your code to set a new password is:</p><p style="font-size:28px;letter-spacing:6px"><b>' + code + '</b></p><p>It works for 15 minutes. Username: <b>' + escHtml(acc.username) + '</b>.</p><p style="color:#5b6580">If you did not ask for this, ignore this email; your password has not changed.</p>'
@@ -1041,7 +1041,7 @@ function staffUpload(r) {
   var mailed = false;   // clients with an account hear about new documents by email
   if (r.notify !== false && c.email && findAccount(function (a) { return a.clientId === c.id && a.status === ACC_ACTIVE; })) {
     var en = clientLang(c.id) === 'en';
-    try { MailApp.sendEmail({to: c.email, name: en ? 'Jahiz for Transactions' : 'جاهز للمعاملات', replyTo: prop('OFFICE_EMAIL') || undefined,
+    try { MailApp.sendEmail({to: c.email, name: en ? 'Jahiz' : 'جاهز', replyTo: prop('OFFICE_EMAIL') || undefined,
       subject: en ? 'A new document in your account: ' + row.title : 'مستند جديد في حسابك: ' + row.title,
       htmlBody: shell(en ? '<p>Hello ' + escHtml(c.name) + ',</p><p>We added <b>' + escHtml(row.title) + '</b> to your account. Download it from the “My account” page, under Files.</p>'
         : '<p>السلام عليكم ' + escHtml(c.name) + '،</p><p>أضفنا إلى حسابك: <b>' + escHtml(row.title) + '</b>. يمكنك تنزيله من صفحة «حسابي» على الموقع ← الملفات.</p>', en)}); mailed = true; } catch (err) {}
@@ -1123,7 +1123,7 @@ function staffReply(r) {
   var m = saveRow('Messages', {clientId: c.id, from: 'office', by: STAFF.username, body: body, read: ''});
   var mailed = false;
   if (r.email !== false && c.email) {
-    try { MailApp.sendEmail({to: c.email, name: 'جاهز للمعاملات', replyTo: prop('OFFICE_EMAIL') || undefined, subject: 'رسالة جديدة في حسابك | جاهز للمعاملات',
+    try { MailApp.sendEmail({to: c.email, name: 'جاهز', replyTo: prop('OFFICE_EMAIL') || undefined, subject: 'رسالة جديدة في حسابك | جاهز',
       htmlBody: shell('<p>السلام عليكم ' + escHtml(c.name) + '،</p><p>' + escHtml(body).replace(/\n/g, '<br>') + '</p><p style="color:#5b6580">يمكنك الرد من صفحة «حسابي» على الموقع ← المراسلات.</p>')}); mailed = true; } catch (err) {}
   }
   audit('reply', 'Messages', m.id, c.id, 'رد على العميل: ' + body.slice(0, 120));
@@ -1171,17 +1171,17 @@ function escHtml(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt
 
 function shell(html, en) {
   return '<div dir="' + (en ? 'ltr' : 'rtl') + '" style="font-family:Tahoma,Arial,sans-serif;font-size:15px;line-height:1.8;color:#14213a;max-width:600px">' +
-    '<div style="background:#14284b;color:#fff;padding:14px 18px;border-radius:10px 10px 0 0;font-size:18px"><b>' + (en ? 'Jahiz for Transactions' : 'جاهز للمعاملات') + '</b></div>' +
+    '<div style="background:#0b6b53;color:#fff;padding:14px 18px;border-radius:10px 10px 0 0;font-size:18px"><b>' + (en ? 'Jahiz' : 'جاهز') + '</b></div>' +
     '<div style="border:1px solid #dde2ec;border-top:0;padding:18px;border-radius:0 0 10px 10px">' + html +
-    '<p style="color:#5b6580;font-size:13px;margin-top:22px">' + (en ? 'Jahiz for Transactions LLC · Doha, Qatar · WhatsApp +974 72232609 · baseeratactions@gmail.com' : 'جاهز للمعاملات ذ.م.م · الدوحة، قطر · واتساب ‎+974 72232609 · baseeratactions@gmail.com') + '</p></div></div>';
+    '<p style="color:#5b6580;font-size:13px;margin-top:22px">' + (en ? 'Jahiz · Doha, Qatar · WhatsApp +974 72232609 · baseeratactions@gmail.com' : 'جاهز · الدوحة، قطر · واتساب ‎+974 72232609 · baseeratactions@gmail.com') + '</p></div></div>';
 }
 function sendAutoReply(rq) {
   var en = rq.lang === 'en';
-  var subject = en ? 'We received your request ' + rq.id + ' | Jahiz' : 'استلمنا طلبك رقم ' + rq.id + ' | جاهز للمعاملات';
+  var subject = en ? 'We received your order ' + rq.id + ' | Jahiz' : 'استلمنا طلبك رقم ' + rq.id + ' | جاهز';
   var body = en
-    ? '<p>Hello ' + escHtml(rq.name) + ',</p><p>Thank you. Your request <b>' + rq.id + '</b> has reached us. We will review it and contact you within two working hours with the document list, our fixed fee and the estimated government fees.</p><p><b>Requested services:</b><br>' + escHtml(rq.services).replace(/\n/g, '<br>') + '</p><p>Please do not send any documents until we ask for them; we will tell you exactly what is needed.</p>'
-    : '<p>السلام عليكم ' + escHtml(rq.name) + '،</p><p>شكراً لتواصلك مع جاهز للمعاملات. وصلنا طلبك برقم <b>' + rq.id + '</b>، وسنراجعه ونتواصل معك خلال ساعتين عمل بقائمة المستندات المطلوبة وأتعابنا الثابتة وتقدير الرسوم الحكومية.</p><p><b>الخدمات المطلوبة:</b><br>' + escHtml(rq.services).replace(/\n/g, '<br>') + '</p><p>لا ترسل أي مستندات قبل أن نطلبها، وسنخبرك بالمطلوب تحديداً.</p>';
-  MailApp.sendEmail({to: rq.email, subject: subject, htmlBody: shell(body, en), name: en ? 'Jahiz for Transactions' : 'جاهز للمعاملات', replyTo: prop('OFFICE_EMAIL') || undefined});
+    ? '<p>Hello ' + escHtml(rq.name) + ',</p><p>Thank you. Your order <b>' + rq.id + '</b> has reached Jahiz. We will contact you shortly to confirm the final price and delivery time, then forward it to the accredited partner who will fulfil and deliver it.</p><p><b>Your order:</b><br>' + escHtml(rq.services).replace(/\n/g, '<br>') + '</p><p>Nothing to pay now: you pay on delivery after we confirm the price with you.</p>'
+    : '<p>السلام عليكم ' + escHtml(rq.name) + '،</p><p>شكراً لطلبك من جاهز. وصلنا طلبك برقم <b>' + rq.id + '</b>، وسنتواصل معك قريباً لتأكيد السعر النهائي وموعد التوصيل، ثم نحوّله إلى الشريك المعتمد الذي سينفّذه ويوصله لك.</p><p><b>طلبك:</b><br>' + escHtml(rq.services).replace(/\n/g, '<br>') + '</p><p>لا تدفع الآن: الدفع عند الاستلام بعد تأكيد السعر معك.</p>';
+  MailApp.sendEmail({to: rq.email, subject: subject, htmlBody: shell(body, en), name: en ? 'Jahiz' : 'جاهز', replyTo: prop('OFFICE_EMAIL') || undefined});
 }
 function notifyOffice(rq) {
   var to = prop('OFFICE_EMAIL'); if (!to) return;
@@ -1193,7 +1193,7 @@ function notifyOffice(rq) {
 function sendClientEmail(r) {
   var to = clean(r.to, 200), subject = clean(r.subject, 200), body = String(r.body || '').slice(0, 10000);
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to) || !subject || !body) return {ok: false, error: 'invalid'};
-  MailApp.sendEmail({to: to, subject: subject, htmlBody: shell(escHtml(body).replace(/\n/g, '<br>'), r.lang === 'en'), name: r.lang === 'en' ? 'Jahiz for Transactions' : 'جاهز للمعاملات', replyTo: prop('OFFICE_EMAIL') || undefined});
+  MailApp.sendEmail({to: to, subject: subject, htmlBody: shell(escHtml(body).replace(/\n/g, '<br>'), r.lang === 'en'), name: r.lang === 'en' ? 'Jahiz' : 'جاهز', replyTo: prop('OFFICE_EMAIL') || undefined});
   saveRow('Log', {clientId: r.clientId || '', txnId: r.txnId || '', kind: 'email', subject: subject, body: body, by: STAFF ? STAFF.username : 'CRM'});
   return {ok: true, quota: MailApp.getRemainingDailyQuota()};
 }
