@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /jahiz/crm.html
+Disallow: /jahiz/portal.html
+Disallow: /jahiz/en/portal.html
+
+Sitemap: https://baseeratactions.github.io/jahiz/sitemap.xml
