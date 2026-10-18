@@ -2,19 +2,24 @@
 // Site colours chosen by the manager (لوحة الإدارة ← الإعدادات ← ألوان الموقع). Loaded in <head> of every page:
 // applies the last known colours at once, then asks the server for the current choice and keeps it for next time.
 (function(){
-const KEY='jahiz_theme',DEF={primary:'#0b6b53',accent:'#f39219'};
+const KEY='jahiz_theme',DEF={primary:'#2f855a',accent:'#f39219'};
 const hex=s=>/^#[0-9a-f]{6}$/i.test(s||'');
 const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
 const toHex=a=>'#'+a.map(x=>Math.max(0,Math.min(255,Math.round(x))).toString(16).padStart(2,'0')).join('');
 const mix=(a,b,t)=>toHex(rgb(a).map((x,i)=>x+(rgb(b)[i]-x)*t));
 const lum=h=>{const c=rgb(h).map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]};
 const contrast=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
-function css(t){const p=t.primary,a=t.accent,dk=mix(p,'#000000',.55),lt=mix(p,'#ffffff',.55);
+function css(t){const p=t.primary,a=t.accent,dk=mix(p,'#000000',.55),lt=mix(p,'#ffffff',.55),
+    pub=`--bg:${mix(p,'#ffffff',.93)};--hero-bg:${mix(p,'#ffffff',.85)};--hero-card:${mix(p,'#ffffff',.93)};--chip:${mix(p,'#ffffff',.88)};--line:${mix(p,'#ffffff',.8)};--pub-bar:${mix(p,'#ffffff',.78)};--pub-ink:${mix(p,'#000000',.6)};--bar-line:rgba(0,0,0,.18);--bar-hover:rgba(0,0,0,.06);--bar-soft:rgba(255,255,255,.55)`;
   return `:root{--navy:${p};--pri:${p};--hero-em:${p};--amber:${a};--amber-soft:${mix(a,'#ffffff',.86)};--gold-line:${a};--gold-1:${mix(a,'#ffffff',.92)};--gold-2:${mix(a,'#ffffff',.65)}}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--navy:${dk};--pri:${lt};--hero-em:${mix(p,'#ffffff',.7)};--amber:${mix(a,'#ffffff',.15)};--amber-soft:${mix(a,'#000000',.7)}}}
 :root[data-theme="dark"]{--navy:${dk};--pri:${lt};--hero-em:${mix(p,'#ffffff',.7)};--amber:${mix(a,'#ffffff',.15)};--amber-soft:${mix(a,'#000000',.7)}}
-.basmala{color:${p}!important}`}
-function apply(t){if(!t||!hex(t.primary)||!hex(t.accent))t=DEF;let el=document.getElementById('siteTheme');
+.basmala{color:${p}!important}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) body:not(.crm){${pub}}}
+:root[data-theme="light"] body:not(.crm){${pub}}
+body:not(.crm) .top,body:not(.crm) footer{background:var(--pub-bar,var(--navy));color:var(--pub-ink,var(--navy-ink))}
+body:not(.crm) .burger span{background:currentColor}`}
+function apply(t){if(!t||!hex(t.primary)||!hex(t.accent)||/^#(0e5e4a|0b6b53)$/i.test(t.primary))t=DEF;let el=document.getElementById('siteTheme');
   if(!el){el=document.createElement('style');el.id='siteTheme';document.head.appendChild(el)}el.textContent=css(t);
   const m=document.querySelector('meta[name=theme-color]');if(m)m.content=t.primary}
 let saved=null;try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}

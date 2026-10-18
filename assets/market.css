@@ -1,9 +1,9 @@
 /* جاهز: واجهة السوق الوسيط (الصفحة الرئيسية بالعربي والإنجليزي) */
 html,body{margin:0}
 :root{
-  --bg:#f7f6f2;--surface:#ffffff;--ink:#1f2a27;--mute:#5f6b67;--line:#e6e3dc;--chip:#efede7;
-  --pri:#0b6b53;--pri-ink:#ffffff;--pri-soft:#e3f1ec;--acc:#f39219;--acc-ink:#2b1a02;--acc-soft:#fdf0dd;
-  --head:#0b6b53;--head-ink:#ffffff;--ok:#1f7a55;--err:#b3261e;
+  --bg:#f1f8f3;--surface:#ffffff;--ink:#1f2a27;--mute:#5f6b67;--line:#d5eadb;--chip:#e4f2e8;
+  --pri:#2f855a;--pri-ink:#ffffff;--pri-soft:#e0f1e6;--acc:#f39219;--acc-ink:#2b1a02;--acc-soft:#fdf0dd;
+  --head:#d2ead9;--head-ink:#163d29;--bar-line:rgba(22,61,41,.25);--bar-hover:rgba(22,61,41,.08);--bar-soft:rgba(22,61,41,.06);--ok:#1f7a55;--err:#b3261e;
   --display:'Readex Pro','Tajawal','Segoe UI',Tahoma,sans-serif;--body:'Tajawal','Segoe UI',Tahoma,sans-serif;
   --r:16px;--shadow:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(17,40,33,.06);
   color-scheme:light;
@@ -11,11 +11,11 @@ html,body{margin:0}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0f1715;--surface:#16211e;--ink:#e9efec;--mute:#9fb0aa;--line:#26352f;--chip:#1d2b27;
   --pri:#4fc29b;--pri-ink:#06221a;--pri-soft:#173a2f;--acc:#f6a63c;--acc-ink:#2b1a02;--acc-soft:#3a2a12;
-  --head:#0a3b2f;--head-ink:#f2f6f4;--ok:#5fd09f;--err:#ff8a80;--shadow:none;color-scheme:dark}}
+  --head:#0a3b2f;--head-ink:#f2f6f4;--bar-line:rgba(255,255,255,.35);--bar-hover:rgba(255,255,255,.12);--bar-soft:rgba(255,255,255,.08);--ok:#5fd09f;--err:#ff8a80;--shadow:none;color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0f1715;--surface:#16211e;--ink:#e9efec;--mute:#9fb0aa;--line:#26352f;--chip:#1d2b27;
   --pri:#4fc29b;--pri-ink:#06221a;--pri-soft:#173a2f;--acc:#f6a63c;--acc-ink:#2b1a02;--acc-soft:#3a2a12;
-  --head:#0a3b2f;--head-ink:#f2f6f4;--ok:#5fd09f;--err:#ff8a80;--shadow:none;color-scheme:dark}
+  --head:#0a3b2f;--head-ink:#f2f6f4;--bar-line:rgba(255,255,255,.35);--bar-hover:rgba(255,255,255,.12);--bar-soft:rgba(255,255,255,.08);--ok:#5fd09f;--err:#ff8a80;--shadow:none;color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth;scroll-padding-top:76px}
@@ -55,7 +55,7 @@ a{color:inherit}
 .top nav{margin-inline-start:auto;order:2}
 .menu{list-style:none;margin:0;padding:0;display:flex;gap:2px;align-items:center;flex-wrap:wrap}
 .menu a{display:inline-block;padding:7px 9px;border-radius:9px;text-decoration:none;font-size:14.5px;opacity:.94;white-space:nowrap}
-.menu a:hover{background:rgba(255,255,255,.12);opacity:1}
+.menu a:hover{background:var(--bar-hover,rgba(255,255,255,.12));opacity:1}
 .menu .cta{background:var(--acc);color:var(--acc-ink);font-weight:700;opacity:1}
 .menu .cta:hover{background:var(--acc);filter:brightness(1.05)}
 .burger{display:none;margin-inline-start:auto;background:transparent;border:0;color:inherit;width:44px;height:44px;cursor:pointer;padding:10px}
@@ -67,10 +67,10 @@ a{color:inherit}
   .menu{flex-direction:column;align-items:stretch}
   .menu a{display:block;padding:10px 12px}
 }
-.lsw{display:inline-flex;align-items:center;gap:2px;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:2px;font-size:13.5px;white-space:nowrap;flex:none;order:3}
+.lsw{display:inline-flex;align-items:center;gap:2px;border:1px solid var(--bar-line,rgba(255,255,255,.35));border-radius:999px;padding:2px;font-size:13.5px;white-space:nowrap;flex:none;order:3}
 .lsw a{color:inherit;text-decoration:none;padding:4px 10px;border-radius:999px;opacity:.85;line-height:1.2}
 .lsw a[aria-current]{background:var(--head-ink);color:var(--head);opacity:1;font-weight:700}
-.lsw .gtsel{font:inherit;font-size:14px;color:inherit;background:transparent;border:0;border-inline-start:1px solid rgba(255,255,255,.3);padding:2px 4px;width:44px;cursor:pointer}
+.lsw .gtsel{font:inherit;font-size:14px;color:inherit;background:transparent;border:0;border-inline-start:1px solid var(--bar-line,rgba(255,255,255,.3));padding:2px 4px;width:44px;cursor:pointer}
 .lsw .gtsel option{color:#1d2733;background:#fff}
 @media (max-width:1100px){.lsw{margin-inline-start:auto}.burger{margin-inline-start:4px;order:4}.top nav{order:5}}
 @media (max-width:400px){.brand small{display:none}.lsw a{padding:4px 8px}}
@@ -262,5 +262,15 @@ footer .links{display:flex;gap:16px;flex-wrap:wrap}
 .tmkt .mk>*{unicode-bidi:isolate}.tmkt .mk small{margin-inline-start:3px}
 .tmkt .up,.tmkt .dn{margin-inline-start:6px!important}
 .today-in{margin-bottom:18px}
-#today{--navy:var(--head);--navy-ink:var(--head-ink);--amber-soft:var(--acc-soft);--surface:var(--surface)}
+#today{--navy:var(--pri);--navy-ink:var(--pri-ink);--amber-soft:var(--acc-soft);--surface:var(--surface)}
 @media print{.top,.fab,.wa-fab,footer,.toast{display:none!important}}
+
+/* the signed-in client account, in the header of every public page (assets/who.js) */
+.acctwho{display:inline-flex;align-items:center;gap:6px;max-width:100%;text-decoration:none;color:inherit;background:transparent;border:1.5px solid currentColor;border-radius:999px;padding:3px 12px;font-size:14px;line-height:1.5;white-space:nowrap;opacity:1}
+.acctwho b{overflow:hidden;text-overflow:ellipsis;max-width:16ch;font-weight:700}
+.acctwho small{font-size:12px;opacity:.85;padding-inline-start:6px;border-inline-start:1px solid currentColor}
+.acctwho.out{border-style:dashed;opacity:.8}
+.acctwho .aw-ico{font-size:13px}
+body.signed-client #whoLi{display:none!important}
+.acctwho.mob{display:none}
+@media (max-width:1100px){.acctwho.mob{display:flex;justify-content:center;border:0;border-top:1px solid var(--bar-line,rgba(255,255,255,.25));border-radius:0;padding:3px 16px;font-size:13px}}
