@@ -3180,5 +3180,585 @@ DATA.CONSULT = [
    }
   }
  ]
+},
+{
+ "code": "AD",
+ "ar": "الإعلان على موقعنا",
+ "en": "Advertise on our website",
+ "about_ar": "للشركات التي تخدم أصحاب الأعمال: إعلانك في الصفحة الرئيسية لموقعنا بالعربية والإنجليزية، بحد أقصى 3 إعلانات في الوقت نفسه.",
+ "about_en": "For businesses that serve business owners: your ad on our home page in Arabic and English, with at most 3 ads at a time.",
+ "items": [
+  {
+   "c": "AD-01",
+   "p": 150,
+   "unit_ar": "للأسبوع",
+   "unit_en": "per week",
+   "ar": {
+    "n": "إعلان في الصفحة الرئيسية لمدة أسبوع",
+    "inc": "صورة وعنوان ونص بالعربية والإنجليزية ورابط لموقعك أو واتساب، يظهر 7 أيام",
+    "about": "مساحة واضحة في أول صفحة يراها زوار الموقع.",
+    "docs": [
+     "السجل التجاري",
+     "صورة الإعلان (أو اطلب التصميم AD-05)",
+     "العنوان والنص بالعربية والإنجليزية",
+     "الرابط"
+    ],
+    "time": "يُنشر خلال يوم عمل من الدفع",
+    "out": "إعلان منشور لمدة أسبوع",
+    "note": "الإعلان يظهر بعد الدفع وموافقتنا على محتواه، وعليه كلمة «إعلان». المعلن مسؤول عن صحة إعلانه، ولنا حق رفض أي إعلان أو إيقافه."
+   },
+   "en": {
+    "n": "Home page ad for one week",
+    "inc": "Picture, title and text in Arabic and English with a link to your site or WhatsApp, shown for 7 days",
+    "about": "A clear spot on the first page visitors see.",
+    "docs": [
+     "Commercial registration",
+     "Ad picture (or order design AD-05)",
+     "Title and text in Arabic and English",
+     "Link"
+    ],
+    "time": "Published within one working day of payment",
+    "out": "Ad live for one week",
+    "note": "The ad goes live after payment and our approval of its content, labelled “Ad”. The advertiser is responsible for its accuracy; we may refuse or stop any ad."
+   }
+  },
+  {
+   "c": "AD-02",
+   "p": 450,
+   "unit_ar": "للشهر",
+   "unit_en": "per month",
+   "ar": {
+    "n": "إعلان في الصفحة الرئيسية لمدة شهر",
+    "inc": "صورة وعنوان ونص بالعربية والإنجليزية ورابط، يظهر 30 يوماً، مع تغيير المحتوى مرة واحدة",
+    "about": "الخيار الأنسب لأغلب المعلنين.",
+    "docs": [
+     "السجل التجاري",
+     "صورة الإعلان",
+     "العنوان والنص بالعربية والإنجليزية",
+     "الرابط"
+    ],
+    "time": "يُنشر خلال يوم عمل من الدفع",
+    "out": "إعلان منشور لمدة شهر",
+    "note": "الإعلان يظهر بعد الدفع وموافقتنا على محتواه، وعليه كلمة «إعلان». المعلن مسؤول عن صحة إعلانه، ولنا حق رفض أي إعلان أو إيقافه."
+   },
+   "en": {
+    "n": "Home page ad for one month",
+    "inc": "Picture, title and text in Arabic and English with a link, shown for 30 days, with one content change",
+    "about": "The best fit for most advertisers.",
+    "docs": [
+     "Commercial registration",
+     "Ad picture",
+     "Title and text in Arabic and English",
+     "Link"
+    ],
+    "time": "Published within one working day of payment",
+    "out": "Ad live for one month",
+    "note": "The ad goes live after payment and our approval of its content, labelled “Ad”. The advertiser is responsible for its accuracy; we may refuse or stop any ad."
+   }
+  },
+  {
+   "c": "AD-03",
+   "p": 1200,
+   "unit_ar": "لـ 3 أشهر",
+   "unit_en": "for 3 months",
+   "ar": {
+    "n": "إعلان في الصفحة الرئيسية لمدة 3 أشهر",
+    "inc": "إعلان يظهر 90 يوماً مع تغيير المحتوى مرة كل شهر",
+    "about": "أوفر من الشهر الواحد بنحو 11%.",
+    "docs": [
+     "السجل التجاري",
+     "صورة الإعلان",
+     "العنوان والنص بالعربية والإنجليزية",
+     "الرابط"
+    ],
+    "time": "يُنشر خلال يوم عمل من الدفع",
+    "out": "إعلان منشور لمدة 3 أشهر",
+    "note": "الإعلان يظهر بعد الدفع وموافقتنا على محتواه، وعليه كلمة «إعلان». المعلن مسؤول عن صحة إعلانه، ولنا حق رفض أي إعلان أو إيقافه."
+   },
+   "en": {
+    "n": "Home page ad for 3 months",
+    "inc": "Ad shown for 90 days with one content change a month",
+    "about": "About 11% cheaper than monthly.",
+    "docs": [
+     "Commercial registration",
+     "Ad picture",
+     "Title and text in Arabic and English",
+     "Link"
+    ],
+    "time": "Published within one working day of payment",
+    "out": "Ad live for 3 months",
+    "note": "The ad goes live after payment and our approval of its content, labelled “Ad”. The advertiser is responsible for its accuracy; we may refuse or stop any ad."
+   }
+  },
+  {
+   "c": "AD-04",
+   "p": 750,
+   "unit_ar": "للشهر",
+   "unit_en": "per month",
+   "ar": {
+    "n": "باقة الظهور: إعلان شهر ومنشوران",
+    "inc": "إعلان في الصفحة الرئيسية لمدة شهر، ومنشوران عن نشاطك على صفحاتنا في فيسبوك وإنستغرام",
+    "about": "ظهور على الموقع ووسائل التواصل معاً.",
+    "docs": [
+     "السجل التجاري",
+     "صورة الإعلان وصور النشاط",
+     "النصوص بالعربية والإنجليزية",
+     "الرابط"
+    ],
+    "time": "يُنشر خلال يوم عمل من الدفع",
+    "out": "إعلان شهر ومنشوران",
+    "note": "الإعلان يظهر بعد الدفع وموافقتنا على محتواه، وعليه كلمة «إعلان». المعلن مسؤول عن صحة إعلانه، ولنا حق رفض أي إعلان أو إيقافه."
+   },
+   "en": {
+    "n": "Visibility bundle: one-month ad and two posts",
+    "inc": "Home page ad for one month plus two posts about your business on our Facebook and Instagram pages",
+    "about": "Visibility on the site and social media together.",
+    "docs": [
+     "Commercial registration",
+     "Ad and business pictures",
+     "Texts in Arabic and English",
+     "Link"
+    ],
+    "time": "Published within one working day of payment",
+    "out": "One-month ad and two posts",
+    "note": "The ad goes live after payment and our approval of its content, labelled “Ad”. The advertiser is responsible for its accuracy; we may refuse or stop any ad."
+   }
+  },
+  {
+   "c": "AD-05",
+   "p": 150,
+   "unit_ar": "للتصميم",
+   "unit_en": "per design",
+   "ar": {
+    "n": "تصميم صورة الإعلان",
+    "inc": "تصميم صورة الإعلان بمقاس الموقع بالعربية والإنجليزية، مع تعديلين",
+    "about": "لمن لا يملك صورة جاهزة لإعلانه.",
+    "docs": [
+     "شعار النشاط",
+     "النص المطلوب",
+     "صور إن وُجدت"
+    ],
+    "time": "من يوم إلى يومي عمل",
+    "out": "صورة إعلان جاهزة للنشر",
+    "note": "الإعلان يظهر بعد الدفع وموافقتنا على محتواه، وعليه كلمة «إعلان». المعلن مسؤول عن صحة إعلانه، ولنا حق رفض أي إعلان أو إيقافه."
+   },
+   "en": {
+    "n": "Ad picture design",
+    "inc": "Ad picture designed to the site size in Arabic and English, with two revisions",
+    "about": "For advertisers without a ready picture.",
+    "docs": [
+     "Business logo",
+     "Required text",
+     "Photos if any"
+    ],
+    "time": "1 to 2 working days",
+    "out": "Ad picture ready to publish",
+    "note": "The ad goes live after payment and our approval of its content, labelled “Ad”. The advertiser is responsible for its accuracy; we may refuse or stop any ad."
+   }
+  }
+ ]
+},
+{
+ "code": "MK",
+ "ar": "التسويق الإلكتروني",
+ "en": "Digital marketing",
+ "about_ar": "حضور رقمي للشركات: إدارة حسابات التواصل، الحملات الممولة على Google وMeta، وملف الشركة على خرائط Google، بالعربية والإنجليزية.",
+ "about_en": "A digital presence for businesses: social media management, paid campaigns on Google and Meta, and your Google Maps profile, in Arabic and English.",
+ "items": [
+  {
+   "c": "MK-01",
+   "p": 150,
+   "unit_ar": "للتصميم",
+   "unit_en": "per design",
+   "ar": {
+    "n": "تصميم منشور أو إعلان",
+    "inc": "تصميم منشور أو قصة بالعربية أو الإنجليزية، مع تعديلين",
+    "about": "لعروضك وإعلاناتك على وسائل التواصل.",
+    "docs": [
+     "شعار النشاط",
+     "النص والفكرة",
+     "صور إن وُجدت"
+    ],
+    "time": "من يوم إلى يومي عمل",
+    "out": "تصميم جاهز للنشر",
+    "note": "الميزانية الإعلانية تُدفع للمنصات مباشرة ومنفصلة عن أتعابنا. لا نضمن عدداً محدداً من المبيعات أو العملاء."
+   },
+   "en": {
+    "n": "Post or ad design",
+    "inc": "One post or story design in Arabic or English, with two revisions",
+    "about": "For your offers and announcements on social media.",
+    "docs": [
+     "Business logo",
+     "Text and idea",
+     "Photos if any"
+    ],
+    "time": "1 to 2 working days",
+    "out": "Design ready to publish",
+    "note": "The ad budget is paid to the platforms directly, separate from our fees. A set number of sales or clients is not guaranteed."
+   }
+  },
+  {
+   "c": "MK-02",
+   "p": 2500,
+   "unit_ar": "للشهر",
+   "unit_en": "per month",
+   "ar": {
+    "n": "إدارة حسابات التواصل شهرياً",
+    "inc": "منصتان، 12 منشوراً شهرياً بالعربية والإنجليزية، الرد على الرسائل والتعليقات، تقرير شهري",
+    "about": "نشر منتظم دون أن تشغل وقتك.",
+    "docs": [
+     "صلاحية الإدارة على الحسابات",
+     "شعار النشاط وألوانه",
+     "معلومات الخدمات أو المنتجات"
+    ],
+    "time": "شهري يتجدد",
+    "out": "12 منشوراً وردود وتقرير شهري",
+    "note": "الميزانية الإعلانية تُدفع للمنصات مباشرة ومنفصلة عن أتعابنا. لا نضمن عدداً محدداً من المبيعات أو العملاء."
+   },
+   "en": {
+    "n": "Monthly social media management",
+    "inc": "Two platforms, 12 posts a month in Arabic and English, replies to messages and comments, monthly report",
+    "about": "Regular posting without taking your time.",
+    "docs": [
+     "Admin access to the accounts",
+     "Business logo and colours",
+     "Service or product information"
+    ],
+    "time": "Monthly, renewing",
+    "out": "12 posts, replies and a monthly report",
+    "note": "The ad budget is paid to the platforms directly, separate from our fees. A set number of sales or clients is not guaranteed."
+   }
+  },
+  {
+   "c": "MK-03",
+   "p": 1500,
+   "from": true,
+   "unit_ar": "للشهر",
+   "unit_en": "per month",
+   "ar": {
+    "n": "إدارة حملة ممولة على Google أو Meta",
+    "inc": "تحديد الجمهور، كتابة الإعلانات، الإعداد والمتابعة اليومية، تقرير النتائج",
+    "about": "للوصول إلى عملاء جدد بسرعة.",
+    "docs": [
+     "حساب إعلانات أو إذن بإنشائه",
+     "الميزانية الإعلانية",
+     "الهدف من الحملة"
+    ],
+    "time": "شهري يتجدد",
+    "out": "حملة منشورة وتقرير نتائج",
+    "note": "الميزانية الإعلانية تُدفع للمنصات مباشرة ومنفصلة عن أتعابنا. لا نضمن عدداً محدداً من المبيعات أو العملاء."
+   },
+   "en": {
+    "n": "Paid campaign management on Google or Meta",
+    "inc": "Audience targeting, ad copy, setup and daily follow-up, results report",
+    "about": "To reach new customers fast.",
+    "docs": [
+     "Ad account or permission to create one",
+     "Ad budget",
+     "Campaign goal"
+    ],
+    "time": "Monthly, renewing",
+    "out": "Live campaign and results report",
+    "note": "The ad budget is paid to the platforms directly, separate from our fees. A set number of sales or clients is not guaranteed."
+   }
+  },
+  {
+   "c": "MK-04",
+   "p": 500,
+   "unit_ar": "للنشاط",
+   "unit_en": "per business",
+   "ar": {
+    "n": "إنشاء ملف الشركة على خرائط Google",
+    "inc": "إنشاء الملف وتوثيقه، العنوان وساعات العمل والصور ووصف عربي وإنجليزي",
+    "about": "ليجدك العملاء في البحث والخرائط.",
+    "docs": [
+     "السجل التجاري",
+     "العنوان الوطني",
+     "صور المكان",
+     "ساعات العمل"
+    ],
+    "time": "من 3 إلى 14 يوماً حسب توثيق Google",
+    "out": "ملف شركة منشور وموثق",
+    "note": "الميزانية الإعلانية تُدفع للمنصات مباشرة ومنفصلة عن أتعابنا. لا نضمن عدداً محدداً من المبيعات أو العملاء."
+   },
+   "en": {
+    "n": "Google Maps business profile setup",
+    "inc": "Profile creation and verification, address, hours, photos and Arabic and English description",
+    "about": "So customers find you in search and maps.",
+    "docs": [
+     "Commercial registration",
+     "National address",
+     "Photos of the premises",
+     "Opening hours"
+    ],
+    "time": "3 to 14 days depending on Google verification",
+    "out": "Published, verified business profile",
+    "note": "The ad budget is paid to the platforms directly, separate from our fees. A set number of sales or clients is not guaranteed."
+   }
+  },
+  {
+   "c": "MK-05",
+   "p": 600,
+   "unit_ar": "للنشاط",
+   "unit_en": "per business",
+   "ar": {
+    "n": "إنشاء صفحات فيسبوك وإنستغرام ولينكدإن",
+    "inc": "ثلاث صفحات بالشعار والغلاف والوصف وبيانات التواصل، وأول منشور تعريفي",
+    "about": "بداية حضور رقمي متكامل للشركة الجديدة.",
+    "docs": [
+     "شعار النشاط",
+     "وصف النشاط",
+     "بيانات التواصل"
+    ],
+    "time": "من يومين إلى 3 أيام عمل",
+    "out": "3 صفحات جاهزة",
+    "note": "الميزانية الإعلانية تُدفع للمنصات مباشرة ومنفصلة عن أتعابنا. لا نضمن عدداً محدداً من المبيعات أو العملاء."
+   },
+   "en": {
+    "n": "Facebook, Instagram and LinkedIn pages setup",
+    "inc": "Three pages with logo, cover, description and contact details, plus a first introduction post",
+    "about": "A complete start online for a new company.",
+    "docs": [
+     "Business logo",
+     "Business description",
+     "Contact details"
+    ],
+    "time": "2 to 3 working days",
+    "out": "3 ready pages",
+    "note": "The ad budget is paid to the platforms directly, separate from our fees. A set number of sales or clients is not guaranteed."
+   }
+  },
+  {
+   "c": "MK-06",
+   "p": 400,
+   "unit_ar": "للفيديو",
+   "unit_en": "per video",
+   "ar": {
+    "n": "فيديو قصير للتواصل الاجتماعي",
+    "inc": "فيديو حتى 30 ثانية من صورك ومقاطعك مع نص وموسيقى مرخصة",
+    "about": "للقصص والريلز والإعلانات.",
+    "docs": [
+     "صور أو مقاطع النشاط",
+     "النص المطلوب"
+    ],
+    "time": "من يومين إلى 3 أيام عمل",
+    "out": "فيديو جاهز للنشر",
+    "note": "الميزانية الإعلانية تُدفع للمنصات مباشرة ومنفصلة عن أتعابنا. لا نضمن عدداً محدداً من المبيعات أو العملاء."
+   },
+   "en": {
+    "n": "Short social media video",
+    "inc": "Video up to 30 seconds from your photos and clips with text and licensed music",
+    "about": "For stories, reels and ads.",
+    "docs": [
+     "Business photos or clips",
+     "Required text"
+    ],
+    "time": "2 to 3 working days",
+    "out": "Video ready to publish",
+    "note": "The ad budget is paid to the platforms directly, separate from our fees. A set number of sales or clients is not guaranteed."
+   }
+  },
+  {
+   "c": "MK-07",
+   "p": 1500,
+   "unit_ar": "للنشاط",
+   "unit_en": "per business",
+   "ar": {
+    "n": "باقة «انطلاقة رقمية»",
+    "inc": "ملف خرائط Google، وصفحات فيسبوك وإنستغرام ولينكدإن، و4 تصاميم منشورات",
+    "about": "كل ما تحتاجه الشركة الجديدة لتظهر على الإنترنت.",
+    "docs": [
+     "السجل التجاري",
+     "شعار النشاط",
+     "العنوان الوطني وصور المكان",
+     "بيانات التواصل"
+    ],
+    "time": "من أسبوع إلى أسبوعين",
+    "out": "ملف خرائط و3 صفحات و4 تصاميم",
+    "note": "الميزانية الإعلانية تُدفع للمنصات مباشرة ومنفصلة عن أتعابنا. لا نضمن عدداً محدداً من المبيعات أو العملاء."
+   },
+   "en": {
+    "n": "“Digital launch” bundle",
+    "inc": "Google Maps profile, Facebook, Instagram and LinkedIn pages, and 4 post designs",
+    "about": "Everything a new company needs to appear online.",
+    "docs": [
+     "Commercial registration",
+     "Business logo",
+     "National address and photos",
+     "Contact details"
+    ],
+    "time": "1 to 2 weeks",
+    "out": "Maps profile, 3 pages and 4 designs",
+    "note": "The ad budget is paid to the platforms directly, separate from our fees. A set number of sales or clients is not guaranteed."
+   }
+  }
+ ]
+},
+{
+ "code": "EC",
+ "ar": "تسويق البيع الإلكتروني",
+ "en": "E-commerce marketing",
+ "about_ar": "للمحلات والشركات التي تريد البيع على الإنترنت: متجر إلكتروني، البيع عبر Google وInstagram وAmazon وnoon، وحملات المواسم.",
+ "about_en": "For shops and companies that want to sell online: an online store, selling through Google, Instagram, Amazon and noon, and seasonal campaigns.",
+ "items": [
+  {
+   "c": "EC-01",
+   "p": 3500,
+   "from": true,
+   "unit_ar": "للمتجر",
+   "unit_en": "per store",
+   "ar": {
+    "n": "إنشاء متجر إلكتروني",
+    "inc": "متجر على Shopify أو WooCommerce بالعربية والإنجليزية، حتى 30 منتجاً، ربط الدفع الإلكتروني والتوصيل، شرح الإدارة",
+    "about": "متجرك الخاص بدون عمولة لمنصة وسيطة.",
+    "docs": [
+     "السجل التجاري",
+     "صور المنتجات وأسعارها ووصفها",
+     "حساب بوابة الدفع",
+     "سياسة الاسترجاع والتوصيل"
+    ],
+    "time": "من أسبوعين إلى 3 أسابيع",
+    "out": "متجر يعمل وجاهز للبيع",
+    "note": "اشتراك المنصة ورسوم بوابة الدفع تُدفع لها مباشرة ومنفصلة عن أتعابنا."
+   },
+   "en": {
+    "n": "Online store setup",
+    "inc": "A Shopify or WooCommerce store in Arabic and English, up to 30 products, online payment and delivery connected, admin walkthrough",
+    "about": "Your own store with no marketplace commission.",
+    "docs": [
+     "Commercial registration",
+     "Product photos, prices and descriptions",
+     "Payment gateway account",
+     "Returns and delivery policy"
+    ],
+    "time": "2 to 3 weeks",
+    "out": "Working store ready to sell",
+    "note": "Platform subscription and payment gateway fees are paid to them directly, separate from our fees."
+   }
+  },
+  {
+   "c": "EC-02",
+   "p": 1200,
+   "unit_ar": "للنشاط",
+   "unit_en": "per business",
+   "ar": {
+    "n": "البيع عبر Google وInstagram",
+    "inc": "رفع المنتجات إلى Google Merchant Center لإعلانات التسوق، وإنشاء متجر فيسبوك وإنستغرام وربطه بالكتالوج",
+    "about": "تظهر منتجاتك في بحث Google وصفحات التواصل.",
+    "docs": [
+     "رابط المتجر أو قائمة المنتجات",
+     "صلاحية الإدارة على الحسابات"
+    ],
+    "time": "من أسبوع إلى أسبوعين",
+    "out": "كتالوج منشور على Google وMeta",
+    "note": "الميزانية الإعلانية تُدفع للمنصات مباشرة ومنفصلة عن أتعابنا. لا نضمن عدداً محدداً من المبيعات أو العملاء."
+   },
+   "en": {
+    "n": "Selling through Google and Instagram",
+    "inc": "Products uploaded to Google Merchant Center for shopping ads, and a Facebook and Instagram shop linked to the catalogue",
+    "about": "Your products appear in Google search and on social pages.",
+    "docs": [
+     "Store link or product list",
+     "Admin access to the accounts"
+    ],
+    "time": "1 to 2 weeks",
+    "out": "Catalogue live on Google and Meta",
+    "note": "The ad budget is paid to the platforms directly, separate from our fees. A set number of sales or clients is not guaranteed."
+   }
+  },
+  {
+   "c": "EC-03",
+   "p": 2500,
+   "unit_ar": "للمنصة",
+   "unit_en": "per marketplace",
+   "ar": {
+    "n": "فتح حساب بائع على Amazon أو noon",
+    "inc": "تسجيل البائع وتوثيقه، إدراج حتى 20 منتجاً بالعربية والإنجليزية، شرح الشحن والتسعير",
+    "about": "الوصول إلى مشترين في قطر والخليج عبر منصات عالمية.",
+    "docs": [
+     "السجل التجاري",
+     "الحساب البنكي",
+     "صور المنتجات وأوصافها وأسعارها"
+    ],
+    "time": "من أسبوعين إلى 4 أسابيع حسب المنصة",
+    "out": "حساب بائع فعال و20 منتجاً مدرجاً",
+    "note": "قبول البائع وعمولاتها من قرار المنصة نفسها."
+   },
+   "en": {
+    "n": "Seller account on Amazon or noon",
+    "inc": "Seller registration and verification, up to 20 products listed in Arabic and English, shipping and pricing explained",
+    "about": "Reach buyers in Qatar and the Gulf through global marketplaces.",
+    "docs": [
+     "Commercial registration",
+     "Bank account",
+     "Product photos, descriptions and prices"
+    ],
+    "time": "2 to 4 weeks depending on the marketplace",
+    "out": "Active seller account with 20 products listed",
+    "note": "Seller approval and commissions are decided by the marketplace."
+   }
+  },
+  {
+   "c": "EC-04",
+   "p": 3000,
+   "unit_ar": "للشهر",
+   "unit_en": "per month",
+   "ar": {
+    "n": "إدارة المتجر وتسويقه شهرياً",
+    "inc": "إضافة المنتجات والعروض، حملة ممولة واحدة، رسائل للعملاء الموافقين، تقرير مبيعات شهري",
+    "about": "زيادة المبيعات بمتابعة منتظمة.",
+    "docs": [
+     "صلاحية الإدارة على المتجر والحسابات",
+     "الميزانية الإعلانية"
+    ],
+    "time": "شهري يتجدد",
+    "out": "متجر محدّث وحملة وتقرير مبيعات",
+    "note": "الميزانية الإعلانية تُدفع للمنصات مباشرة ومنفصلة عن أتعابنا. لا نضمن عدداً محدداً من المبيعات أو العملاء."
+   },
+   "en": {
+    "n": "Monthly store management and marketing",
+    "inc": "New products and offers, one paid campaign, messages to opted-in customers, monthly sales report",
+    "about": "More sales through regular follow-up.",
+    "docs": [
+     "Admin access to the store and accounts",
+     "Ad budget"
+    ],
+    "time": "Monthly, renewing",
+    "out": "Updated store, a campaign and a sales report",
+    "note": "The ad budget is paid to the platforms directly, separate from our fees. A set number of sales or clients is not guaranteed."
+   }
+  },
+  {
+   "c": "EC-05",
+   "p": 1800,
+   "from": true,
+   "unit_ar": "للحملة",
+   "unit_en": "per campaign",
+   "ar": {
+    "n": "حملة عروض موسمية",
+    "inc": "حملة لموسم مثل رمضان أو اليوم الوطني أو الجمعة البيضاء: خطة العرض، 4 تصاميم، إعلان ممول، صفحة العرض",
+    "about": "لتستفيد من مواسم الشراء الكبرى.",
+    "docs": [
+     "المنتجات والخصومات",
+     "الميزانية الإعلانية"
+    ],
+    "time": "أسبوعان قبل الموسم",
+    "out": "حملة منشورة وتقرير نتائج",
+    "note": "الميزانية الإعلانية تُدفع للمنصات مباشرة ومنفصلة عن أتعابنا. لا نضمن عدداً محدداً من المبيعات أو العملاء."
+   },
+   "en": {
+    "n": "Seasonal offers campaign",
+    "inc": "A campaign for a season such as Ramadan, National Day or White Friday: offer plan, 4 designs, a paid ad, an offer page",
+    "about": "To make the most of the big shopping seasons.",
+    "docs": [
+     "Products and discounts",
+     "Ad budget"
+    ],
+    "time": "Two weeks before the season",
+    "out": "Live campaign and results report",
+    "note": "The ad budget is paid to the platforms directly, separate from our fees. A set number of sales or clients is not guaranteed."
+   }
+  }
+ ]
 }
 ];
