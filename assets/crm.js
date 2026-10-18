@@ -635,6 +635,7 @@ function printStatement(id){const t=DB.Transactions.find(x=>x.id===id);if(!t)ret
   <p class="note">${L('يُعدّ هذا الكشف ملخصاً لحساب المعاملة لدى جاهز، ويُرفق به أصل الإيصالات الحكومية عند التسليم.','This statement summarises the transaction account with Jahiz. The original government receipts are handed over with the completed documents.')}</p>`)}
 // ---- site colours (admin): ready palettes or two chosen colours, saved on the server for every visitor ----
 const PALETTES=[
+  {name:'بنفسجي جاهز',en:'Jahiz violet',primary:'#6d28d9',accent:'#db2777'},
   {name:'أخضر فاتح',en:'Light green',primary:'#2f855a',accent:'#f39219'},
   {name:'زمردي وذهبي',en:'Emerald and gold',primary:'#0d5c48',accent:'#c9a24d'},
   {name:'بترولي وذهبي',en:'Petrol teal and gold',primary:'#0f4c5c',accent:'#c9a24d'},

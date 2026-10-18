@@ -1,7 +1,7 @@
 // مساحة الإعلانات في الصفحة الرئيسية: يجلب الإعلانات المفعّلة من خادم جاهز ويعرضها نصاً فقط، بعلامة «إعلان».
 // الصور والروابط تُقبل بـ https فقط، ولا يُضاف أي HTML من البيانات.
 (function(){
-  const box=document.getElementById('ads');const C=window.JAHIZ_CONFIG||{};if(!box||!C.API)return;
+  const box=document.getElementById('ads');const C=window.JAHIZ_CONFIG||{};if(!box||!C.API||C.SHARED_SERVER)return;
   const EN=document.documentElement.lang==='en',L=(a,e)=>EN?e:a;
   const ok=u=>{try{const x=new URL(u);return x.protocol==='https:'?x.href:null}catch(e){return null}};
   const el=(t,c,txt)=>{const n=document.createElement(t);if(c)n.className=c;if(txt!=null)n.textContent=txt;return n};

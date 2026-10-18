@@ -4,7 +4,7 @@
 // Loaded right after config.js (or at the end of pages without it): applies the last saved texts at once,
 // then asks the server for the current ones. An empty field keeps the page's own text. Text is set with textContent only.
 (function(){
-const KEY='jahiz_site',EN=document.documentElement.lang==='en',DEF_WA='97472232609',DEF_MAIL='baseeratactions@gmail.com';
+const KEY='jahiz_site_v2',EN=document.documentElement.lang==='en',DEF_WA='97472232609',DEF_MAIL='baseeratactions@gmail.com';
 const L=EN?'en':'ar';
 // where each text lives on the page; read() gives the built-in text, put() replaces it
 const q=(d,s)=>d.querySelector(s);
@@ -45,7 +45,7 @@ window.SITE_TEXT={read,apply,SLOTS,
   remember(s){saved={s,at:Date.now()};try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}},
   get current(){return (saved&&saved.s)||null}};
 // refresh from the server at most every 10 minutes; a change shows at once on this page
-function refresh(){const api=(window.JAHIZ_CONFIG||{}).API;if(!api||(saved&&Date.now()-saved.at<6e5))return;
+function refresh(){const C=window.JAHIZ_CONFIG||{},api=C.API;if(!api||C.SHARED_SERVER||(saved&&Date.now()-saved.at<6e5))return;
   fetch(api,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'site'})}).then(r=>r.json()).then(j=>{
     if(!j||!j.ok)return;const before=JSON.stringify(saved&&saved.s||null);window.SITE_TEXT.remember(j.site||null);
     if(JSON.stringify(j.site||null)!==before&&j.site)apply(j.site)}).catch(()=>{})}
