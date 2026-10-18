@@ -3,10 +3,10 @@ html,body{margin:0}
 /* Layout: navy header band with a watchful "eye" mark, then a working catalog: filter chips + searchable service list, packages with monthly/annual switch, cost estimator, request form */
 :root{
   --bg:#f6f7f8;--surface:#ffffff;--ink:#26323d;--mute:#6b7682;--line:#e4e7ea;
-  --navy:#0e5e4a;--navy-ink:#ffffff;--amber:#c9a24d;--amber-soft:#f6f1e8;--amber-ink:#2a2416;
+  --navy:#0b6b53;--navy-ink:#ffffff;--amber:#f39219;--amber-soft:#f6f1e8;--amber-ink:#2a2416;
   --ok:#4a7a6c;--ok-soft:#ebf2ef;--chip:#eff1f3;
-  --hero-bg:#ffffff;--hero-ink:#26323d;--hero-em:#0e5e4a;--hero-card:#f6f7f8;
-  --pri:#0e5e4a;--pri-ink:#ffffff;
+  --hero-bg:#ffffff;--hero-ink:#26323d;--hero-em:#0b6b53;--hero-card:#f6f7f8;
+  --pri:#0b6b53;--pri-ink:#ffffff;
   --gold-1:#fdf7ea;--gold-2:#f2e0b8;--gold-line:#d0a65a;--gold-ink:#3b2a05;
   --display:'Readex Pro','Tajawal','Segoe UI',Tahoma,sans-serif;
   --body:'Tajawal','Segoe UI',Tahoma,sans-serif;
@@ -444,7 +444,7 @@ ul.promises span{color:var(--mute);font-size:14.5px}
 .acctbar i{font-style:normal;font-weight:700;background:var(--navy);color:var(--navy-ink);border-radius:10px;padding:7px 14px;white-space:nowrap}
 .menu>li>a.acct{border:1.5px solid currentColor;opacity:1}
 /* small, very light basmala seal at the top right of every page (Arabic only, on both language versions) */
-.basmala{position:absolute;top:calc(var(--hh,64px) + 10px);right:10px;z-index:1;pointer-events:none;color:#0e5e4a;opacity:.16;font-family:'Tajawal',serif;line-height:0}
+.basmala{position:absolute;top:calc(var(--hh,64px) + 10px);right:10px;z-index:1;pointer-events:none;color:#0b6b53;opacity:.16;font-family:'Tajawal',serif;line-height:0}
 .basmala svg{display:block}
 .basmala text{fill:currentColor;font-weight:700}
 @media (max-width:640px){.basmala svg{width:60px;height:60px}.basmala{top:calc(var(--hh,58px) + 4px);right:4px;opacity:.13}}

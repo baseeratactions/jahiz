@@ -7,5 +7,13 @@ window.JAHIZ_CONFIG = {
   PHONE: "+974 72232609",
   EMAIL: "baseeratactions@gmail.com",
   // رابط موقع الشركة الشقيقة منجز. يظهر زر «زيارة موقع منجز» في صفحة «تعرّف إلى جاهز» عند وضعه.
-  MUNJIZ_URL: ""
+  MUNJIZ_URL: "",
+  // حسابات جاهز على مواقع التواصل (روابط https كاملة). يظهر كل حساب في الصفحة الرئيسية بمجرد وضع رابطه.
+  SOCIAL: {
+    instagram: "",
+    tiktok: "",
+    snapchat: "",
+    x: "",
+    facebook: ""
+  }
 };

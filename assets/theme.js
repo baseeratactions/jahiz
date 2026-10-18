@@ -2,7 +2,7 @@
 // Site colours chosen by the manager (لوحة الإدارة ← الإعدادات ← ألوان الموقع). Loaded in <head> of every page:
 // applies the last known colours at once, then asks the server for the current choice and keeps it for next time.
 (function(){
-const KEY='jahiz_theme',DEF={primary:'#0e5e4a',accent:'#c9a24d'};
+const KEY='jahiz_theme',DEF={primary:'#0b6b53',accent:'#f39219'};
 const hex=s=>/^#[0-9a-f]{6}$/i.test(s||'');
 const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
 const toHex=a=>'#'+a.map(x=>Math.max(0,Math.min(255,Math.round(x))).toString(16).padStart(2,'0')).join('');
