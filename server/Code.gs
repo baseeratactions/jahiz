@@ -96,6 +96,7 @@ function setup() {
   if (!p.getProperty('OFFICE_EMAIL')) p.setProperty('OFFICE_EMAIL', 'baseeratactions@gmail.com');
   ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'dailyReminders') ScriptApp.deleteTrigger(t); });
   ScriptApp.newTrigger('dailyReminders').timeBased().everyDays(1).atHour(7).create();
+  ensureWeeklyReport();
   ensureAdmin();
   sheet('SecurityLog');
   Logger.log('تم الإعداد. الدخول الأول للإدارة: اسم المستخدم 123 وكلمة المرور 123، وسيطلب النظام تغييرهما فوراً. بريد المكتب: ' + p.getProperty('OFFICE_EMAIL'));
@@ -233,6 +234,31 @@ function securitySummaryHtml() {
   if (!ev.length) return '';
   var byEvent = {}; ev.forEach(function (x) { var k = x.level + '|' + x.event; byEvent[k] = (byEvent[k] || 0) + 1; });
   return '<h3>الأمان خلال 24 ساعة</h3><ul>' + Object.keys(byEvent).sort().map(function (k) { var p = k.split('|'); return '<li>' + (p[0] === 'high' ? '🚨 ' : '') + escHtml(p[1]) + ': ' + byEvent[k] + '</li>'; }).join('') + '</ul>';
+}
+
+
+// weekly security report: every Sunday at 8 to the owner and ALERT_EMAILS, sent even in a quiet week so silence never hides a stopped system
+function ensureWeeklyReport() {
+  if (ScriptApp.getProjectTriggers().some(function (t) { return t.getHandlerFunction() === 'weeklySecurityReport'; })) return;
+  ScriptApp.newTrigger('weeklySecurityReport').timeBased().onWeekDay(ScriptApp.WeekDay.SUNDAY).atHour(8).create();
+}
+function weeklySecurityReport() {
+  var to = alertEmails(); if (!to.length) return;
+  var tz = Session.getScriptTimeZone(), since = Utilities.formatDate(new Date(Date.now() - 7 * 86400000), tz, 'yyyy-MM-dd HH:mm');
+  var ev = rows('SecurityLog').filter(function (x) { return String(x.created) >= since; });
+  var lv = {high: 0, medium: 0, low: 0, info: 0}, byEvent = {}, bySrc = {};
+  ev.forEach(function (x) { lv[x.level] = (lv[x.level] || 0) + 1; byEvent[x.event] = (byEvent[x.event] || 0) + 1; if (x.level !== 'info' && x.who) bySrc[x.who] = (bySrc[x.who] || 0) + 1; });
+  var top = function (o, n) { return Object.keys(o).sort(function (a, b) { return o[b] - o[a]; }).slice(0, n); };
+  var li = function (arr, f) { return arr.length ? '<ul>' + arr.map(function (x) { return '<li>' + f(x) + '</li>'; }).join('') + '</ul>' : '<p>لا يوجد.</p>'; };
+  var high = ev.filter(function (x) { return x.level === 'high'; }).slice(-15);
+  var verdict = lv.high ? '🚨 وقعت ' + lv.high + ' أحداث عالية الخطورة هذا الأسبوع، راجعها أدناه.' : (lv.medium ? '⚠️ لا اختراق، مع ' + lv.medium + ' محاولات مشبوهة متوسطة أوقفها النظام.' : '✅ أسبوع آمن: لا اختراق ولا محاولات مشبوهة.');
+  MailApp.sendEmail({to: to.join(','), name: 'حماية ' + COMPANY, subject: 'التقرير الأمني الأسبوعي (' + COMPANY + '): ' + (lv.high ? lv.high + ' حدث عالي الخطورة' : 'لا اختراق'),
+    htmlBody: shell('<h3>التقرير الأمني الأسبوعي: ' + since.slice(0, 10) + ' إلى ' + now().slice(0, 10) + '</h3><p><b>' + verdict + '</b></p>' +
+      '<p>عالية: ' + lv.high + ' · متوسطة: ' + lv.medium + ' · منخفضة: ' + lv.low + ' · دخول عادي: ' + lv.info + '</p>' +
+      '<h3>الأحداث عالية الخطورة</h3>' + li(high, function (x) { return escHtml(x.created) + ' · ' + escHtml(x.event) + ' · ' + escHtml(x.who || '—') + (x.detail ? ' · ' + escHtml(x.detail) : ''); }) +
+      '<h3>أكثر الأحداث تكراراً</h3>' + li(top(byEvent, 10), function (k) { return escHtml(k) + ': ' + byEvent[k]; }) +
+      '<h3>أكثر الحسابات أو المصادر في المحاولات الفاشلة</h3>' + li(top(bySrc, 8), function (k) { return escHtml(k) + ': ' + bySrc[k]; }) +
+      '<p>التفاصيل الكاملة في ورقة SecurityLog. التنبيه الفوري يصلك بالبريد وTelegram لحظة وقوع أي حدث عالي الخطورة.</p>')});
 }
 
 
@@ -1255,6 +1281,7 @@ function sendClientEmail(r) {
 
 // ---------- daily reminder to the office ----------
 function dailyReminders() {
+  try { ensureWeeklyReport(); } catch (err) {}   // servers set up before the weekly report get its trigger on the next morning run
   var to = prop('OFFICE_EMAIL'); if (!to) return;
   var today = new Date(); today.setHours(0, 0, 0, 0);
   var days = function (d) { if (!d) return null; var x = new Date(d); return isNaN(x) ? null : Math.round((x - today) / 86400000); };
