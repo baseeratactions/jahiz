@@ -170,7 +170,9 @@ if(oF)oF.addEventListener('submit',async e=>{e.preventDefault();
   const lines=basketLines(),info=[`${L('المنطقة','Area')}: ${sel(area)}`,`${L('العنوان','Address')}: ${addr}`,`${L('موعد التوصيل','Delivery time')}: ${sel($('oWhen'))}`,`${L('طريقة الدفع','Payment')}: ${sel($('oPay'))}`];
   if(note)info.push(`${L('ملاحظات','Notes')}: ${note}`);
   if(cart.size)info.push(`${T.est}: ${fmt(total())} ${CUR}`);
-  const services=[...lines,...info].join('\n');
+  // the shared office inbox also receives Basira's requests, so each Jahiz request names its source on the first line
+  const SRC=L('المصدر: موقع جاهز','Source: Jahiz website');
+  const services=[SRC,...lines,...info].join('\n');
   const msg=`${T.orderHead}\n${L('الاسم','Name')}: ${n}\n${L('الجوال','Mobile')}: ${ph}${em?'\n'+L('البريد','Email')+': '+em:''}\n\n${services}`;
   const wa=$('oWa');wa.href=`https://wa.me/${WA}?text=`+encodeURIComponent(msg);$('oOut').hidden=false;
   const st=$('oState');
@@ -198,7 +200,7 @@ if(pF)pF.addEventListener('submit',async e=>{e.preventDefault();
   const co=$('pCo').value.trim(),n=$('pName').value.trim(),ph=$('pPhone').value.replace(/\s/g,''),em=$('pMail').value.trim();
   const ok=[check('epCo',!!co,T.eCo),check('epName',!!n,T.eName),check('epPhone',PHONE_RE.test(ph),T.ePhone),check('epMail',!em||/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em),T.eMail),check('epCat',!!pCat.value,T.eCat),check('epOk',$('pOk').checked,T.eOk)].every(Boolean);
   if(!ok)return;
-  const services=[L('طلب انضمام شريك معتمد','Partner application'),`${L('الشركة أو المتجر','Company or shop')}: ${co}`,`${L('المجال','Field')}: ${sel(pCat).replace(/^\S+\s/,'')} (${pCat.value})`,
+  const services=[L('المصدر: موقع جاهز','Source: Jahiz website'),L('طلب انضمام شريك معتمد','Partner application'),`${L('الشركة أو المتجر','Company or shop')}: ${co}`,`${L('المجال','Field')}: ${sel(pCat).replace(/^\S+\s/,'')} (${pCat.value})`,
     `${L('السجل التجاري','Commercial registration')}: ${$('pCr').value.trim()||'-'}`,`${L('مناطق التغطية','Coverage')}: ${$('pArea').value.trim()||'-'}`,`${L('حسابات التواصل','Social accounts')}: ${$('pSocial').value.trim()||'-'}`,$('pMsg').value.trim()].filter(Boolean).join('\n');
   const msg=`${T.partnerHead}\n${L('الاسم','Name')}: ${n}\n${L('الجوال','Mobile')}: ${ph}${em?'\n'+L('البريد','Email')+': '+em:''}\n${services}`;
   $('pWa').href=`https://wa.me/${WA}?text=`+encodeURIComponent(msg);$('pOut').hidden=false;const st=$('pState');
