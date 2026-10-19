@@ -28,20 +28,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500;700&family=Tajawal:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="assets/market.css?v=20261018z">
+<link rel="stylesheet" href="assets/market.css?v=20261019u">
 <script src="assets/lang.js?v=20261018z" defer></script>
 <script src="assets/who.js?v=20261018z" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">تخطَّ إلى المحتوى الرئيسي</a>
 <div class="basmala" aria-hidden="true"><svg viewBox="0 0 120 120" width="96" height="96"><defs><path id="bsT" d="M20.6 67 A40 40 0 1 1 99.4 67"/><path id="bsB" d="M12.5 74.5 A49.5 49.5 0 0 0 107.5 74.5"/></defs><circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="60" cy="60" r="29" fill="none" stroke="currentColor" stroke-width=".8"/><text font-size="8.6" text-anchor="middle"><textPath href="#bsT" startOffset="50%">بسم الله الواحد الأحد الفرد الصمد</textPath></text><text font-size="7.6" text-anchor="middle"><textPath href="#bsB" startOffset="50%">والصلاة والسلام على محمد خير الأنام</textPath></text><text x="60" y="61" font-size="11" text-anchor="middle">بسم الله</text><text x="60" y="74" font-size="6" text-anchor="middle">✦</text><text x="15" y="66" font-size="5" text-anchor="middle">✦</text><text x="105" y="66" font-size="5" text-anchor="middle">✦</text></svg></div>
 <header class="top"><div class="wrap">
   <a class="brand" href="#home"><img src="assets/jahiz-mark-v3.svg" alt="" width="40" height="40"><span><b>جاهز</b><small>طلبك جاهز لحد بابك</small></span></a>
   <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="القائمة"><span></span><span></span><span></span></button>
   <nav id="nav" aria-label="القائمة الرئيسية"><ul class="menu">
     <li><a href="#baskets">السلال</a></li>
-    <li><a href="#shop" data-kind="food">المواد الغذائية</a></li>
-    <li><a href="#shop" data-kind="goods">المستلزمات</a></li>
-    <li><a href="#shop" data-kind="service">الخدمات</a></li>
+    <li><a href="#shop" data-kind="all">تسوّق</a></li>
     <li><a href="#how">كيف نعمل</a></li>
     <li><a href="#partners">للتجار والشركاء</a></li>
     <li><a href="#track">تابع طلبك</a></li>
@@ -51,6 +50,7 @@
   </ul></nav>
 </div></header>
 
+<main id="main" tabindex="-1">
 <section class="hero" id="home"><div class="wrap">
   <div>
     <p class="eyebrow">سوقك على مواقع التواصل · قطر</p>
@@ -70,13 +70,13 @@
 </div></section>
 
 <section class="sec" style="padding-block:28px"><div class="wrap">
-  <div id="today" class="today-in" role="region" aria-label="اليوم في الدوحة" hidden></div>
   <div class="stats">
     <div><b class="num" data-n="cats">27</b><span>قسماً للمواد والخدمات</span></div>
     <div><b class="num" data-n="items">490</b><span>منتج وخدمة بأسعار استرشادية</span></div>
     <div><b>100%</b><span>شركاء معتمدون ومرخصون</span></div>
     <div><b>عند الاستلام</b><span>ادفع نقداً أو بالبطاقة عند التسليم</span></div>
   </div>
+  <div id="today" class="today-in" role="region" aria-label="اليوم في الدوحة" hidden></div>
 </div></section>
 
 <section class="sec alt" id="baskets"><div class="wrap">
@@ -210,6 +210,7 @@
   </div>
 </div></section>
 
+</main>
 <footer><div class="wrap">
   <div class="fb"><img src="assets/jahiz-mark-v3.svg" alt="" width="44" height="44"><div><b style="font-family:var(--display);font-size:20px">جاهز</b><br><span>شركة وسيطة للتسوق والخدمات · الدوحة، قطر</span></div></div>
   <div class="links"><a data-phone href="tel:+97472232609" dir="ltr">+974 72232609</a><a href="https://wa.me/97472232609" target="_blank" rel="noopener">واتساب</a><a data-mail href="mailto:baseeratactions@gmail.com" dir="ltr">baseeratactions@gmail.com</a></div>

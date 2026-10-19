@@ -626,3 +626,6 @@ a.adcard:hover{border-color:var(--amber)}
 body.signed-client #whoLi{display:none!important}
 .acctwho.mob{display:none}
 @media (max-width:1100px){.acctwho.mob{display:flex;justify-content:center;border:0;border-top:1px solid var(--bar-line,rgba(255,255,255,.25));border-radius:0;padding:3px 16px;font-size:13px}}
+/* clear-UX pass (2026-10-19): secondary-page nav stays on one row on phones */
+@media (max-width:620px){.plainnav{flex-wrap:nowrap;overflow-x:auto;gap:4px;scrollbar-width:none}.plainnav::-webkit-scrollbar{display:none}.plainnav a,.plainnav button{white-space:nowrap;flex:none}}
+.plainnav a.acct{border:1.5px solid currentColor}

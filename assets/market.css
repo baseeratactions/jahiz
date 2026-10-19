@@ -317,3 +317,8 @@ body.signed-client #whoLi{display:none!important}
 .ilist td small{color:var(--mute)}.ilist .u{color:var(--mute);font-size:13px}.ilist tr.out{opacity:.6}
 .items{align-items:start}
 @media (max-width:700px){.catbar{position:static;flex-direction:column;align-items:stretch}.catbar>*{min-width:0;max-width:100%}.catbar .grpnav{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}.grpnav .chip{white-space:nowrap}.vsw{margin-inline-start:0}}
+/* clear-UX pass (2026-10-19): skip link and spacing for the moved "today" strip; colours come from existing tokens */
+.skip{position:absolute;inset-inline-start:12px;top:-60px;z-index:50;background:#fff;color:#111;padding:10px 16px;border-radius:10px;font-weight:700;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.skip:focus{top:10px}
+main:focus{outline:none}
+.stats+.today-in{margin-top:18px}
