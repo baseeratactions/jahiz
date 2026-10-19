@@ -29,23 +29,23 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500;700&family=Tajawal:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="../assets/market.css?v=20261019a">
-<script src="../assets/lang.js?v=20261019a" defer></script>
-<script src="../assets/who.js?v=20261019a" defer></script>
+<link rel="stylesheet" href="../assets/market.css?v=20261019b">
+<script src="../assets/lang.js?v=20261019b" defer></script>
+<script src="../assets/who.js?v=20261019b" defer></script>
 </head>
-<body>
+<body id="top">
+<a class="skip" href="#shop">Skip to shopping</a>
 <div class="basmala" aria-hidden="true"><svg viewBox="0 0 120 120" width="96" height="96"><defs><path id="bsT" d="M20.6 67 A40 40 0 1 1 99.4 67"/><path id="bsB" d="M12.5 74.5 A49.5 49.5 0 0 0 107.5 74.5"/></defs><circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="60" cy="60" r="29" fill="none" stroke="currentColor" stroke-width=".8"/><text font-size="8.6" text-anchor="middle"><textPath href="#bsT" startOffset="50%">بسم الله الواحد الأحد الفرد الصمد</textPath></text><text font-size="7.6" text-anchor="middle"><textPath href="#bsB" startOffset="50%">والصلاة والسلام على محمد خير الأنام</textPath></text><text x="60" y="61" font-size="11" text-anchor="middle">بسم الله</text><text x="60" y="74" font-size="6" text-anchor="middle">✦</text><text x="15" y="66" font-size="5" text-anchor="middle">✦</text><text x="105" y="66" font-size="5" text-anchor="middle">✦</text></svg></div>
 <header class="top"><div class="wrap">
-  <a class="brand" href="#home"><img src="../assets/jahiz-mark-v3.svg" alt="" width="40" height="40"><span><b>Jahiz</b><small>Ready at your door</small></span></a>
+  <a class="brand" href="#top"><img src="../assets/jahiz-mark-v3.svg" alt="" width="40" height="40"><span><b>Jahiz</b><small>Ready at your door</small></span></a>
   <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span><span></span><span></span></button>
   <nav id="nav" aria-label="Main menu"><ul class="menu">
+    <li><a href="#shop">Categories</a></li>
     <li><a href="#baskets">Baskets</a></li>
-    <li><a href="#shop" data-kind="food">Food</a></li>
-    <li><a href="#shop" data-kind="goods">Supplies</a></li>
-    <li><a href="#shop" data-kind="service">Services</a></li>
-    <li><a href="#how">How it works</a></li>
-    <li><a href="#partners">For partners</a></li>
     <li><a href="#track">Track order</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#partners">For partners</a></li>
     <li><a href="portal.html">My account</a></li>
     <li><a href="../index.html" lang="ar" class="lang">عربي</a></li>
     <li><a href="#order" class="cta">Basket</a></li>
@@ -53,39 +53,16 @@
 </div></header>
 
 <section class="sec shop-first" id="shop"><div class="wrap">
-  <h2>Shop by category</h2>
-  <p class="lead">Pick a category and add what you need to the basket. Prices are indicative starting prices; the Jahiz team confirms the final price and delivery fee before fulfilment. Can't find something? Write it in the order notes and we will source it from our partners.</p>
-  <div class="row"><div class="kinds" id="kinds" role="group" aria-label="Category type"></div></div>
-  <input id="sq" class="search" type="search" placeholder="Search all categories" aria-label="Search products and services">
-  <div id="catalog"></div>
-</div></section>
-
-<section class="hero" id="home"><div class="wrap">
-  <div>
-    <p class="eyebrow">Your social-media marketplace · Qatar</p>
+  <div class="intro" id="home">
     <h1>Order what you need, and <em>Jahiz</em> gets it to you</h1>
-    <p>Food, supplies and services from accredited companies and shops, ordered in one place. We arrange your order, forward it to the best accredited partner to fulfil and deliver it, and follow it with you until it arrives.</p>
-    <form class="hsearch" id="hs" role="search"><input id="hq" type="search" placeholder="Search: vegetables, meat, cleaning, AC, moving…" aria-label="Search products and services"><button class="btn pri" type="submit">Search</button></form>
-    <div class="row"><a class="btn green" href="#shop">Shop now</a><a class="btn ghost" href="#partners">Become a partner</a></div>
+    <form class="hsearch" id="hs" role="search"><input id="sq" type="search" placeholder="Search a product or service: tomatoes, rice, cleaning, AC…" aria-label="Search a product or service" enterkeyhint="search"><button class="btn pri" type="submit">Search</button></form>
+    <ul class="trust"><li>Accredited partners</li><li>Pay on delivery</li><li>Price confirmed before fulfilment</li><li>Minimum order QAR <span class="num" data-n="min">50</span></li></ul>
   </div>
-  <aside class="flow" aria-label="How Jahiz works">
-    <h3>Jahiz connects you with accredited companies</h3>
-    <ol>
-      <li><i aria-hidden="true">🛍️</i><div><b>You order</b><span>On the website or from our WhatsApp, Instagram, TikTok and Snapchat accounts.</span></div></li>
-      <li><i aria-hidden="true">✅</i><div><b>Jahiz arranges it</b><span>We confirm price and timing with you, and pick the best accredited partner for your area.</span></div></li>
-      <li><i aria-hidden="true">🚚</i><div><b>The partner fulfils and delivers</b><span>An accredited company prepares your order or performs the service, while we follow the quality.</span></div></li>
-    </ol>
-  </aside>
-</div></section>
-
-<section class="sec" style="padding-block:28px"><div class="wrap">
-  <div id="today" class="today-in" role="region" aria-label="Today in Doha" hidden></div>
-  <div class="stats">
-    <div><b class="num" data-n="cats">27</b><span>categories of goods and services</span></div>
-    <div><b class="num" data-n="items">490</b><span>products and services with indicative prices</span></div>
-    <div><b>100%</b><span>accredited, licensed partners</span></div>
-    <div><b>On delivery</b><span>pay cash or card when you receive</span></div>
-  </div>
+  <ol class="jsteps" aria-label="How ordering works"><li><i>1</i><span><b>Choose</b><small>from the categories or ready baskets</small></span></li><li><i>2</i><span><b>Send your order</b><small>name, mobile and address, nothing to pay now</small></span></li><li><i>3</i><span><b>Receive and pay</b><small>we confirm, an accredited partner delivers</small></span></li></ol>
+  <h2>Shop by category</h2>
+  <p class="lead">Prices are indicative starting prices. Can't find something? Write it in the order notes and we will source it.</p>
+  <div class="row"><div class="kinds" id="kinds" role="group" aria-label="Category type"></div></div>
+  <div id="catalog"></div>
 </div></section>
 
 <section class="sec alt" id="baskets"><div class="wrap">
@@ -95,32 +72,16 @@
   <div class="bkts" id="bkts"></div>
 </div></section>
 
-<section class="sec alt" id="how"><div class="wrap">
-  <h2>How does Jahiz work?</h2>
-  <p class="lead">Jahiz is an intermediary: we list goods and services and take the orders, then forward them to our accredited partner companies who fulfil and deliver them. Each partner pays us an agreed commission, so you pay no extra brokerage fee.</p>
-  <div class="steps">
-    <div class="step"><b>Browse and order</b><span>Add products and services to the basket, or send your order on WhatsApp.</span></div>
-    <div class="step"><b>We confirm</b><span>We contact you to confirm the final price, delivery time and payment method.</span></div>
-    <div class="step"><b>We forward it to a partner</b><span>The order goes to the accredited company that best fits your area, quality and price.</span></div>
-    <div class="step"><b>Fulfilment and delivery</b><span>You receive the order and pay on delivery; we follow up on your satisfaction and rating.</span></div>
-  </div>
-  <div class="roles">
-    <div class="role"><h3>For customers</h3><ul><li>Everything you need in one place</li><li>Accredited partners only</li><li>Jahiz follows your order until delivery</li><li>Support if anything goes wrong</li></ul></div>
-    <div class="role mid"><h3>Jahiz's role</h3><ul><li>Listing and marketing goods and services on social media</li><li>Receiving and confirming orders</li><li>Accrediting partners and monitoring quality</li><li>Forwarding and following orders, settling commissions</li></ul></div>
-    <div class="role"><h3>For merchants and partners</h3><ul><li>New orders without marketing costs</li><li>Commission on fulfilled orders only</li><li>Orders forwarded to you in an organised way</li><li>Clear monthly statement</li></ul></div>
-  </div>
-</div></section>
-
 <section class="sec" id="order"><div class="wrap">
   <h2>Your basket</h2>
   <p class="lead">Review your basket and enter delivery details. Nothing to pay now: we confirm the final price first, and you pay on delivery.</p>
   <div class="order">
-    <div class="panel"><b>Basket</b><div class="bl" id="basket"></div>
+    <div class="panel"><h3 class="pstep"><i>1</i> Your basket</h3><div class="bl" id="basket"></div>
       <div class="total"><span>Estimated total</span><b class="num" id="bTotal">0</b></div>
       <p class="mute" style="margin:0;font-size:13.5px">Indicative prices; the fulfilling partner confirms the final price and delivery fee first.</p>
       <p class="bmin" id="bMin" hidden></p>
-      <span class="err" id="eBasket"></span></div>
-    <div class="panel">
+      <span class="err" id="eBasket" role="alert"></span></div>
+    <div class="panel"><h3 class="pstep"><i>2</i> Delivery and payment</h3>
       <form class="form" id="oForm" novalidate>
         <label>Name<input id="oName" required autocomplete="name"><span class="err" id="eName"></span></label>
         <label>Mobile<input id="oPhone" inputmode="tel" required placeholder="5XXXXXXX" autocomplete="tel"><span class="err" id="ePhone"></span></label>
@@ -141,7 +102,61 @@
   </div>
 </div></section>
 
-<section class="sec alt" id="partners"><div class="wrap">
+<section class="sec alt" id="track"><div class="wrap">
+  <h2>Track your order</h2>
+  <p class="lead">Enter the order number as we sent it, such as <span>R-0045</span>, and the last 4 digits of your mobile.</p>
+  <form class="trk" id="trkF" novalidate><label>Order number<input id="trkRef" required placeholder="R-0045" maxlength="12" autocomplete="off"></label><label>Last 4 digits of mobile<input id="trkPh" required inputmode="numeric" maxlength="4" placeholder="1234" autocomplete="off"></label><button class="btn green" type="submit">Show status</button></form>
+  <p class="err" id="trkErr" role="alert"></p>
+  <div id="trkOut" aria-live="polite"></div>
+</div></section>
+
+<section class="sec" id="how"><div class="wrap">
+  <h2>How does Jahiz work?</h2>
+  <p class="lead">Jahiz is an intermediary: we list goods and services and take the orders, then forward them to our accredited partner companies who fulfil and deliver them. Each partner pays us an agreed commission, so you pay no extra brokerage fee.</p>
+  <div class="steps">
+    <div class="step"><b>Browse and order</b><span>Add products and services to the basket, or send your order on WhatsApp.</span></div>
+    <div class="step"><b>We confirm</b><span>We contact you to confirm the final price, delivery time and payment method.</span></div>
+    <div class="step"><b>We forward it to a partner</b><span>The order goes to the accredited company that best fits your area, quality and price.</span></div>
+    <div class="step"><b>Fulfilment and delivery</b><span>You receive the order and pay on delivery; we follow up on your satisfaction and rating.</span></div>
+  </div>
+  <div class="roles">
+    <div class="role"><h3>For customers</h3><ul><li>Everything you need in one place</li><li>Accredited partners only</li><li>Jahiz follows your order until delivery</li><li>Support if anything goes wrong</li></ul></div>
+    <div class="role mid"><h3>Jahiz's role</h3><ul><li>Listing and marketing goods and services on social media</li><li>Receiving and confirming orders</li><li>Accrediting partners and monitoring quality</li><li>Forwarding and following orders, settling commissions</li></ul></div>
+    <div class="role"><h3>For merchants and partners</h3><ul><li>New orders without marketing costs</li><li>Commission on fulfilled orders only</li><li>Orders forwarded to you in an organised way</li><li>Clear monthly statement</li></ul></div>
+  </div>
+</div></section>
+
+<section class="sec alt" style="padding-block:28px"><div class="wrap">
+  <div id="today" class="today-in" role="region" aria-label="Today in Doha" hidden></div>
+  <div class="stats">
+    <div><b class="num" data-n="cats">27</b><span>categories of goods and services</span></div>
+    <div><b class="num" data-n="items">490</b><span>products and services with indicative prices</span></div>
+    <div><b>100%</b><span>accredited, licensed partners</span></div>
+    <div><b>On delivery</b><span>pay cash or card when you receive</span></div>
+  </div>
+</div></section>
+
+<section class="sec" id="faq"><div class="wrap">
+  <h2>Common questions</h2>
+  <div class="faq">
+    <details><summary>Does Jahiz sell the products itself?</summary><p>Jahiz is an intermediary: we list products and services, take your order and follow it, while accredited companies and shops prepare, fulfil and deliver it. We stay your point of contact until the order arrives.</p></details>
+    <details><summary>Do I pay Jahiz a fee?</summary><p>No. You pay the price of the product or service and any delivery fee; Jahiz earns its commission from the fulfilling partner as agreed between them.</p></details>
+    <details><summary>Why are prices shown as “from”?</summary><p>Prices vary by brand, quantity, area and partner. We confirm the final price before fulfilment and only proceed with your approval.</p></details>
+    <details><summary>How do I pay?</summary><p>Cash or card on delivery, or bank transfer for large and company orders.</p></details>
+    <details><summary>What if a product is wrong or a service is late?</summary><p>Message us on WhatsApp straight away. We follow up with the partner to replace the product, redo the service or refund under the partner's policy, and record it in their rating.</p></details>
+    <details><summary>How do you choose accredited partners?</summary><p>We check the commercial registration, licences and health certificates, try the service, and keep following customer ratings. Partners whose rating drops stop receiving orders.</p></details>
+    <details><summary>Can companies order in bulk?</summary><p>Yes. Choose “Company” as the customer type and write the quantities in the notes; we send you quotes from more than one partner.</p></details>
+    <details><summary>I am a merchant. How do I join?</summary><p>Fill in the <a href="#join">partner application</a>, and our partnerships team will contact you to review your licences and agree the commission and how orders reach you.</p></details>
+  </div>
+</div></section>
+
+<section class="sec alt" id="follow"><div class="wrap">
+  <h2>Order from where you scroll</h2>
+  <p class="lead">We post daily offers on our social media accounts. Send us a photo of the product or the name of the service in a message, and we complete your order from there.</p>
+  <div class="social" id="social"></div>
+</div></section>
+
+<section class="sec" id="partners"><div class="wrap">
   <p class="eyebrow">For merchants, companies and service providers</p>
   <h2>Join the Jahiz network of accredited partners</h2>
   <p class="lead">We market your products and services on social media, take the orders and forward them to you ready to fulfil. No joining fee and no marketing costs: Jahiz earns an agreed commission on the orders you fulfil, settled monthly with a clear statement.</p>
@@ -183,34 +198,6 @@
   <div id="pOut" hidden><div id="pState" class="status"></div><div class="row" style="margin-top:10px"><a class="btn green sm" id="pWa" href="https://wa.me/97472232609" target="_blank" rel="noopener">Send on WhatsApp</a></div></div>
 </div></section>
 
-<section class="sec" id="follow"><div class="wrap">
-  <h2>Order from where you scroll</h2>
-  <p class="lead">We post daily offers on our social media accounts. Send us a photo of the product or the name of the service in a message, and we complete your order from there.</p>
-  <div class="social" id="social"></div>
-</div></section>
-
-<section class="sec alt" id="track"><div class="wrap">
-  <h2>Track your order</h2>
-  <p class="lead">Enter the order number as we sent it, such as <span>R-0045</span>, and the last 4 digits of your mobile.</p>
-  <form class="trk" id="trkF" novalidate><label>Order number<input id="trkRef" required placeholder="R-0045" maxlength="12" autocomplete="off"></label><label>Last 4 digits of mobile<input id="trkPh" required inputmode="numeric" maxlength="4" placeholder="1234" autocomplete="off"></label><button class="btn green" type="submit">Show status</button></form>
-  <p class="err" id="trkErr" role="alert"></p>
-  <div id="trkOut" aria-live="polite"></div>
-</div></section>
-
-<section class="sec" id="faq"><div class="wrap">
-  <h2>Common questions</h2>
-  <div class="faq">
-    <details><summary>Does Jahiz sell the products itself?</summary><p>Jahiz is an intermediary: we list products and services, take your order and follow it, while accredited companies and shops prepare, fulfil and deliver it. We stay your point of contact until the order arrives.</p></details>
-    <details><summary>Do I pay Jahiz a fee?</summary><p>No. You pay the price of the product or service and any delivery fee; Jahiz earns its commission from the fulfilling partner as agreed between them.</p></details>
-    <details><summary>Why are prices shown as “from”?</summary><p>Prices vary by brand, quantity, area and partner. We confirm the final price before fulfilment and only proceed with your approval.</p></details>
-    <details><summary>How do I pay?</summary><p>Cash or card on delivery, or bank transfer for large and company orders.</p></details>
-    <details><summary>What if a product is wrong or a service is late?</summary><p>Message us on WhatsApp straight away. We follow up with the partner to replace the product, redo the service or refund under the partner's policy, and record it in their rating.</p></details>
-    <details><summary>How do you choose accredited partners?</summary><p>We check the commercial registration, licences and health certificates, try the service, and keep following customer ratings. Partners whose rating drops stop receiving orders.</p></details>
-    <details><summary>Can companies order in bulk?</summary><p>Yes. Choose “Company” as the customer type and write the quantities in the notes; we send you quotes from more than one partner.</p></details>
-    <details><summary>I am a merchant. How do I join?</summary><p>Fill in the <a href="#join">partner application</a>, and our partnerships team will contact you to review your licences and agree the commission and how orders reach you.</p></details>
-  </div>
-</div></section>
-
 <footer><div class="wrap">
   <div class="fb"><img src="../assets/jahiz-mark-v3.svg" alt="" width="44" height="44"><div><b style="font-family:var(--display);font-size:20px">Jahiz</b><br><span>Intermediary marketplace for shopping and services · Doha, Qatar</span></div></div>
   <div class="links"><a data-phone href="tel:+97472232609">+974 72232609</a><a href="https://wa.me/97472232609" target="_blank" rel="noopener">WhatsApp</a><a data-mail href="mailto:baseeratactions@gmail.com">baseeratactions@gmail.com</a></div>
@@ -218,13 +205,13 @@
   <span style="opacity:.8">Prices are indicative and confirmed by the fulfilling partner. Products and services are provided by accredited partners who are responsible for their quality.</span>
 </div></footer>
 
-<a class="fab" id="fab" href="#order" hidden>🛍️ Basket <span class="n num">0</span></a>
+<a class="fab" id="fab" href="#order" hidden>🛍️ Basket <span class="n num">0</span><span class="ft num" id="fabT"></span></a>
 <a class="wa-fab" href="https://wa.me/97472232609" target="_blank" rel="noopener" aria-label="Message us on WhatsApp" title="Message us on WhatsApp"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-3.9-.5-5.6-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.7 5 .8.4 1.4.6 1.9.7.8.3 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg></a>
 <div class="toast" id="toast" hidden></div>
-<script src="../assets/config.js?v=20261019a"></script>
-<script src="../assets/market-data.js?v=20261019a"></script>
-<script src="../assets/market-store.js?v=20261019a"></script>
-<script src="../assets/market.js?v=20261019a"></script>
-<script src="../assets/today.js?v=20261019a"></script>
+<script src="../assets/config.js?v=20261019b"></script>
+<script src="../assets/market-data.js?v=20261019b"></script>
+<script src="../assets/market-store.js?v=20261019b"></script>
+<script src="../assets/market.js?v=20261019b"></script>
+<script src="../assets/today.js?v=20261019b"></script>
 </body>
 </html>

@@ -49,7 +49,7 @@ const byCode=Object.fromEntries(all.map(s=>[s.c,s]));
 const catName=c=>EN?c.en:c.ar;
 const kinds=Object.keys(M.KINDS);
 document.querySelectorAll('[data-n]').forEach(el=>{const k=el.dataset.n;
-  el.textContent=k==='items'?nItems:k==='baskets'?M.BASKETS.length:k==='maxdisc'?Math.max(0,...M.BASKETS.map(b=>b.disc)):k==='cats'?M.CATS.length:k==='food'||k==='goods'||k==='service'?M.CATS.filter(c=>c.kind===k).length:el.textContent});
+  el.textContent=k==='items'?nItems:k==='baskets'?M.BASKETS.length:k==='maxdisc'?Math.max(0,...M.BASKETS.map(b=>b.disc)):k==='cats'?M.CATS.length:k==='min'?fmt(MIN):k==='food'||k==='goods'||k==='service'?M.CATS.filter(c=>c.kind===k).length:el.textContent});
 
 let kind='all',open=null;
 const cart=new Map();
@@ -138,7 +138,8 @@ function route(){const m=location.hash.match(/^#cat=([A-Z]{2})$/);
   if(m&&M.CATS.some(c=>c.code===m[1])){open=m[1];$('sq').value='';const c=M.CATS.find(x=>x.code===m[1]);kind=c.kind;render();$('shop').scrollIntoView({block:'start'});return}
   if(location.hash==='#shop'&&open){open=null;render()}}
 addEventListener('hashchange',route);
-$('hs')&&$('hs').addEventListener('submit',e=>{e.preventDefault();$('sq').value=$('hq').value.trim();open=null;kind='all';render();$('shop').scrollIntoView({block:'start'})});
+// the one search box sits at the top of the shop: it filters as you type, and Enter (or the button) brings the results into view
+$('hs')&&$('hs').addEventListener('submit',e=>{e.preventDefault();if($('hq'))$('sq').value=$('hq').value.trim();open=null;kind='all';render();$('catalog').scrollIntoView({block:'start'});$('sq').blur()});
 document.querySelectorAll('[data-kind]').forEach(a=>a.addEventListener('click',()=>{kind=a.dataset.kind;open=null;$('sq').value='';render()}));
 
 // ---- basket and order ----
@@ -146,13 +147,15 @@ const fullName=s=>s.n+(s.d&&s.d.fam?' ('+vLabel(s)+')':'');
 function basketLines(){return [...cart].map(([c,q])=>`${fullName(byCode[c])} (${c}) × ${q}`)}
 function total(){let t=0;cart.forEach((q,c)=>t+=byCode[c].p*q);return t}
 function renderBasket(){const n=[...cart.values()].reduce((a,b)=>a+b,0);
-  const fab=$('fab');if(fab){fab.hidden=!n;fab.querySelector('.n').textContent=n}
+  const fab=$('fab');if(fab){fab.hidden=!n;fab.querySelector('.n').textContent=n;const ft=$('fabT');if(ft)ft.textContent=n?fmt(total())+' '+CUR:''}
   const bl=$('basket');if(!bl)return;
   bl.innerHTML=cart.size?[...cart].map(([c,q])=>{const s=byCode[c];return `<div class="bi"><div><b>${esc(fullName(s))}</b><small>${T.from} ${fmt(s.p)} ${CUR} ${esc(s.u)} · <span class="code">${c}</span></small></div>${qtyHTML(s,q)}<span class="lt num">${fmt(s.p*q)}</span></div>`}).join(''):`<div class="empty">${T.bEmpty}</div>`;
   $('bTotal').textContent=fmt(total())+' '+CUR;
   // one item is enough as long as the order reaches the minimum value
   const mn=$('bMin');if(mn&&MIN){const r=Math.max(0,MIN-total());mn.hidden=false;mn.className='bmin '+(cart.size&&r?'short':cart.size?'ok':'');
     mn.textContent=!cart.size?L(`الحد الأدنى للطلب ${fmt(MIN)} ر.ق، ويمكن أن يكون صنفاً واحداً.`,`Minimum order QAR ${fmt(MIN)}; a single item is fine.`):r?L(`باقي ${fmt(Math.ceil(r))} ر.ق للوصول إلى الحد الأدنى (${fmt(MIN)} ر.ق).`,`QAR ${fmt(Math.ceil(r))} to go to reach the minimum (QAR ${fmt(MIN)}).`):L('وصلت إلى الحد الأدنى للطلب ✓','Minimum order reached ✓')}}
+// the floating basket button steps aside while the basket itself is on screen
+const ordSec=$('order');if(ordSec&&'IntersectionObserver' in window)new IntersectionObserver(([e])=>document.body.classList.toggle('in-order',e.isIntersecting),{threshold:.1}).observe(ordSec);
 const area=$('oArea');if(area)AREAS.forEach(a=>{const o=document.createElement('option');o.textContent=a;area.appendChild(o)});
 const pCat=$('pCat');if(pCat)M.CATS.forEach(c=>{const o=document.createElement('option');o.value=c.code;o.textContent=`${c.icon} ${catName(c)}`;pCat.appendChild(o)});
 const post=o=>fetch(CFG.API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(o)}).then(r=>r.json());

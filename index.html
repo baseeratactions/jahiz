@@ -29,23 +29,23 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500;700&family=Tajawal:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="assets/market.css?v=20261019a">
-<script src="assets/lang.js?v=20261019a" defer></script>
-<script src="assets/who.js?v=20261019a" defer></script>
+<link rel="stylesheet" href="assets/market.css?v=20261019b">
+<script src="assets/lang.js?v=20261019b" defer></script>
+<script src="assets/who.js?v=20261019b" defer></script>
 </head>
-<body>
+<body id="top">
+<a class="skip" href="#shop">تخطَّ إلى التسوّق</a>
 <div class="basmala" aria-hidden="true"><svg viewBox="0 0 120 120" width="96" height="96"><defs><path id="bsT" d="M20.6 67 A40 40 0 1 1 99.4 67"/><path id="bsB" d="M12.5 74.5 A49.5 49.5 0 0 0 107.5 74.5"/></defs><circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="60" cy="60" r="29" fill="none" stroke="currentColor" stroke-width=".8"/><text font-size="8.6" text-anchor="middle"><textPath href="#bsT" startOffset="50%">بسم الله الواحد الأحد الفرد الصمد</textPath></text><text font-size="7.6" text-anchor="middle"><textPath href="#bsB" startOffset="50%">والصلاة والسلام على محمد خير الأنام</textPath></text><text x="60" y="61" font-size="11" text-anchor="middle">بسم الله</text><text x="60" y="74" font-size="6" text-anchor="middle">✦</text><text x="15" y="66" font-size="5" text-anchor="middle">✦</text><text x="105" y="66" font-size="5" text-anchor="middle">✦</text></svg></div>
 <header class="top"><div class="wrap">
-  <a class="brand" href="#home"><img src="assets/jahiz-mark-v3.svg" alt="" width="40" height="40"><span><b>جاهز</b><small>طلبك جاهز لحد بابك</small></span></a>
+  <a class="brand" href="#top"><img src="assets/jahiz-mark-v3.svg" alt="" width="40" height="40"><span><b>جاهز</b><small>طلبك جاهز لحد بابك</small></span></a>
   <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="القائمة"><span></span><span></span><span></span></button>
   <nav id="nav" aria-label="القائمة الرئيسية"><ul class="menu">
+    <li><a href="#shop">الأقسام</a></li>
     <li><a href="#baskets">السلال</a></li>
-    <li><a href="#shop" data-kind="food">المواد الغذائية</a></li>
-    <li><a href="#shop" data-kind="goods">المستلزمات</a></li>
-    <li><a href="#shop" data-kind="service">الخدمات</a></li>
-    <li><a href="#how">كيف نعمل</a></li>
-    <li><a href="#partners">للتجار والشركاء</a></li>
     <li><a href="#track">تابع طلبك</a></li>
+    <li><a href="#how">كيف نعمل</a></li>
+    <li><a href="#faq">الأسئلة الشائعة</a></li>
+    <li><a href="#partners">للتجار والشركاء</a></li>
     <li><a href="portal.html">حسابي</a></li>
     <li><a href="en/index.html" lang="en" class="lang">English</a></li>
     <li><a href="#order" class="cta">سلّة الطلب</a></li>
@@ -53,39 +53,16 @@
 </div></header>
 
 <section class="sec shop-first" id="shop"><div class="wrap">
-  <h2>تسوّق حسب القسم</h2>
-  <p class="lead">اختر القسم وأضف ما تحتاجه إلى السلة. الأسعار استرشادية تبدأ من المبلغ المذكور، ويؤكد لك فريق جاهز السعر النهائي ورسوم التوصيل قبل التنفيذ. لم تجد ما تريده؟ اكتبه في ملاحظات الطلب ونوفّره من شركائنا.</p>
-  <div class="row"><div class="kinds" id="kinds" role="group" aria-label="نوع القسم"></div></div>
-  <input id="sq" class="search" type="search" placeholder="ابحث في كل الأقسام" aria-label="ابحث في المنتجات والخدمات">
-  <div id="catalog"></div>
-</div></section>
-
-<section class="hero" id="home"><div class="wrap">
-  <div>
-    <p class="eyebrow">سوقك على مواقع التواصل · قطر</p>
+  <div class="intro" id="home">
     <h1>اطلب ما تحتاجه، و<em>جاهز</em> يوصله لك</h1>
-    <p>مواد غذائية ومستلزمات وخدمات من شركات ومتاجر معتمدة، تطلبها من مكان واحد. نحن نرتّب طلبك ونحوّله إلى الشريك المعتمد الأنسب لينفّذه ويوصله، ونتابعه معك حتى يصلك.</p>
-    <form class="hsearch" id="hs" role="search"><input id="hq" type="search" placeholder="ابحث: خضار، لحم، منظفات، تكييف، نقل أثاث…" aria-label="ابحث في المنتجات والخدمات"><button class="btn pri" type="submit">بحث</button></form>
-    <div class="row"><a class="btn green" href="#shop">تسوّق الآن</a><a class="btn ghost" href="#partners">انضم كشريك معتمد</a></div>
+    <form class="hsearch" id="hs" role="search"><input id="sq" type="search" placeholder="ابحث عن منتج أو خدمة: طماطم، أرز، منظفات، تكييف…" aria-label="ابحث عن منتج أو خدمة" enterkeyhint="search"><button class="btn pri" type="submit">بحث</button></form>
+    <ul class="trust"><li>شركاء معتمدون</li><li>الدفع عند الاستلام</li><li>نؤكد السعر قبل التنفيذ</li><li>الحد الأدنى <span class="num" data-n="min">50</span> ر.ق</li></ul>
   </div>
-  <aside class="flow" aria-label="كيف يعمل جاهز">
-    <h3>جاهز بينك وبين الشركات المعتمدة</h3>
-    <ol>
-      <li><i aria-hidden="true">🛍️</i><div><b>أنت تطلب</b><span>من الموقع أو من حساباتنا على واتساب وإنستغرام وتيك توك وسناب.</span></div></li>
-      <li><i aria-hidden="true">✅</i><div><b>جاهز يرتّب طلبك</b><span>نؤكد معك السعر والموعد، ونختار الشريك المعتمد الأنسب لمنطقتك.</span></div></li>
-      <li><i aria-hidden="true">🚚</i><div><b>الشريك ينفّذ ويوصل</b><span>شركة معتمدة تجهّز طلبك أو تؤدي الخدمة وتسلّمك إياها، ونحن نتابع الجودة.</span></div></li>
-    </ol>
-  </aside>
-</div></section>
-
-<section class="sec" style="padding-block:28px"><div class="wrap">
-  <div id="today" class="today-in" role="region" aria-label="اليوم في الدوحة" hidden></div>
-  <div class="stats">
-    <div><b class="num" data-n="cats">27</b><span>قسماً للمواد والخدمات</span></div>
-    <div><b class="num" data-n="items">490</b><span>منتج وخدمة بأسعار استرشادية</span></div>
-    <div><b>100%</b><span>شركاء معتمدون ومرخصون</span></div>
-    <div><b>عند الاستلام</b><span>ادفع نقداً أو بالبطاقة عند التسليم</span></div>
-  </div>
+  <ol class="jsteps" aria-label="خطوات الطلب"><li><i>1</i><span><b>اختر</b><small>من الأقسام أو السلال الجاهزة</small></span></li><li><i>2</i><span><b>أرسل طلبك</b><small>بالاسم والجوال والعنوان، دون دفع الآن</small></span></li><li><i>3</i><span><b>استلم وادفع</b><small>نؤكد معك، ويوصله الشريك المعتمد</small></span></li></ol>
+  <h2>تسوّق حسب القسم</h2>
+  <p class="lead">الأسعار استرشادية تبدأ من المبلغ المذكور. لم تجد ما تريده؟ اكتبه في ملاحظات الطلب ونوفّره لك.</p>
+  <div class="row"><div class="kinds" id="kinds" role="group" aria-label="نوع القسم"></div></div>
+  <div id="catalog"></div>
 </div></section>
 
 <section class="sec alt" id="baskets"><div class="wrap">
@@ -95,32 +72,16 @@
   <div class="bkts" id="bkts"></div>
 </div></section>
 
-<section class="sec alt" id="how"><div class="wrap">
-  <h2>كيف يعمل جاهز؟</h2>
-  <p class="lead">جاهز شركة وسيطة: نعرض السلع والخدمات ونستقبل الطلبات، ثم نحوّلها إلى شركات معتمدة لدينا تنفّذها وتوصلها. نتفق مع كل شريك على نسبة عمولة واضحة، فلا تدفع أنت أي رسوم وساطة إضافية.</p>
-  <div class="steps">
-    <div class="step"><b>تصفّح واطلب</b><span>أضف المنتجات والخدمات إلى السلة، أو أرسل طلبك على واتساب.</span></div>
-    <div class="step"><b>نؤكد طلبك</b><span>نتواصل معك لتأكيد السعر النهائي وموعد التوصيل وطريقة الدفع.</span></div>
-    <div class="step"><b>نحوّله للشريك المعتمد</b><span>نرسل الطلب إلى الشركة المعتمدة الأنسب من حيث المنطقة والجودة والسعر.</span></div>
-    <div class="step"><b>التنفيذ والتوصيل</b><span>يصلك الطلب وتدفع عند الاستلام، ونتابع رضاك وتقييمك للشريك.</span></div>
-  </div>
-  <div class="roles">
-    <div class="role"><h3>للمستهلك</h3><ul><li>كل احتياجاتك من مكان واحد</li><li>شركاء معتمدون فقط</li><li>متابعة من جاهز حتى الاستلام</li><li>دعم وحل للمشكلات إن حدثت</li></ul></div>
-    <div class="role mid"><h3>دور جاهز</h3><ul><li>عرض السلع والخدمات والتسويق لها على مواقع التواصل</li><li>استقبال الطلبات وتأكيدها</li><li>اعتماد الشركاء ومراقبة الجودة</li><li>تحويل الطلبات ومتابعتها وتسوية العمولات</li></ul></div>
-    <div class="role"><h3>للتاجر والشريك</h3><ul><li>طلبات جديدة دون تكاليف تسويق</li><li>عمولة على الطلبات المنفّذة فقط</li><li>تحويل منظّم للطلبات إليك</li><li>كشف حساب شهري واضح</li></ul></div>
-  </div>
-</div></section>
-
 <section class="sec" id="order"><div class="wrap">
   <h2>سلّة الطلب</h2>
   <p class="lead">راجع سلتك واكتب بيانات التوصيل. لا تدفع الآن: سنؤكد معك السعر النهائي أولاً، وتدفع عند الاستلام.</p>
   <div class="order">
-    <div class="panel"><b>سلتك</b><div class="bl" id="basket"></div>
+    <div class="panel"><h3 class="pstep"><i>1</i> سلتك</h3><div class="bl" id="basket"></div>
       <div class="total"><span>الإجمالي التقديري</span><b class="num" id="bTotal">0</b></div>
       <p class="mute" style="margin:0;font-size:13.5px">أسعار استرشادية، ويؤكد الشريك المنفّذ السعر النهائي ورسوم التوصيل قبل التنفيذ.</p>
       <p class="bmin" id="bMin" hidden></p>
-      <span class="err" id="eBasket"></span></div>
-    <div class="panel">
+      <span class="err" id="eBasket" role="alert"></span></div>
+    <div class="panel"><h3 class="pstep"><i>2</i> بيانات التوصيل والدفع</h3>
       <form class="form" id="oForm" novalidate>
         <label>الاسم<input id="oName" required autocomplete="name"><span class="err" id="eName"></span></label>
         <label>رقم الجوال<input id="oPhone" inputmode="tel" required dir="ltr" placeholder="5XXXXXXX" autocomplete="tel"><span class="err" id="ePhone"></span></label>
@@ -141,7 +102,61 @@
   </div>
 </div></section>
 
-<section class="sec alt" id="partners"><div class="wrap">
+<section class="sec alt" id="track"><div class="wrap">
+  <h2>تابع طلبك</h2>
+  <p class="lead">اكتب رقم الطلب كما وصلك منا، مثل <span dir="ltr">R-0045</span>، وآخر 4 أرقام من جوالك.</p>
+  <form class="trk" id="trkF" novalidate><label>رقم الطلب<input id="trkRef" required dir="ltr" placeholder="R-0045" maxlength="12" autocomplete="off"></label><label>آخر 4 أرقام من الجوال<input id="trkPh" required inputmode="numeric" dir="ltr" maxlength="4" placeholder="1234" autocomplete="off"></label><button class="btn green" type="submit">اعرض الحالة</button></form>
+  <p class="err" id="trkErr" role="alert"></p>
+  <div id="trkOut" aria-live="polite"></div>
+</div></section>
+
+<section class="sec" id="how"><div class="wrap">
+  <h2>كيف يعمل جاهز؟</h2>
+  <p class="lead">جاهز شركة وسيطة: نعرض السلع والخدمات ونستقبل الطلبات، ثم نحوّلها إلى شركات معتمدة لدينا تنفّذها وتوصلها. نتفق مع كل شريك على نسبة عمولة واضحة، فلا تدفع أنت أي رسوم وساطة إضافية.</p>
+  <div class="steps">
+    <div class="step"><b>تصفّح واطلب</b><span>أضف المنتجات والخدمات إلى السلة، أو أرسل طلبك على واتساب.</span></div>
+    <div class="step"><b>نؤكد طلبك</b><span>نتواصل معك لتأكيد السعر النهائي وموعد التوصيل وطريقة الدفع.</span></div>
+    <div class="step"><b>نحوّله للشريك المعتمد</b><span>نرسل الطلب إلى الشركة المعتمدة الأنسب من حيث المنطقة والجودة والسعر.</span></div>
+    <div class="step"><b>التنفيذ والتوصيل</b><span>يصلك الطلب وتدفع عند الاستلام، ونتابع رضاك وتقييمك للشريك.</span></div>
+  </div>
+  <div class="roles">
+    <div class="role"><h3>للمستهلك</h3><ul><li>كل احتياجاتك من مكان واحد</li><li>شركاء معتمدون فقط</li><li>متابعة من جاهز حتى الاستلام</li><li>دعم وحل للمشكلات إن حدثت</li></ul></div>
+    <div class="role mid"><h3>دور جاهز</h3><ul><li>عرض السلع والخدمات والتسويق لها على مواقع التواصل</li><li>استقبال الطلبات وتأكيدها</li><li>اعتماد الشركاء ومراقبة الجودة</li><li>تحويل الطلبات ومتابعتها وتسوية العمولات</li></ul></div>
+    <div class="role"><h3>للتاجر والشريك</h3><ul><li>طلبات جديدة دون تكاليف تسويق</li><li>عمولة على الطلبات المنفّذة فقط</li><li>تحويل منظّم للطلبات إليك</li><li>كشف حساب شهري واضح</li></ul></div>
+  </div>
+</div></section>
+
+<section class="sec alt" style="padding-block:28px"><div class="wrap">
+  <div id="today" class="today-in" role="region" aria-label="اليوم في الدوحة" hidden></div>
+  <div class="stats">
+    <div><b class="num" data-n="cats">27</b><span>قسماً للمواد والخدمات</span></div>
+    <div><b class="num" data-n="items">490</b><span>منتج وخدمة بأسعار استرشادية</span></div>
+    <div><b>100%</b><span>شركاء معتمدون ومرخصون</span></div>
+    <div><b>عند الاستلام</b><span>ادفع نقداً أو بالبطاقة عند التسليم</span></div>
+  </div>
+</div></section>
+
+<section class="sec" id="faq"><div class="wrap">
+  <h2>أسئلة شائعة</h2>
+  <div class="faq">
+    <details><summary>هل جاهز هو من يبيع المنتجات؟</summary><p>جاهز شركة وسيطة: نعرض المنتجات والخدمات ونستقبل طلبك ونتابعه، أما التجهيز والتنفيذ والتوصيل فتقوم بها شركات ومتاجر معتمدة لدينا. ونبقى نحن نقطة تواصلك حتى يصلك الطلب.</p></details>
+    <details><summary>هل أدفع رسوماً لجاهز؟</summary><p>لا. تدفع سعر المنتج أو الخدمة ورسوم التوصيل إن وُجدت، وتحصل جاهز على عمولتها من الشريك المنفّذ حسب الاتفاق بينهما.</p></details>
+    <details><summary>لماذا الأسعار «تبدأ من»؟</summary><p>لأن السعر يختلف حسب الماركة والكمية والمنطقة والشريك. نؤكد لك السعر النهائي قبل التنفيذ، ولا ننفّذ إلا بعد موافقتك.</p></details>
+    <details><summary>كيف أدفع؟</summary><p>نقداً أو بالبطاقة عند الاستلام، أو بتحويل بنكي للطلبات الكبيرة وطلبات الشركات.</p></details>
+    <details><summary>ماذا لو وصلني منتج غير مطابق أو تأخرت الخدمة؟</summary><p>تواصل معنا فوراً على واتساب. نتابع الأمر مع الشريك لاستبدال المنتج أو إعادة الخدمة أو استرداد المبلغ حسب سياسة الشريك، ونسجّل ذلك في تقييمه.</p></details>
+    <details><summary>كيف تختارون الشركاء المعتمدين؟</summary><p>نتحقق من السجل التجاري والتراخيص والشهادات الصحية، ونجرّب الخدمة، ونتابع تقييمات العملاء باستمرار. والشريك الذي ينخفض تقييمه يتوقف تحويل الطلبات إليه.</p></details>
+    <details><summary>هل يمكن للشركات الطلب بالجملة؟</summary><p>نعم. اختر «منشأة» في نوع العميل واكتب الكميات في الملاحظات، ونرسل لك عرض سعر من أكثر من شريك.</p></details>
+    <details><summary>أنا تاجر، كيف أنضم؟</summary><p>املأ <a href="#join">طلب الانضمام</a>، وسيتواصل معك فريق الشراكات لمراجعة التراخيص والاتفاق على نسبة العمولة وطريقة تحويل الطلبات.</p></details>
+  </div>
+</div></section>
+
+<section class="sec alt" id="follow"><div class="wrap">
+  <h2>اطلب من حيث تتصفح</h2>
+  <p class="lead">نعرض العروض اليومية على حساباتنا في مواقع التواصل. أرسل لنا صورة المنتج أو اسم الخدمة في رسالة، ونكمل طلبك من هناك.</p>
+  <div class="social" id="social"></div>
+</div></section>
+
+<section class="sec" id="partners"><div class="wrap">
   <p class="eyebrow">للتجار والشركات ومقدمي الخدمات</p>
   <h2>انضم إلى شبكة شركاء جاهز المعتمدين</h2>
   <p class="lead">نحن نسوّق لمنتجاتك وخدماتك على مواقع التواصل ونستقبل الطلبات ونحوّلها إليك جاهزة للتنفيذ. لا رسوم انضمام ولا تكاليف تسويق: تحصل جاهز على عمولة متفق عليها من قيمة الطلبات التي تنفّذها فقط، وتُسوّى الحسابات شهرياً بكشف واضح.</p>
@@ -183,34 +198,6 @@
   <div id="pOut" hidden><div id="pState" class="status"></div><div class="row" style="margin-top:10px"><a class="btn green sm" id="pWa" href="https://wa.me/97472232609" target="_blank" rel="noopener">أرسل على واتساب</a></div></div>
 </div></section>
 
-<section class="sec" id="follow"><div class="wrap">
-  <h2>اطلب من حيث تتصفح</h2>
-  <p class="lead">نعرض العروض اليومية على حساباتنا في مواقع التواصل. أرسل لنا صورة المنتج أو اسم الخدمة في رسالة، ونكمل طلبك من هناك.</p>
-  <div class="social" id="social"></div>
-</div></section>
-
-<section class="sec alt" id="track"><div class="wrap">
-  <h2>تابع طلبك</h2>
-  <p class="lead">اكتب رقم الطلب كما وصلك منا، مثل <span dir="ltr">R-0045</span>، وآخر 4 أرقام من جوالك.</p>
-  <form class="trk" id="trkF" novalidate><label>رقم الطلب<input id="trkRef" required dir="ltr" placeholder="R-0045" maxlength="12" autocomplete="off"></label><label>آخر 4 أرقام من الجوال<input id="trkPh" required inputmode="numeric" dir="ltr" maxlength="4" placeholder="1234" autocomplete="off"></label><button class="btn green" type="submit">اعرض الحالة</button></form>
-  <p class="err" id="trkErr" role="alert"></p>
-  <div id="trkOut" aria-live="polite"></div>
-</div></section>
-
-<section class="sec" id="faq"><div class="wrap">
-  <h2>أسئلة شائعة</h2>
-  <div class="faq">
-    <details><summary>هل جاهز هو من يبيع المنتجات؟</summary><p>جاهز شركة وسيطة: نعرض المنتجات والخدمات ونستقبل طلبك ونتابعه، أما التجهيز والتنفيذ والتوصيل فتقوم بها شركات ومتاجر معتمدة لدينا. ونبقى نحن نقطة تواصلك حتى يصلك الطلب.</p></details>
-    <details><summary>هل أدفع رسوماً لجاهز؟</summary><p>لا. تدفع سعر المنتج أو الخدمة ورسوم التوصيل إن وُجدت، وتحصل جاهز على عمولتها من الشريك المنفّذ حسب الاتفاق بينهما.</p></details>
-    <details><summary>لماذا الأسعار «تبدأ من»؟</summary><p>لأن السعر يختلف حسب الماركة والكمية والمنطقة والشريك. نؤكد لك السعر النهائي قبل التنفيذ، ولا ننفّذ إلا بعد موافقتك.</p></details>
-    <details><summary>كيف أدفع؟</summary><p>نقداً أو بالبطاقة عند الاستلام، أو بتحويل بنكي للطلبات الكبيرة وطلبات الشركات.</p></details>
-    <details><summary>ماذا لو وصلني منتج غير مطابق أو تأخرت الخدمة؟</summary><p>تواصل معنا فوراً على واتساب. نتابع الأمر مع الشريك لاستبدال المنتج أو إعادة الخدمة أو استرداد المبلغ حسب سياسة الشريك، ونسجّل ذلك في تقييمه.</p></details>
-    <details><summary>كيف تختارون الشركاء المعتمدين؟</summary><p>نتحقق من السجل التجاري والتراخيص والشهادات الصحية، ونجرّب الخدمة، ونتابع تقييمات العملاء باستمرار. والشريك الذي ينخفض تقييمه يتوقف تحويل الطلبات إليه.</p></details>
-    <details><summary>هل يمكن للشركات الطلب بالجملة؟</summary><p>نعم. اختر «منشأة» في نوع العميل واكتب الكميات في الملاحظات، ونرسل لك عرض سعر من أكثر من شريك.</p></details>
-    <details><summary>أنا تاجر، كيف أنضم؟</summary><p>املأ <a href="#join">طلب الانضمام</a>، وسيتواصل معك فريق الشراكات لمراجعة التراخيص والاتفاق على نسبة العمولة وطريقة تحويل الطلبات.</p></details>
-  </div>
-</div></section>
-
 <footer><div class="wrap">
   <div class="fb"><img src="assets/jahiz-mark-v3.svg" alt="" width="44" height="44"><div><b style="font-family:var(--display);font-size:20px">جاهز</b><br><span>شركة وسيطة للتسوق والخدمات · الدوحة، قطر</span></div></div>
   <div class="links"><a data-phone href="tel:+97472232609" dir="ltr">+974 72232609</a><a href="https://wa.me/97472232609" target="_blank" rel="noopener">واتساب</a><a data-mail href="mailto:baseeratactions@gmail.com" dir="ltr">baseeratactions@gmail.com</a></div>
@@ -218,13 +205,13 @@
   <span style="opacity:.8">الأسعار استرشادية ويؤكدها الشريك المنفّذ قبل التنفيذ. المنتجات والخدمات يقدمها شركاء معتمدون مسؤولون عن جودتها.</span>
 </div></footer>
 
-<a class="fab" id="fab" href="#order" hidden>🛍️ سلّة الطلب <span class="n num">0</span></a>
+<a class="fab" id="fab" href="#order" hidden>🛍️ سلّة الطلب <span class="n num">0</span><span class="ft num" id="fabT"></span></a>
 <a class="wa-fab" href="https://wa.me/97472232609" target="_blank" rel="noopener" aria-label="تواصل معنا على واتساب" title="تواصل معنا على واتساب"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-3.9-.5-5.6-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.7 5 .8.4 1.4.6 1.9.7.8.3 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg></a>
 <div class="toast" id="toast" hidden></div>
-<script src="assets/config.js?v=20261019a"></script>
-<script src="assets/market-data.js?v=20261019a"></script>
-<script src="assets/market-store.js?v=20261019a"></script>
-<script src="assets/market.js?v=20261019a"></script>
-<script src="assets/today.js?v=20261019a"></script>
+<script src="assets/config.js?v=20261019b"></script>
+<script src="assets/market-data.js?v=20261019b"></script>
+<script src="assets/market-store.js?v=20261019b"></script>
+<script src="assets/market.js?v=20261019b"></script>
+<script src="assets/today.js?v=20261019b"></script>
 </body>
 </html>
