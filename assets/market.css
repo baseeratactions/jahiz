@@ -2,7 +2,7 @@
 html,body{margin:0}
 :root{
   --bg:#f5f0fc;--surface:#ffffff;--ink:#221a2e;--mute:#665e73;--line:#e2d4f7;--chip:#ede5fa;
-  --pri:#6d28d9;--pri-ink:#ffffff;--pri-soft:#f0eafb;--acc:#db2777;--acc-ink:#ffffff;--acc-soft:#fce8f2;
+  --pri:#6d28d9;--pri-ink:#ffffff;--pri-soft:#f0eafb;--acc:#db2777;--acc-ink:#ffffff;--acc-soft:#fce8f2;--acc-text:#be185d;
   --head:#dfd0f7;--head-ink:#2c1057;--bar-line:rgba(44,16,87,.25);--bar-hover:rgba(44,16,87,.08);--bar-soft:rgba(44,16,87,.06);--ok:#1f7a55;--err:#b3261e;
   --display:'Readex Pro','Tajawal','Segoe UI',Tahoma,sans-serif;--body:'Tajawal','Segoe UI',Tahoma,sans-serif;
   --r:16px;--shadow:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(17,40,33,.06);
@@ -10,11 +10,11 @@ html,body{margin:0}
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#13101b;--surface:#1c1727;--ink:#eee9f5;--mute:#aaa2b9;--line:#2f2840;--chip:#251f33;
-  --pri:#b794f6;--pri-ink:#1a0b33;--pri-soft:#2b1f48;--acc:#f472b6;--acc-ink:#2a0716;--acc-soft:#3d1529;
+  --pri:#b794f6;--pri-ink:#1a0b33;--pri-soft:#2b1f48;--acc:#f472b6;--acc-ink:#2a0716;--acc-soft:#3d1529;--acc-text:#f9a8d4;
   --head:#2e1065;--head-ink:#f5f0ff;--bar-line:rgba(255,255,255,.35);--bar-hover:rgba(255,255,255,.12);--bar-soft:rgba(255,255,255,.08);--ok:#5fd09f;--err:#ff8a80;--shadow:none;color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#13101b;--surface:#1c1727;--ink:#eee9f5;--mute:#aaa2b9;--line:#2f2840;--chip:#251f33;
-  --pri:#b794f6;--pri-ink:#1a0b33;--pri-soft:#2b1f48;--acc:#f472b6;--acc-ink:#2a0716;--acc-soft:#3d1529;
+  --pri:#b794f6;--pri-ink:#1a0b33;--pri-soft:#2b1f48;--acc:#f472b6;--acc-ink:#2a0716;--acc-soft:#3d1529;--acc-text:#f9a8d4;
   --head:#2e1065;--head-ink:#f5f0ff;--bar-line:rgba(255,255,255,.35);--bar-hover:rgba(255,255,255,.12);--bar-soft:rgba(255,255,255,.08);--ok:#5fd09f;--err:#ff8a80;--shadow:none;color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -33,7 +33,7 @@ a{color:inherit}
 .sec{padding-block:56px}
 .sec.alt{background:var(--surface);border-block:1px solid var(--line)}
 .sec>.wrap{display:flex;flex-direction:column;gap:22px}
-.eyebrow{display:inline-block;font-weight:700;color:var(--acc);font-size:14px;letter-spacing:.2px;margin:0}
+.eyebrow{display:inline-block;font-weight:700;color:var(--acc-text,var(--acc));font-size:14px;letter-spacing:.2px;margin:0}
 
 /* buttons */
 .btn{font:inherit;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:999px;border:2px solid transparent;text-decoration:none;cursor:pointer;line-height:1.2;white-space:nowrap}
@@ -361,3 +361,16 @@ body.signed-client #whoLi{display:none!important}
 body.in-order .fab{display:none}
 main:focus{outline:none}
 .stats+.today-in{margin-top:18px}
+/* phones: plain products two per row like a grocery shelf; a product compared across origins keeps the full width for its picker */
+@media (max-width:640px){
+ .items{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .item{padding:12px;gap:8px}
+ .item .t b{font-size:15px}
+ .item .p{flex-wrap:wrap;gap:8px}
+ .item .p .add{flex:1 1 100%}
+ .item.fam,.items>.bkt{grid-column:1/-1}
+ .item.fam .p .add{flex:0 0 auto}
+}
+/* inside an open category the group heading already names the group, so the cards drop that repeated line */
+.catv .item .t>small{display:none}
+@media (max-width:640px){.items{grid-auto-flow:row dense}}

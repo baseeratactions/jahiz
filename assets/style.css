@@ -292,7 +292,7 @@ html[dir="ltr"] th,html[dir="ltr"] td{text-align:left}
 @media (max-width:700px){.cost3,.facts2{grid-template-columns:1fr}.cost3{gap:6px}.cost3 b{display:inline}.cost3 b::after{content:": "}.costbox{padding:12px 14px;gap:8px}}
 /* contact details live at the bottom of every page */
 footer .fc{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--bar-line,rgba(255,255,255,.18));font-size:15.5px}
-footer .fc b{font-family:var(--display);color:var(--amber)}
+footer .fc b{font-family:var(--display);color:inherit}
 footer .fc a{text-decoration:none;font-weight:700;background:var(--bar-soft,rgba(255,255,255,.08));border-radius:999px;padding:4px 12px}
 footer .fc a:hover{background:var(--bar-hover,rgba(255,255,255,.16))}
 /* calm palette: light hero, soft cards, gentle shadows */

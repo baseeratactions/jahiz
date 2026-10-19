@@ -68,7 +68,7 @@ function catTile(c){const lo=Math.min(...c.items.map(i=>i[3]));
 // specifications the management filled in (لوحة الإدارة ← المواد): pack, origin and quality under the name, a picture when there is one
 function specs(d){return [EN?d.pack_en||d.pack:d.pack,EN?d.origin_en||d.origin:d.origin,EN?d.quality_en||d.quality:d.quality,d.brand].filter(Boolean)}
 function itemCard(s){const q=cart.get(s.c)||0,d=s.d||{},out=d.st==='out',sp=specs(d);
-  return `<div class="item${out?' out':''}${d.feat?' feat':''}" data-c="${s.c}">${d.img?`<img class="ph" src="${esc(d.img)}" alt="" loading="lazy" width="72" height="72">`:''}<div class="t"><b>${esc(s.n)}</b>${sp.length?`<span class="spec">${sp.map(esc).join(' · ')}</span>`:''}<small>${esc(s.gn||catName(s.cat))} · <span class="code">${s.c}</span></small></div>
+  return `<div class="item${out?' out':''}${d.feat?' feat':''}" data-c="${s.c}" title="${s.c}">${d.img?`<img class="ph" src="${esc(d.img)}" alt="" loading="lazy" width="72" height="72">`:''}<div class="t"><b>${esc(s.n)}</b>${sp.length?`<span class="spec">${sp.map(esc).join(' · ')}</span>`:''}<small>${esc(s.gn||catName(s.cat))}</small></div>
    <div class="p">${priceHTML(s)}${out?`<span class="oos">${L('غير متوفر حالياً','Out of stock')}</span>`:q?qtyHTML(s,q):`<button type="button" class="add" data-add="${s.c}" aria-label="${esc(T.add+' '+s.n)}">${T.add}</button>`}</div></div>`}
 const qtyHTML=(s,q)=>`<span class="qty"><button type="button" data-dec="${s.c}" aria-label="${esc(T.dec+' '+s.n)}">−</button><output class="num">${q}</output><button type="button" data-inc="${s.c}" aria-label="${esc(T.inc+' '+s.n)}">+</button></span>`;
 // Arabic matches anywhere in a word (prefixes such as «ال»), English from the start of a word so «ac» does not hit «packed»
