@@ -359,3 +359,5 @@ body.signed-client #whoLi{display:none!important}
  .toast{bottom:92px;max-width:calc(100% - 32px);text-align:center}
 }
 body.in-order .fab{display:none}
+main:focus{outline:none}
+.stats+.today-in{margin-top:18px}
