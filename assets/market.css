@@ -326,3 +326,4 @@ body.signed-client #whoLi{display:none!important}
  .bkts::-webkit-scrollbar{display:none}
  .bkt{flex:0 0 82%;scroll-snap-align:start}
 }
+.shop-first{padding-block:24px 32px}

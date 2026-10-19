@@ -29,9 +29,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500;700&family=Tajawal:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="../assets/market.css?v=20261018p1">
-<script src="../assets/lang.js?v=20261018p1" defer></script>
-<script src="../assets/who.js?v=20261018p1" defer></script>
+<link rel="stylesheet" href="../assets/market.css?v=20261019a">
+<script src="../assets/lang.js?v=20261019a" defer></script>
+<script src="../assets/who.js?v=20261019a" defer></script>
 </head>
 <body>
 <div class="basmala" aria-hidden="true"><svg viewBox="0 0 120 120" width="96" height="96"><defs><path id="bsT" d="M20.6 67 A40 40 0 1 1 99.4 67"/><path id="bsB" d="M12.5 74.5 A49.5 49.5 0 0 0 107.5 74.5"/></defs><circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="60" cy="60" r="29" fill="none" stroke="currentColor" stroke-width=".8"/><text font-size="8.6" text-anchor="middle"><textPath href="#bsT" startOffset="50%">بسم الله الواحد الأحد الفرد الصمد</textPath></text><text font-size="7.6" text-anchor="middle"><textPath href="#bsB" startOffset="50%">والصلاة والسلام على محمد خير الأنام</textPath></text><text x="60" y="61" font-size="11" text-anchor="middle">بسم الله</text><text x="60" y="74" font-size="6" text-anchor="middle">✦</text><text x="15" y="66" font-size="5" text-anchor="middle">✦</text><text x="105" y="66" font-size="5" text-anchor="middle">✦</text></svg></div>
@@ -51,6 +51,14 @@
     <li><a href="#order" class="cta">Basket</a></li>
   </ul></nav>
 </div></header>
+
+<section class="sec shop-first" id="shop"><div class="wrap">
+  <h2>Shop by category</h2>
+  <p class="lead">Pick a category and add what you need to the basket. Prices are indicative starting prices; the Jahiz team confirms the final price and delivery fee before fulfilment. Can't find something? Write it in the order notes and we will source it from our partners.</p>
+  <div class="row"><div class="kinds" id="kinds" role="group" aria-label="Category type"></div></div>
+  <input id="sq" class="search" type="search" placeholder="Search all categories" aria-label="Search products and services">
+  <div id="catalog"></div>
+</div></section>
 
 <section class="hero" id="home"><div class="wrap">
   <div>
@@ -85,14 +93,6 @@
   <p class="lead">Pick a ready basket for your household and save up to <span data-n="maxdisc">10</span>% against buying each item on its own, or choose specific items from the categories below. You can adjust a basket in the order notes.</p>
   <div class="row"><div class="kinds" id="periods" role="group" aria-label="Basket period"></div></div>
   <div class="bkts" id="bkts"></div>
-</div></section>
-
-<section class="sec" id="shop"><div class="wrap">
-  <h2>Shop by category</h2>
-  <p class="lead">Pick a category and add what you need to the basket. Prices are indicative starting prices; the Jahiz team confirms the final price and delivery fee before fulfilment. Can't find something? Write it in the order notes and we will source it from our partners.</p>
-  <div class="row"><div class="kinds" id="kinds" role="group" aria-label="Category type"></div></div>
-  <input id="sq" class="search" type="search" placeholder="Search all categories" aria-label="Search products and services">
-  <div id="catalog"></div>
 </div></section>
 
 <section class="sec alt" id="how"><div class="wrap">
@@ -221,10 +221,10 @@
 <a class="fab" id="fab" href="#order" hidden>🛍️ Basket <span class="n num">0</span></a>
 <a class="wa-fab" href="https://wa.me/97472232609" target="_blank" rel="noopener" aria-label="Message us on WhatsApp" title="Message us on WhatsApp"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-3.9-.5-5.6-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.7 5 .8.4 1.4.6 1.9.7.8.3 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg></a>
 <div class="toast" id="toast" hidden></div>
-<script src="../assets/config.js?v=20261018p1"></script>
-<script src="../assets/market-data.js?v=20261018p1"></script>
-<script src="../assets/market-store.js?v=20261018p1"></script>
-<script src="../assets/market.js?v=20261018p1"></script>
-<script src="../assets/today.js?v=20261018p1"></script>
+<script src="../assets/config.js?v=20261019a"></script>
+<script src="../assets/market-data.js?v=20261019a"></script>
+<script src="../assets/market-store.js?v=20261019a"></script>
+<script src="../assets/market.js?v=20261019a"></script>
+<script src="../assets/today.js?v=20261019a"></script>
 </body>
 </html>
