@@ -66,9 +66,12 @@ if(kbox){[['all',T.all],...kinds.map(k=>[k,EN?M.KINDS[k].en:M.KINDS[k].ar])].for
 function catTile(c){const lo=Math.min(...c.items.map(i=>i[3]));
   return `<a class="cat" href="#cat=${c.code}"><span class="ic" aria-hidden="true">${c.icon}</span><b>${esc(catName(c))}</b><span>${T.items(units(c.items.map(i=>byCode[i[0]])).length)} · ${T.from} <span class="num">${fmt(lo)}</span> ${CUR}</span></a>`}
 // specifications the management filled in (لوحة الإدارة ← المواد): pack, origin and quality under the name, a picture when there is one
-function specs(d){return [EN?d.pack_en||d.pack:d.pack,EN?d.origin_en||d.origin:d.origin,EN?d.quality_en||d.quality:d.quality,d.brand].filter(Boolean)}
+function specs(d){return [EN?d.pack_en||d.pack:d.pack,EN?d.origin_en||d.origin:d.origin,EN?d.quality_en||d.quality:d.quality,EN?d.brand_en||d.brand:d.brand].filter(Boolean)}
+// the supplier company, when the management names one (المورد), shows under the specifications and is searchable
+const supOf=d=>EN?d.sup_en||d.sup:d.sup;
+const imgSrc=u=>window.MARKET_STORE&&MARKET_STORE.src?MARKET_STORE.src(u):u;
 function itemCard(s){const q=cart.get(s.c)||0,d=s.d||{},out=d.st==='out',sp=specs(d);
-  return `<div class="item${out?' out':''}${d.feat?' feat':''}" data-c="${s.c}">${d.img?`<img class="ph" src="${esc(d.img)}" alt="" loading="lazy" width="72" height="72">`:''}<div class="t"><b>${esc(s.n)}</b>${sp.length?`<span class="spec">${sp.map(esc).join(' · ')}</span>`:''}<small>${esc(s.gn||catName(s.cat))} · <span class="code">${s.c}</span></small></div>
+  return `<div class="item${out?' out':''}${d.feat?' feat':''}" data-c="${s.c}">${d.img?`<img class="ph" src="${esc(imgSrc(d.img))}" alt="${esc(s.n)}" loading="lazy" width="72" height="72">`:''}<div class="t"><b>${esc(s.n)}</b>${sp.length?`<span class="spec">${sp.map(esc).join(' · ')}</span>`:''}${d.sup?`<span class="sup">${L('المورد: ','Supplier: ')}${esc(supOf(d))}</span>`:''}<small>${esc(s.gn||catName(s.cat))} · <span class="code">${s.c}</span></small></div>
    <div class="p">${priceHTML(s)}${out?`<span class="oos">${L('غير متوفر حالياً','Out of stock')}</span>`:q?qtyHTML(s,q):`<button type="button" class="add" data-add="${s.c}" aria-label="${esc(T.add+' '+s.n)}">${T.add}</button>`}</div></div>`}
 const qtyHTML=(s,q)=>`<span class="qty"><button type="button" data-dec="${s.c}" aria-label="${esc(T.dec+' '+s.n)}">−</button><output class="num">${q}</output><button type="button" data-inc="${s.c}" aria-label="${esc(T.inc+' '+s.n)}">+</button></span>`;
 // Arabic matches anywhere in a word (prefixes such as «ال»), English from the start of a word so «ac» does not hit «packed»
@@ -78,7 +81,7 @@ const norm=x=>String(x||'').toLowerCase().replace(/[\u064B-\u0652\u0640]/g,'').r
 // common local names for the same product, so «بندورة» finds tomatoes and «رز» finds rice
 const SYN={'بندوره':'طماطم','رز':'ارز','بطاطا':'بطاطس','بطيخ احمر':'بطيخ','جاج':'دجاج','فراخ':'دجاج','كوسه':'كوسا','مكيف':'تكييف','مكيفات':'تكييف','غساله':'غسال'};
 // every word of the query must be found, in any order; an English word of one or two letters («ac») must be the whole word
-function match(s,q,wide){const t=norm([s.n,s.o,s.cat.ar,s.cat.en,s.gn,s.go,s.c].concat(s.d?[specs(s.d).join(' '),s.d.origin_en,s.d.origin,s.d.barcode,s.d.tags]:[]).concat(wide?[s.cat.about_en,s.cat.about_ar]:[]).filter(Boolean).join(' '));
+function match(s,q,wide){const t=norm([s.n,s.o,s.cat.ar,s.cat.en,s.gn,s.go,s.c].concat(s.d?[specs(s.d).join(' '),s.d.origin_en,s.d.origin,s.d.brand,s.d.brand_en,s.d.sup,s.d.sup_en,s.d.barcode,s.d.tags]:[]).concat(wide?[s.cat.about_en,s.cat.about_ar]:[]).filter(Boolean).join(' '));
   const one=w=>/[\u0600-\u06FF]/.test(w)?t.includes(w)||(SYN[w]&&t.includes(SYN[w])):new RegExp('(^|[^a-z0-9])'+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+(w.length<3?'($|[^a-z0-9])':'')).test(t);
   q=norm(q);return (SYN[q]&&t.includes(SYN[q]))||q.split(/\s+/).filter(Boolean).every(one)}
 function render(){const box=$('catalog');if(!box)return;const q=($('sq').value||'').trim();

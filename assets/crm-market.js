@@ -53,10 +53,10 @@ function siteFile(){const head=['// كتالوج جاهز، مُصدَّر من 
   const pub={SETTINGS:W.SETTINGS,KINDS:W.KINDS,PERIODS:W.PERIODS,CATS:W.CATS,BASKETS:W.BASKETS,COMMISSION:MARKET_STORE.BUILT.COMMISSION,TIERS:MARKET_STORE.BUILT.TIERS,DETAILS:W.DETAILS};
   return head.join('\n')+'\nconst MARKET = '+JSON.stringify(pub,null,1)+';\n'}
 // a spreadsheet of every item with its full record (opens in Excel; UTF-8 with BOM so Arabic shows correctly)
-const COLS=[['code','الرمز'],['cat','القسم'],['group','المجموعة'],['ar','الاسم بالعربية'],['en','الاسم بالإنجليزية'],['brand','العلامة التجارية'],['unit','الوحدة'],['pack','العبوة أو الوزن'],['size','الحجم أو الأبعاد'],['weight','وزن الشحن (كجم)'],['origin','بلد المنشأ'],['quality','الجودة'],['storage','التخزين'],['shelf','الصلاحية'],['barcode','الباركود'],['sku','رمز المخزون SKU'],['cost','التكلفة'],['price','سعر المستهلك'],['was','السعر قبل الخصم'],['margin','هامش الربح %'],['comm','عمولة جاهز %'],['partner','الشريك المنفّذ'],['stock','المخزون'],['reorder','حد إعادة الطلب'],['status','الحالة'],['img','الصورة']];
+const COLS=[['code','الرمز'],['cat','القسم'],['group','المجموعة'],['ar','الاسم بالعربية'],['en','الاسم بالإنجليزية'],['brand','العلامة التجارية'],['sup','المورد'],['unit','الوحدة'],['pack','العبوة أو الوزن'],['size','الحجم أو الأبعاد'],['weight','وزن الشحن (كجم)'],['origin','بلد المنشأ'],['quality','الجودة'],['storage','التخزين'],['shelf','الصلاحية'],['barcode','الباركود'],['sku','رمز المخزون SKU'],['cost','التكلفة'],['price','سعر المستهلك'],['was','السعر قبل الخصم'],['margin','هامش الربح %'],['comm','عمولة جاهز %'],['partner','الشريك المنفّذ'],['stock','المخزون'],['reorder','حد إعادة الطلب'],['status','الحالة'],['img','الصورة']];
 function rowsAll(){const out=[];W.CATS.forEach(c=>c.items.forEach(i=>{const d=W.DETAILS[i[0]]||{},p=P[i[0]]||{},g=(c.groups||[])[i[6]]||[];
-  out.push({code:i[0],cat:c.ar,group:g[0]||'',ar:i[1],en:i[2],brand:d.brand||'',unit:i[4],pack:d.pack||'',size:d.size||'',weight:d.weight??'',origin:d.origin||'',quality:d.quality||'',storage:d.storage?STORE[d.storage]:'',shelf:d.shelf||'',barcode:d.barcode||'',sku:d.sku||'',
-    cost:p.cost??'',price:i[3],was:d.was??'',margin:p.cost!=null?Math.round(margin(i[3],p.cost)):'',comm:p.comm??'',partner:p.partner||'',stock:p.stock??'',reorder:p.reorder??'',status:ST[d.st||'active'],img:d.img&&!d.img.startsWith('data:')?d.img:d.img?L('صورة مرفوعة','uploaded'):'',c,i,d,p})}));return out}
+  out.push({code:i[0],cat:c.ar,group:g[0]||'',ar:i[1],en:i[2],brand:d.brand||'',sup:d.sup||'',unit:i[4],pack:d.pack||'',size:d.size||'',weight:d.weight??'',origin:d.origin||'',quality:d.quality||'',storage:d.storage?STORE[d.storage]:'',shelf:d.shelf||'',barcode:d.barcode||'',sku:d.sku||'',
+    cost:p.cost??'',price:i[3],was:d.was??'',margin:p.cost!=null?Math.round(margin(i[3],p.cost)):'',comm:p.comm??'',partner:p.partner||d.sup||'',stock:p.stock??'',reorder:p.reorder??'',status:ST[d.st||'active'],img:d.img&&!d.img.startsWith('data:')?d.img:d.img?L('صورة مرفوعة','uploaded'):'',c,i,d,p})}));return out}
 function csv(){const q=v=>{v=String(v??'');return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
   return '﻿'+[COLS.map(x=>x[1]).join(','),...rowsAll().map(r=>COLS.map(([k])=>q(r[k])).join(','))].join('\r\n')}
 
@@ -70,10 +70,10 @@ let CUR='mati';
 async function ensure(v){CUR=v;if(!isAdmin())return false;if(!W&&!busy){await load()}return !!W}
 
 // ---- items ----
-const F={kind:'',cat:'',grp:'',st:'',q:'',sort:'code',page:0};
+const F={kind:'',cat:'',grp:'',st:'',sup:'',q:'',sort:'code',page:0};
 const PAGE=60;
-function filtered(){const q=F.q.trim().toLowerCase();let r=rowsAll().filter(x=>(!F.kind||x.c.kind===F.kind)&&(!F.cat||x.c.code===F.cat)&&(F.grp===''||String(x.i[6])===F.grp)&&(!F.st||(x.d.st||'active')===F.st||(F.st==='low'&&x.p.stock!=null&&x.p.reorder!=null&&x.p.stock<=x.p.reorder)||(F.st==='nocost'&&x.p.cost==null))&&
-  (!q||[x.code,x.ar,x.en,x.brand,x.barcode,x.sku,x.origin,x.partner,x.group].join(' ').toLowerCase().includes(q)));
+function filtered(){const q=F.q.trim().toLowerCase();let r=rowsAll().filter(x=>(!F.kind||x.c.kind===F.kind)&&(!F.cat||x.c.code===F.cat)&&(F.grp===''||String(x.i[6])===F.grp)&&(!F.sup||x.partner===F.sup)&&(!F.st||(x.d.st||'active')===F.st||(F.st==='low'&&x.p.stock!=null&&x.p.reorder!=null&&x.p.stock<=x.p.reorder)||(F.st==='nocost'&&x.p.cost==null))&&
+  (!q||[x.code,x.ar,x.en,x.brand,x.sup,x.barcode,x.sku,x.origin,x.partner,x.group].join(' ').toLowerCase().includes(q)));
   const k=F.sort;if(k!=='code')r.sort((a,b)=>k==='name'?a.ar.localeCompare(b.ar,'ar'):k==='price'?b.price-a.price:k==='margin'?(+a.margin||-1e9)-(+b.margin||-1e9):k==='stock'?(+a.stock||0)-(+b.stock||0):0);return r}
 async function renderItems(){const v=$('v-mati');if(!await ensure('mati'))return;
   const cs=cats(),cc=cs.find(c=>c.code===F.cat);
@@ -81,6 +81,7 @@ async function renderItems(){const v=$('v-mati');if(!await ensure('mati'))return
    <label>${L('النوع','Type')}<select id="miK"><option value="">${L('الكل','All')}</option>${Object.entries(KINDS).map(([k,n])=>`<option value="${k}" ${F.kind===k?'selected':''}>${n}</option>`).join('')}</select></label>
    <label>${L('القسم','Category')}<select id="miC"><option value="">${L('كل الأقسام','All categories')}</option>${cs.filter(c=>!F.kind||c.kind===F.kind).map(c=>`<option value="${c.code}" ${F.cat===c.code?'selected':''}>${esc(c.icon+' '+(EN?c.en:c.ar))}</option>`).join('')}</select></label>
    <label>${L('المجموعة','Group')}<select id="miG" ${cc?'':'disabled'}><option value="">${L('كل المجموعات','All groups')}</option>${cc?(cc.groups||[]).map((g,k)=>`<option value="${k}" ${F.grp===String(k)?'selected':''}>${esc(EN?g[1]:g[0])}</option>`).join(''):''}</select></label>
+   <label>${L('المورد','Supplier')}<select id="miU"><option value="">${L('كل الموردين','All suppliers')}</option>${[...new Set(rowsAll().map(x=>x.partner).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ar')).map(u=>`<option value="${esc(u)}" ${F.sup===u?'selected':''}>${esc(u)}</option>`).join('')}</select></label>
    <label>${L('الحالة','Status')}<select id="miS"><option value="">${L('الكل','All')}</option>${Object.entries(ST).map(([k,n])=>`<option value="${k}" ${F.st===k?'selected':''}>${n}</option>`).join('')}<option value="low" ${F.st==='low'?'selected':''}>${L('مخزون منخفض','Low stock')}</option><option value="nocost" ${F.st==='nocost'?'selected':''}>${L('بلا تكلفة مسجلة','No cost entered')}</option></select></label>
    <label>${L('الترتيب','Sort')}<select id="miO">${[['code',L('الرمز','Code')],['name',L('الاسم','Name')],['price',L('السعر الأعلى','Highest price')],['margin',L('الهامش الأقل','Lowest margin')],['stock',L('المخزون الأقل','Lowest stock')]].map(([k,n])=>`<option value="${k}" ${F.sort===k?'selected':''}>${n}</option>`).join('')}</select></label>
    <label class="grow">${L('بحث','Search')}<input id="miQ" type="search" value="${esc(F.q)}" placeholder="${L('الاسم أو الرمز أو الباركود أو العلامة أو الشريك','Name, code, barcode, brand or partner')}"></label>
@@ -89,7 +90,7 @@ async function renderItems(){const v=$('v-mati');if(!await ensure('mati'))return
   wire(v);drawItems();
   const re=()=>{F.page=0;renderItems()};
   $('miK').onchange=e=>{F.kind=e.target.value;F.cat='';F.grp='';re()};$('miC').onchange=e=>{F.cat=e.target.value;F.grp='';re()};$('miG').onchange=e=>{F.grp=e.target.value;re()};
-  $('miS').onchange=e=>{F.st=e.target.value;re()};$('miO').onchange=e=>{F.sort=e.target.value;re()};
+  $('miS').onchange=e=>{F.st=e.target.value;re()};$('miU').onchange=e=>{F.sup=e.target.value;re()};$('miO').onchange=e=>{F.sort=e.target.value;re()};
   $('miQ').oninput=e=>{F.q=e.target.value;F.page=0;drawItems()};
   $('miAdd').onclick=()=>openItem(null);$('miBulk').onclick=bulkPrice}
 function drawItems(){const r=filtered(),n=r.length,pages=Math.max(1,Math.ceil(n/PAGE));F.page=Math.min(F.page,pages-1);const part=r.slice(F.page*PAGE,F.page*PAGE+PAGE);
@@ -121,6 +122,7 @@ function openItem(code){const at=code?findItem(code):null,c=at?at.c:(cats().find
     ${g(L('المجموعة','Group'),`<select name="grp"></select>`)}${g(L('الرمز','Code'),inp('code',i[0],'required dir="ltr" pattern="[A-Z]{2}-\\d{2,4}"'))}</div>
    <div class="grid2">${g(L('الاسم بالعربية','Arabic name'),inp('ar',i[1],'required maxlength="120"'))}${g(L('الاسم بالإنجليزية','English name'),inp('en',i[2],'dir="ltr" maxlength="120"'))}</div>
    <div class="grid2">${g(L('الوصف بالعربية','Arabic description'),`<textarea name="desc_ar" rows="2" maxlength="600">${esc(d.desc_ar||'')}</textarea>`)}${g(L('الوصف بالإنجليزية','English description'),`<textarea name="desc_en" rows="2" dir="ltr" maxlength="600">${esc(d.desc_en||'')}</textarea>`)}</div>
+   <div class="grid3">${g(L('المورد (يظهر للعملاء)','Supplier (shown to customers)'),inp('sup',d.sup,`placeholder="${L('مثال: شركة نخيل الخليج','e.g. Nakheel Alkhalij Co.')}"`))}${g(L('المورد بالإنجليزية','Supplier in English'),inp('sup_en',d.sup_en,'dir="ltr"'))}${g(L('العلامة بالإنجليزية','Brand in English'),inp('brand_en',d.brand_en,'dir="ltr"'))}</div>
    <div class="grid3">${g(svc?L('مقدم الخدمة أو العلامة','Provider or brand'):L('العلامة التجارية','Brand'),inp('brand',d.brand))}${g(L('الحالة','Status'),`<select name="st">${opt(Object.entries(ST),d.st||'active')}</select>`)}
     <label class="chk"><input type="checkbox" name="feat" ${d.feat?'checked':''}> ${L('صنف مميز (يظهر بإطار مميز)','Featured (highlighted)')}</label></div></fieldset>
   <fieldset><legend>${L('التسعير','Pricing')}</legend>
@@ -142,7 +144,7 @@ function openItem(code){const at=code?findItem(code):null,c=at?at.c:(cats().find
     <label>${L('أو ارفع صورة من جهازك','Or upload a picture')}<input type="file" name="imgf" accept="image/png,image/jpeg,image/webp"></label></div>
    <div class="mkprev" id="miPrev">${d.img?`<img src="${esc(d.img)}" alt="" width="96" height="96"><button class="btn xs ghost" type="button" id="miNoImg">${L('إزالة الصورة','Remove picture')}</button>`:''}</div></fieldset>
   <fieldset><legend>${L('التوريد والمخزون (داخلي، لا يظهر للزوار)','Supply and stock (internal, not shown to visitors)')}</legend>
-   <div class="grid3">${g(L('الشريك المنفّذ','Fulfilling partner'),inp('partner',p.partner))}${g(L('رمز الصنف لدى الشريك','Partner item code'),inp('pcode',p.pcode,'dir="ltr"'))}${g(L('مدة التجهيز','Lead time'),inp('lead',d.lead,`placeholder="${L('مثال: نفس اليوم','e.g. same day')}"`))}</div>
+   <div class="grid3">${g(L('الشريك المنفّذ','Fulfilling partner'),inp('partner',p.partner||d.sup))}${g(L('رمز الصنف لدى الشريك','Partner item code'),inp('pcode',p.pcode,'dir="ltr"'))}${g(L('مدة التجهيز','Lead time'),inp('lead',d.lead,`placeholder="${L('مثال: نفس اليوم','e.g. same day')}"`))}</div>
    <div class="grid4">${g(L('المخزون المتاح','Stock on hand'),inp('stock',p.stock,'type="number" step="1"'))}${g(L('حد إعادة الطلب','Reorder level'),inp('reorder',p.reorder,'type="number" min="0" step="1"'))}
     ${g(L('أقل كمية للطلب','Minimum order'),inp('min',d.min,'type="number" min="0" step="0.25"'))}${g(L('أكبر كمية للطلب','Maximum order'),inp('max',d.max,'type="number" min="0" step="1"'))}</div>
    ${g(L('ملاحظات داخلية','Internal notes'),`<textarea name="notes" rows="2">${esc(p.notes||'')}</textarea>`)}
@@ -182,7 +184,7 @@ function openItem(code){const at=code?findItem(code):null,c=at?at.c:(cats().find
       if(code!==edI){W.DETAILS[code]=W.DETAILS[edI]||{};delete W.DETAILS[edI];P[code]=P[edI]||{};delete P[edI];W.BASKETS.forEach(b=>b.items.forEach(x=>{if(x[0]===edI)x[0]=code}))}}
     else cc.items.push(row);
     if(!cc.groups||!cc.groups.length)cc.groups=[[L('عام','General'),'General']];
-    const dd={};['fam','desc_ar','desc_en','brand','pack','pack_en','size','origin','quality','warranty','storage','shelf','allergens','barcode','sku','tags','lead'].forEach(k=>{if(E[k]&&E[k].value.trim())dd[k]=E[k].value.trim()});
+    const dd={};['fam','desc_ar','desc_en','brand','brand_en','sup','sup_en','pack','pack_en','size','origin','quality','warranty','storage','shelf','allergens','barcode','sku','tags','lead'].forEach(k=>{if(E[k]&&E[k].value.trim())dd[k]=E[k].value.trim()});
     if(dd.fam){dd.fam=dd.fam.toUpperCase();if(dd.fam===edI)dd.fam=code;}
     if(code!==edI&&edI)Object.values(W.DETAILS).forEach(x=>{if(x&&x.fam===edI)x.fam=code});
     if(dd.origin)dd.origin_en=enOf(ORIGIN,dd.origin)||dd.origin;if(dd.quality)dd.quality_en=enOf(QUALITY,dd.quality)||dd.quality;
