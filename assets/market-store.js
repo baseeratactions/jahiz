@@ -11,7 +11,10 @@ const BUILT=JSON.parse(JSON.stringify(MK));
 MK.DETAILS=MK.DETAILS||{};
 // a saved catalogue is plain text only: drop anything that could become markup on the public pages
 const clean=v=>typeof v==='string'?v.replace(/[<>"`]/g,''):Array.isArray(v)?v.map(clean):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).map(([k,x])=>[clean(k),clean(x)])):v;
-const safeImg=u=>/^(https:\/\/|data:image\/(png|jpe?g|webp);base64,)/i.test(u||'')?u:'';
+const safeImg=u=>/^(https:\/\/|data:image\/(png|jpe?g|webp);base64,|assets\/[\w\/.-]+\.(png|jpe?g|webp)$)/i.test(u||'')?u:'';
+// product pictures kept in the site (assets/products/...) are written from the site root; pages in en/ reach them one folder up
+const ROOT=((document.currentScript||{}).src||'').replace(/assets\/market-store\.js.*$/,'');
+const src=u=>/^assets\//.test(u||'')?ROOT+u:u||'';
 // what the management hid (a category, a group, an item or a basket) is left out for visitors; the admin panel sets MARKET_ALL to see everything
 function visible(m){const D=m.DETAILS||{},off=c=>(D[c]||{}).st==='hidden';
   return Object.assign({},m,{
@@ -24,7 +27,7 @@ function use(c){if(!c||!c.market||!Array.isArray(c.market.CATS)||!c.market.CATS.
 let saved=null;try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
 if(saved&&!use(saved))saved=null;
 if(!saved&&!window.MARKET_ALL)Object.assign(MK,visible(MK));
-window.MARKET_STORE={get ver(){return saved?saved.ver:''},BUILT,visible,clean,
+window.MARKET_STORE={get ver(){return saved?saved.ver:''},BUILT,visible,clean,src,
   raw(){return JSON.parse(JSON.stringify(saved?saved.market:BUILT))},
   remember(c){saved=c&&c.market?{ver:c.ver||'',market:c.market,at:Date.now()}:null;
     try{if(saved)localStorage.setItem(KEY,JSON.stringify(saved));else localStorage.removeItem(KEY)}catch(e){}}};

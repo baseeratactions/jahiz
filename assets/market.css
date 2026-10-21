@@ -292,8 +292,9 @@ body.signed-client #whoLi{display:none!important}
 .acctwho.mob{display:none}
 @media (max-width:1100px){.acctwho.mob{display:flex;justify-content:center;border:0;border-top:1px solid var(--bar-line,rgba(255,255,255,.25));border-radius:0;padding:3px 16px;font-size:13px}}
 /* item extras from the admin catalogue: picture, specifications, offers and stock */
-.item .ph{width:72px;height:72px;object-fit:cover;border-radius:12px;background:var(--chip);float:inline-end;margin-inline-start:10px}
+.item .ph{width:72px;height:72px;object-fit:contain;border-radius:12px;background:#fff;float:inline-end;margin-inline-start:10px}
 .item .spec{display:block;font-size:13px;color:var(--ink);opacity:.8;margin:2px 0}
+.item .sup{display:block;font-size:12px;color:var(--pri);font-weight:600;margin:0 0 2px}
 .item.feat{border-color:var(--acc)}
 .item.out{opacity:.7}
 .oos{font-size:13px;font-weight:700;color:var(--err)}
