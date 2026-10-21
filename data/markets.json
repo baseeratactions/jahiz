@@ -1,34 +1,34 @@
 {
- "updated": "2026-10-21T11:40:29.341Z",
+ "updated": "2026-10-21T15:42:17.695Z",
  "items": [
   {
    "k": "gold24",
    "ar": "ذهب عيار 24",
    "en": "Gold 24K",
-   "v": 485.6,
+   "v": 486.64,
    "uar": "ر.ق/غ",
    "uen": "QAR/g",
-   "ch": -0.76,
+   "ch": -0.55,
    "src": "Yahoo Finance"
   },
   {
    "k": "gold22",
    "ar": "ذهب عيار 22",
    "en": "Gold 22K",
-   "v": 445.13,
+   "v": 446.09,
    "uar": "ر.ق/غ",
    "uen": "QAR/g",
-   "ch": -0.76,
+   "ch": -0.55,
    "src": "Yahoo Finance"
   },
   {
    "k": "brent",
    "ar": "نفط برنت",
    "en": "Brent crude",
-   "v": 109.46,
+   "v": 108.29,
    "uar": "$/برميل",
    "uen": "$/bbl",
-   "ch": -0.36,
+   "ch": -1.43,
    "src": "Yahoo Finance"
   },
   {
