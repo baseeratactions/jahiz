@@ -105,7 +105,8 @@ fetch((EN?'../':'')+'data/news.json?d='+PRday,{cache:'no-cache'}).then(r=>r.ok?r
 fetch((EN?'../':'')+'data/markets.json?d='+PRday,{cache:'no-cache'}).then(r=>r.ok?r.json():Promise.reject()).then(j=>{
   const items=((j&&j.items)||[]).filter(x=>x&&typeof x.v==='number'&&isFinite(x.v)).slice(0,10);if(!items.length)return;
   const nf=new Intl.NumberFormat('en',{maximumFractionDigits:2});
-  const row=el('div','mk-row');
+  // the row scrolls sideways on phones, so keyboard users can reach it too
+  const row=el('div','mk-row');row.tabIndex=0;row.setAttribute('role','region');row.setAttribute('aria-label',L('أسعار اليوم','Today’s prices'));
   items.forEach(x=>{const c=el('span','mk');c.append(el('span','mk-n',String(EN?x.en:x.ar).slice(0,40)+':'),el('b','num',nf.format(x.v)),el('small','mute',' '+String(EN?x.uen:x.uar).slice(0,12)));
     if(typeof x.ch==='number'&&isFinite(x.ch)&&x.ch!==0){const d=el('small',x.ch>0?'up':'dn',(x.ch>0?'▲':'▼')+Math.abs(x.ch).toFixed(1)+'%');d.dir='ltr';c.append(d)}row.append(c)});
   const srcs=[...new Set(items.map(x=>String(x.src||'')).filter(Boolean))].join('، ').slice(0,80);
