@@ -14,7 +14,7 @@ const EN=window.CRM_LANG==='en',L=(a,e)=>EN?e:a;   // texts built in code; the s
 const ERR={no_permission:'ليست لديك صلاحية لهذا الإجراء. راجع المدير.',wrong_password:'اسم المستخدم أو كلمة المرور غير صحيحة.',rate_limited:'محاولات كثيرة، حاول بعد ساعة.',weak_password:'كلمة المرور 8 أحرف على الأقل.',bad_username:'اسم المستخدم غير صالح (3 أحرف على الأقل وبدون مسافات).',
   username_taken:'اسم المستخدم مستخدم من قبل.',must_change_both:'غيّر اسم المستخدم (ليس 123) وكلمة المرور معاً.',admin_only:'هذا الإجراء للمدير فقط.',last_admin:'لا يمكن إيقاف آخر مدير أو تحويله إلى موظف.',
   too_large:'الملف أكبر من 10 ميجابايت.',not_found:'غير موجود.',invalid:'بيانات غير مكتملة.',read_only:'لا يمكن تعديل هذا السجل مباشرة.',must_change:'غيّر بيانات الدخول أولاً.',period_locked:'هذه الفترة المالية مقفلة. لا يمكن التسجيل أو التعديل بتاريخ يقع فيها.',unbalanced:'القيد غير متوازن.'};
-const errText=e=>ERR[e]||e;
+const errText=e=>ERR[e]||(/failed to fetch|networkerror|load failed/i.test(String(e))?'تعذّر الاتصال بالخادم. تحقق من اتصال الإنترنت وحاول مرة أخرى.':e);
 function toast(t){const el=$('toast');el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
 const today=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
 const days=s=>{if(!s)return null;const d=new Date(s);return isNaN(d)?null:Math.round((d-today())/864e5)};
@@ -369,15 +369,15 @@ $('delT').onclick=async()=>{$('dlgT').close();if(!await ask('حذف المعام
 // ---- email ----
 const TPL={
   recv:['تأكيد استلام الطلب','استلمنا طلبك | جاهز','السلام عليكم {name}،\n\nشكراً لتواصلك مع جاهز. استلمنا طلبك وسنراجعه ونعود إليك خلال ساعتين عمل بقائمة المستندات والسعر.\n\nمع التحية،\nفريق جاهز'],
-  docs:['طلب المستندات','المستندات المطلوبة لمعاملتك | جاهز','السلام عليكم {name}،\n\nلإتمام {service} نحتاج المستندات التالية:\n{docs}\n\nأتعاب جاهز: {fee} ر.ق، والرسوم الحكومية تُدفع منفصلة بإيصالها الرسمي.\nيمكنك الرد على هذا البريد بالمستندات أو إرسالها على واتساب ‎+974 72232609 أو البريد baseeratactions@gmail.com.\n\nمع التحية،\nفريق جاهز'],
+  docs:['طلب المستندات','المستندات المطلوبة لمعاملتك | جاهز','السلام عليكم {name}،\n\nلإتمام {service} نحتاج المستندات التالية:\n{docs}\n\nأتعاب جاهز: {fee} ر.ق، والرسوم الحكومية تُدفع منفصلة بإيصالها الرسمي.\nيمكنك الرد على هذا البريد بالمستندات أو إرسالها على واتساب ‎+974 7223 2609 أو البريد baseeratactions@gmail.com.\n\nمع التحية،\nفريق جاهز'],
   status:['تحديث حالة المعاملة','تحديث على معاملتك {txn} | جاهز','السلام عليكم {name}،\n\nنبلغك أن حالة معاملتك ({service}) أصبحت: {status}.\n{ref}\nسنبلغك بأي تحديث جديد.\n\nمع التحية،\nفريق جاهز'],
   done:['إنجاز المعاملة','تم إنجاز معاملتك {txn} | جاهز','السلام عليكم {name}،\n\nيسعدنا إبلاغك بإنجاز معاملتك ({service}).\n{expiry}\nسنسلّمك المستند والإيصالات الرسمية، وسنذكّرك قبل موعد التجديد.\n\nشكراً لثقتك،\nفريق جاهز'],
-  renew:['تذكير بالتجديد','تذكير: موعد تجديد قريب | جاهز','السلام عليكم {name}،\n\nنذكّرك بأن {service} ينتهي بتاريخ {expiryDate}. يمكننا تجديده لك قبل الموعد لتجنب الغرامات.\nرد على هذا البريد أو راسلنا على واتساب ‎+974 72232609 أو البريد baseeratactions@gmail.com لنبدأ.\n\nمع التحية،\nفريق جاهز'],
+  renew:['تذكير بالتجديد','تذكير: موعد تجديد قريب | جاهز','السلام عليكم {name}،\n\nنذكّرك بأن {service} ينتهي بتاريخ {expiryDate}. يمكننا تجديده لك قبل الموعد لتجنب الغرامات.\nرد على هذا البريد أو راسلنا على واتساب ‎+974 7223 2609 أو البريد baseeratactions@gmail.com لنبدأ.\n\nمع التحية،\nفريق جاهز'],
   quote:['عرض سعر','عرض سعر من جاهز','السلام عليكم {name}،\n\nبناءً على طلبك، نرفق عرض السعر التالي:\n- الخدمة: {service}\n- أتعاب جاهز: {fee} ر.ق\n- الرسوم الحكومية التقديرية: {govFee} ر.ق (تُدفع بإيصال رسمي)\n\nالعرض ساري 14 يوماً.\n\nمع التحية،\nفريق جاهز'],
   free:['رسالة حرة','','السلام عليكم {name}،\n\n\n\nمع التحية،\nفريق جاهز']
 };
 // English versions of the same emails, for clients who signed up in English (or by choice in the dialog)
-const SIGN_EN='\n\nKind regards,\nJahiz team',CONTACT_EN='WhatsApp +974 72232609 or email baseeratactions@gmail.com';
+const SIGN_EN='\n\nKind regards,\nJahiz team',CONTACT_EN='WhatsApp +974 7223 2609 or email baseeratactions@gmail.com';
 const TPL_EN={
   recv:['Request received | Jahiz','Dear {name},\n\nThank you for contacting Jahiz. We have received your request and will review it and come back to you within two working hours with the documents needed and the price.'+SIGN_EN],
   docs:['Documents needed for your transaction | Jahiz','Dear {name},\n\nTo complete {service} we need the following documents:\n{docs}\n\nJahiz fee: {fee} QAR. Government fees are paid separately against their official receipt.\nYou can reply to this email with the documents, or send them by '+CONTACT_EN+'.'+SIGN_EN],
@@ -621,7 +621,7 @@ function printDoc(title,body){const w=window.open('','_blank');if(!w){toast(L('�
   body{font-family:Tahoma,Arial,sans-serif;color:#1d2733;margin:32px;font-size:14px;line-height:1.7}header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #0e5e4a;padding-bottom:12px;margin-bottom:18px}
   header b{font-size:22px;color:#0e5e4a}header small{display:block;color:#5d6b78}h1{font-size:20px;margin:0 0 4px}table{width:100%;border-collapse:collapse;margin:14px 0}th,td{border:1px solid #cfd6dd;padding:7px 10px;text-align:start}th{background:#f1f4f6}
   .tot td,.tot th{font-weight:700}.h td,.h th{background:#eef2f4;font-weight:700}.net td,.net th{font-weight:800;border-top:2px solid #0e5e4a;background:#faf6ea}td.num,th.num{text-align:end}.big{font-size:20px;font-weight:700}.note{color:#5d6b78;font-size:12.5px;margin-top:22px}.sig{display:flex;justify-content:space-between;margin-top:46px}.sig div{border-top:1px solid #999;padding-top:6px;width:40%;text-align:center}
-  @media print{body{margin:14mm}}</style></head><body><header><div><b>${brand}</b><small>${L('الدوحة، قطر','Doha, Qatar')}</small></div><div style="text-align:end"><small dir="ltr">+974 72232609</small><small dir="ltr">baseeratactions@gmail.com</small></div></header>${body}
+  @media print{body{margin:14mm}}</style></head><body><header><div><b>${brand}</b><small>${L('الدوحة، قطر','Doha, Qatar')}</small></div><div style="text-align:end"><small dir="ltr">+974 7223 2609</small><small dir="ltr">baseeratactions@gmail.com</small></div></header>${body}
   <script>window.onload=()=>setTimeout(()=>window.print(),300)<\/script></body></html>`);w.document.close()}
 const trx=x=>EN&&window.CRM_I18N?CRM_I18N.tr(String(x||'')):x;   // the print window has no live translator
 function printReceipt(id){const p=DB.Payments.find(x=>x.id===id);if(!p)return;const t=DB.Transactions.find(x=>x.id===p.txnId)||{},c=cli(p.clientId);

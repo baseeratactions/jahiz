@@ -1228,7 +1228,7 @@ function shell(html, en) {
   return '<div dir="' + (en ? 'ltr' : 'rtl') + '" style="font-family:Tahoma,Arial,sans-serif;font-size:15px;line-height:1.8;color:#14213a;max-width:600px">' +
     '<div style="background:#6d28d9;color:#fff;padding:14px 18px;border-radius:10px 10px 0 0;font-size:18px"><b>' + (en ? 'Jahiz' : 'جاهز') + '</b></div>' +
     '<div style="border:1px solid #dde2ec;border-top:0;padding:18px;border-radius:0 0 10px 10px">' + html +
-    '<p style="color:#5b6580;font-size:13px;margin-top:22px">' + (en ? 'Jahiz · Doha, Qatar · WhatsApp +974 72232609 · baseeratactions@gmail.com' : 'جاهز · الدوحة، قطر · واتساب ‎+974 72232609 · baseeratactions@gmail.com') + '</p></div></div>';
+    '<p style="color:#5b6580;font-size:13px;margin-top:22px">' + (en ? 'Jahiz · Doha, Qatar · WhatsApp +974 7223 2609 · baseeratactions@gmail.com' : 'جاهز · الدوحة، قطر · واتساب ‎+974 7223 2609 · baseeratactions@gmail.com') + '</p></div></div>';
 }
 function sendAutoReply(rq) {
   var en = rq.lang === 'en';

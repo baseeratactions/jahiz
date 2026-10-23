@@ -4,7 +4,7 @@
 window.JAHIZ_CONFIG = {
   API: "https://script.google.com/macros/s/AKfycbw7qcFIL5JcqRkJ44EwRd_UEy5b-TcsOPEmGksqwaemlNP-o0cWYLaBcZvoP1LFFRs/exec",
   WHATSAPP: "97472232609",
-  PHONE: "+974 72232609",
+  PHONE: "+974 7223 2609",
   EMAIL: "baseeratactions@gmail.com",
   // رابط موقع الشركة الشقيقة منجز. يظهر زر «زيارة موقع منجز» في صفحة «تعرّف إلى جاهز» عند وضعه.
   MUNJIZ_URL: "",
