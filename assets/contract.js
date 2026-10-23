@@ -92,7 +92,7 @@ if(hand)load(hand);else if(draft)load(draft);
 const d=new Date();
 if(!E.no.value)E.no.value=`${CO.prefix}-${String(d.getFullYear()).slice(2)}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}`;
 if(!E.date.value)E.date.value=today();if(!E.start.value)E.start.value=E.date.value;if(!E.days.value)E.days.value='15';
-document.querySelectorAll('#doc [data-co]').forEach(el=>{const v=CO[el.dataset.co];el.textContent=v||BLANK;el.classList.toggle('blank',!v)});
+document.querySelectorAll('#doc [data-co]').forEach(el=>{const k=el.dataset.co,v=k==='phone'?phone(CO.phone):CO[k];el.textContent=v||BLANK;el.classList.toggle('blank',!v)});
 if(new URLSearchParams(location.search).get('by')!=='client')document.querySelector('.accept').classList.add('office');
 drawRows();showCalc();render();
 let pre=null;try{pre=localStorage.getItem('jahiz_lang_ui')}catch(e){}if(pre==='en'||new URLSearchParams(location.search).get('lang')==='en')ui(true);
