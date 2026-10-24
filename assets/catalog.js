@@ -17,7 +17,7 @@ const clean=v=>typeof v==='string'?v.replace(/[<>"`]/g,''):Array.isArray(v)?v.ma
 // services changed in the code after the last save in the admin panel (code: time of the change).
 // While the saved list is older, the code's version of these services is used (added after the service before it if missing);
 // the next save in the admin panel keeps them, and from then on the admin panel decides.
-const UPD_AT=Date.UTC(2026,9,23,3,0),UPD=['MC-21','MC-22','MC-23','MC-26','MC-40'];
+const UPD_AT=Date.UTC(2026,9,24,18,0),UPD=['MC-21','MC-41','MC-22','MC-23','MC-25','MC-26','MC-40'];
 function withUpd(c){if(!c.ver||+c.ver>=UPD_AT)return c;const d=Object.assign({},c.data),det=Object.assign({},c.details),bd=BUILT.details;
   d.G=(d.G||[]).map(g=>{const bg=(BUILT.data.G||[]).find(x=>x[0]===g[0]);if(!bg)return g;const list=g[2].slice();
     UPD.forEach(code=>{const bi=bg[2].findIndex(x=>x[0]===code);if(bi<0)return;const item=bg[2][bi].slice(),i=list.findIndex(x=>x[0]===code);
