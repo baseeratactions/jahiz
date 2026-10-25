@@ -11,6 +11,8 @@ const EN=lang==='en';
 window.CRM_LANG=lang;
 
 const W={
+// «اليوم» page and the «المزيد» menu (crm-today.js builds its own texts in both languages)
+'اليوم':'Today','المزيد':'More','لوحات المتابعة':'Dashboards',
 'المواد والأصناف':'Catalogue','المواد':'Catalogue','الأصناف والخدمات':'Items and services','الأقسام والمجموعات':'Categories and groups','السلال الجاهزة':'Ready baskets','تقارير المواد':'Catalogue reports',
 // header, tabs, sign-in
 'لوحة الإدارة | جاهز':'Admin panel | Jahiz','لوحة الإدارة':'Admin panel','أقسام لوحة الإدارة':'Admin panel sections',
