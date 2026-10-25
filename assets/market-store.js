@@ -20,7 +20,19 @@ function visible(m){const D=m.DETAILS||{},off=c=>(D[c]||{}).st==='hidden';
   return Object.assign({},m,{
     CATS:m.CATS.filter(c=>!c.hidden).map(c=>Object.assign({},c,{items:c.items.filter(i=>!off(i[0])&&!((c.groups||[])[i[6]]||[])[2])})).filter(c=>c.items.length),
     BASKETS:(m.BASKETS||[]).filter(b=>!b.hidden)})}
+// items added to the site file (market-data.js) after this browser saved its copy are merged in, with their group and
+// category, so a saved copy never hides new products; items the management deleted before saving stay deleted
+// (the copy remembers which codes the site file had when it was saved)
+const codesOf=m=>m.CATS.flatMap(c=>c.items.map(i=>i[0]));
+function merge(m,known){const have=new Set(codesOf(m)),old=known?new Set(known):null;let n=0;
+  BUILT.CATS.forEach(bc=>bc.items.forEach(i=>{if(have.has(i[0])||(old&&old.has(i[0])))return;
+    let c=m.CATS.find(x=>x.code===bc.code);if(!c){c=Object.assign({},bc,{items:[]});m.CATS.push(c)}
+    const g=(bc.groups||[])[i[6]];c.groups=c.groups||[];let k=g?c.groups.findIndex(x=>x[0]===g[0]):0;
+    if(g&&k<0){c.groups.push(g.slice());k=c.groups.length-1}
+    c.items.push(i.slice(0,6).concat(k<0?0:k));m.DETAILS=m.DETAILS||{};if(BUILT.DETAILS[i[0]])m.DETAILS[i[0]]=JSON.parse(JSON.stringify(BUILT.DETAILS[i[0]]));n++}));
+  return n}
 function use(c){if(!c||!c.market||!Array.isArray(c.market.CATS)||!c.market.CATS.length)return false;
+  if(merge(c.market,c.codes))c.codes=codesOf(BUILT);
   const m=clean(c.market);Object.values(m.DETAILS||{}).forEach(d=>{if(d&&d.img)d.img=safeImg(d.img)});
   const v=window.MARKET_ALL?m:visible(m);
   ['CATS','BASKETS','DETAILS','KINDS','PERIODS','SETTINGS'].forEach(k=>{if(v[k])MK[k]=v[k]});return true}
@@ -29,7 +41,7 @@ if(saved&&!use(saved))saved=null;
 if(!saved&&!window.MARKET_ALL)Object.assign(MK,visible(MK));
 window.MARKET_STORE={get ver(){return saved?saved.ver:''},BUILT,visible,clean,src,
   raw(){return JSON.parse(JSON.stringify(saved?saved.market:BUILT))},
-  remember(c){saved=c&&c.market?{ver:c.ver||'',market:c.market,at:Date.now()}:null;
+  remember(c){saved=c&&c.market?{ver:c.ver||'',market:c.market,at:Date.now(),codes:codesOf(BUILT)}:null;
     try{if(saved)localStorage.setItem(KEY,JSON.stringify(saved));else localStorage.removeItem(KEY)}catch(e){}}};
 // ask the server at most every 10 minutes; a newer version shows from the next page load
 function refresh(){const C=window.JAHIZ_CONFIG||{},api=C.API;if(!api||C.SHARED_SERVER||(saved&&saved.at&&Date.now()-saved.at<6e5))return;
