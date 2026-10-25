@@ -58,12 +58,14 @@ try{(JSON.parse(localStorage.getItem(KEY)||'[]')||[]).forEach(([c,q])=>{if(byCod
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify([...cart]))}catch(e){}};
 
 function toast(t){const el=$('toast');if(!el)return;el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,1800)}
-const priceHTML=s=>`<span class="price"><small>${T.from}</small> ${s.d&&s.d.was>s.p?`<s class="num">${fmt(s.d.was)}</s> `:''}${fmt(s.p)} <small>${CUR} ${esc(s.u)}</small></span>`;
+// an item the supplier has not priced yet (price 0) reads «السعر عند الطلب» and is confirmed with the customer
+const ONREQ=L('السعر عند الطلب','Price on request');
+const priceHTML=s=>!s.p?`<span class="price"><small>${ONREQ}</small> <small>${esc(s.u)}</small></span>`:`<span class="price"><small>${T.from}</small> ${s.d&&s.d.was>s.p?`<s class="num">${fmt(s.d.was)}</s> `:''}${fmt(s.p)} <small>${CUR} ${esc(s.u)}</small></span>`;
 
 const kbox=$('kinds');
 if(kbox){[['all',T.all],...kinds.map(k=>[k,EN?M.KINDS[k].en:M.KINDS[k].ar])].forEach(([k,n])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.dataset.k=k;b.textContent=n;b.setAttribute('aria-pressed',k==='all');b.onclick=()=>{kind=k;open=null;$('sq').value='';if(location.hash.startsWith('#cat='))history.replaceState(null,'','#shop');render()};kbox.appendChild(b)})}
 
-function catTile(c){const lo=Math.min(...c.items.map(i=>i[3]));
+function catTile(c){const ps=c.items.map(i=>i[3]).filter(p=>p>0),lo=ps.length?Math.min(...ps):0;
   return `<a class="cat" href="#cat=${c.code}"><span class="ic" aria-hidden="true">${c.icon}</span><b>${esc(catName(c))}</b><span>${T.items(units(c.items.map(i=>byCode[i[0]])).length)} · ${T.from} <span class="num">${fmt(lo)}</span> ${CUR}</span></a>`}
 // specifications the management filled in (لوحة الإدارة ← المواد): pack, origin and quality under the name, a picture when there is one
 function specs(d){return [EN?d.pack_en||d.pack:d.pack,EN?d.origin_en||d.origin:d.origin,EN?d.quality_en||d.quality:d.quality,EN?d.brand_en||d.brand:d.brand].filter(Boolean)}
@@ -105,7 +107,7 @@ function famCard(vs){const sorted=vs.slice().sort((a,b)=>a.p-b.p),lo=sorted[0].p
    ${inCart.length?`<small class="incart">${L('في سلتك: ','In your basket: ')}${inCart.map(s=>esc(vLabel(s))+' × '+cart.get(s.c)).join('، ')}</small>`:''}</div>`}
 // a whole list can also be read as rows (name, specifications, unit, price), which is quicker for long categories
 let VIEW='cards';try{VIEW=localStorage.getItem('jahiz_view')==='list'?'list':'cards'}catch(e){}
-function rowHTML(s){const q=cart.get(s.c)||0,d=s.d||{},sp=specs(d);return `<tr${d.st==='out'?' class="out"':''}><td><b>${esc(s.n)}</b>${sp.length?`<br><small>${sp.map(esc).join(' · ')}</small>`:''}</td><td class="u">${esc(s.u)}</td><td class="num"><b>${fmt(s.p)}</b> <small>${CUR}</small></td><td>${d.st==='out'?`<span class="oos">${L('غير متوفر','Out')}</span>`:q?qtyHTML(s,q):`<button type="button" class="add sm" data-add="${s.c}" aria-label="${esc(T.add+' '+s.n)}">${T.add}</button>`}</td></tr>`}
+function rowHTML(s){const q=cart.get(s.c)||0,d=s.d||{},sp=specs(d);return `<tr${d.st==='out'?' class="out"':''}><td><b>${esc(s.n)}</b>${sp.length?`<br><small>${sp.map(esc).join(' · ')}</small>`:''}</td><td class="u">${esc(s.u)}</td><td class="num">${s.p?`<b>${fmt(s.p)}</b> <small>${CUR}</small>`:`<small>${ONREQ}</small>`}</td><td>${d.st==='out'?`<span class="oos">${L('غير متوفر','Out')}</span>`:q?qtyHTML(s,q):`<button type="button" class="add sm" data-add="${s.c}" aria-label="${esc(T.add+' '+s.n)}">${T.add}</button>`}</td></tr>`}
 function block(list){if(VIEW==='list')return `<div class="ilist"><table><thead><tr><th>${L('الصنف','Item')}</th><th>${L('الوحدة','Unit')}</th><th>${L('السعر','Price')}</th><th></th></tr></thead><tbody>${list.slice().sort((a,b)=>a.n===b.n?a.p-b.p:0).map(rowHTML).join('')}</tbody></table></div>`;
   return `<div class="items">${units(list).map(u=>Array.isArray(u)?famCard(u):itemCard(u)).join('')}</div>`}
 const viewSw=()=>`<div class="vsw" role="group" aria-label="${L('طريقة العرض','View')}"><button type="button" class="chip" data-view="cards" aria-pressed="${VIEW==='cards'}">${L('بطاقات','Cards')}</button><button type="button" class="chip" data-view="list" aria-pressed="${VIEW==='list'}">${L('قائمة','List')}</button></div>`;
@@ -152,7 +154,7 @@ function total(){let t=0;cart.forEach((q,c)=>t+=byCode[c].p*q);return t}
 function renderBasket(){const n=[...cart.values()].reduce((a,b)=>a+b,0);
   const fab=$('fab');if(fab){fab.hidden=!n;fab.querySelector('.n').textContent=n;const ft=$('fabT');if(ft)ft.textContent=n?fmt(total())+' '+CUR:''}
   const bl=$('basket');if(!bl)return;
-  bl.innerHTML=cart.size?[...cart].map(([c,q])=>{const s=byCode[c];return `<div class="bi"><div><b>${esc(fullName(s))}</b><small>${T.from} ${fmt(s.p)} ${CUR} ${esc(s.u)} · <span class="code">${c}</span></small></div>${qtyHTML(s,q)}<span class="lt num">${fmt(s.p*q)}</span></div>`}).join(''):`<div class="empty">${T.bEmpty}</div>`;
+  bl.innerHTML=cart.size?[...cart].map(([c,q])=>{const s=byCode[c];return `<div class="bi"><div><b>${esc(fullName(s))}</b><small>${s.p?`${T.from} ${fmt(s.p)} ${CUR}`:ONREQ} ${esc(s.u)} · <span class="code">${c}</span></small></div>${qtyHTML(s,q)}<span class="lt num">${s.p?fmt(s.p*q):'—'}</span></div>`}).join(''):`<div class="empty">${T.bEmpty}</div>`;
   $('bTotal').textContent=fmt(total())+' '+CUR;
   // one item is enough as long as the order reaches the minimum value
   const mn=$('bMin');if(mn&&MIN){const r=Math.max(0,MIN-total());mn.hidden=false;mn.className='bmin '+(cart.size&&r?'short':cart.size?'ok':'');
