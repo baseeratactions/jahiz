@@ -23,9 +23,9 @@ v.innerHTML=`<div class="bar"><h2>${L('نصوص الموقع','Site texts')}</h2
  </div>
  <h3>${L('بيانات التواصل في كل الصفحات','Contact details on every page')}</h3>
  <div class="grid2">
-  <label>${L('رقم واتساب (أرقام فقط مع رمز الدولة)','WhatsApp number (digits with country code)')}<input name="wa" inputmode="numeric" dir="ltr" maxlength="15" placeholder="97472232609"></label>
-  <label>${L('رقم الهاتف (أرقام فقط مع رمز الدولة)','Phone number (digits with country code)')}<input name="phone" inputmode="numeric" dir="ltr" maxlength="15" placeholder="97472232609"></label>
-  <label>${L('البريد الإلكتروني','Email')}<input name="email" type="email" dir="ltr" maxlength="120" placeholder="baseeratactions@gmail.com"></label>
+  <label>${L('رقم واتساب (أرقام فقط مع رمز الدولة)','WhatsApp number (digits with country code)')}<input name="wa" inputmode="numeric" dir="ltr" maxlength="15" placeholder="97451600498"></label>
+  <label>${L('رقم الهاتف (أرقام فقط مع رمز الدولة)','Phone number (digits with country code)')}<input name="phone" inputmode="numeric" dir="ltr" maxlength="15" placeholder="97451600498"></label>
+  <label>${L('البريد الإلكتروني','Email')}<input name="email" type="email" dir="ltr" maxlength="120" placeholder="munijizqa@gmail.com"></label>
  </div>
  <p class="err" id="stErr" role="alert"></p>
  <div class="bar"><button class="btn sm pri" type="submit">${L('حفظ ونشر','Save and publish')}</button><button class="btn sm ghost" type="button" id="stReset">${L('العودة إلى النصوص الأصلية','Back to the original texts')}</button><span class="mute sm" id="stState"></span></div>
@@ -48,7 +48,7 @@ async function publish(s){$('stErr').textContent='';
   try{const j=await S.api('saveSite',{site:s});window.SITE_TEXT.remember(j.site);toast(L('شكراً لك، حُفظت نصوص الموقع ونُشرت.','Thank you, the site texts are saved and published.'));load()}
   catch(err){$('stErr').textContent=L('تعذر الحفظ: ','Could not save: ')+(typeof errText==='function'?errText(err.message):err.message)}}
 f.onsubmit=ev=>{ev.preventDefault();const s=collect();
-  if(s.wa&&!/^\d{8,15}$/.test(s.wa)||s.phone&&!/^\d{8,15}$/.test(s.phone))return $('stErr').textContent=L('اكتب الرقم أرقاماً فقط مع رمز الدولة، مثل 97472232609.','Write the number as digits with the country code, such as 97472232609.');
+  if(s.wa&&!/^\d{8,15}$/.test(s.wa)||s.phone&&!/^\d{8,15}$/.test(s.phone))return $('stErr').textContent=L('اكتب الرقم أرقاماً فقط مع رمز الدولة، مثل 97451600498.','Write the number as digits with the country code, such as 97451600498.');
   if(s.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email))return $('stErr').textContent=L('البريد الإلكتروني غير صحيح.','The email address is not valid.');
   publish(s)};
 $('stReset').onclick=async()=>{const b=$('stReset');if(b.dataset.sure!=='1'){b.dataset.sure='1';b.textContent=L('تأكيد العودة إلى الأصل','Confirm going back to the original');return}

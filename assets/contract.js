@@ -6,7 +6,7 @@
 const CFG=window.JAHIZ_CONFIG||{};
 const CO={ar:'جاهز للمعاملات',en:'Jahiz for Transactions',sign_ar:'د. مصطفى أبوسعد',sign_en:'Dr. Moustafa Abousaad',
   title_ar:'المدير العام',title_en:'General Manager',addr_ar:'الدوحة، دولة قطر',addr_en:'Doha, State of Qatar',cr:'',
-  phone:CFG.PHONE||'+974 7223 2609',email:CFG.EMAIL||'baseeratactions@gmail.com',prefix:'JAH-CT'};
+  phone:CFG.PHONE||'+974 5160 0498',email:CFG.EMAIL||'munijizqa@gmail.com',prefix:'JAH-CT'};
 const KEY='jahiz_contract',DRAFT=KEY+'_draft';
 // item registration: fee per item (includes the first 5 sales outlets) plus a fee per item in every extra outlet
 const ITEM={code:'MC-21',min:100,incl:5,outletCode:'MC-40',outlet:10};

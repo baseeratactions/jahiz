@@ -3,9 +3,9 @@
 //   نموذج الطلب يجهز رسالة واتساب فقط، ونظام العملاء يحفظ البيانات في متصفح هذا الجهاز.
 window.JAHIZ_CONFIG = {
   API: "https://script.google.com/macros/s/AKfycbw7qcFIL5JcqRkJ44EwRd_UEy5b-TcsOPEmGksqwaemlNP-o0cWYLaBcZvoP1LFFRs/exec",
-  WHATSAPP: "97472232609",
-  PHONE: "+974 7223 2609",
-  EMAIL: "baseeratactions@gmail.com",
+  WHATSAPP: "97451600498",
+  PHONE: "+974 5160 0498",
+  EMAIL: "munijizqa@gmail.com",
   // رابط موقع الشركة الشقيقة منجز. يظهر زر «زيارة موقع منجز» في صفحة «تعرّف إلى جاهز» عند وضعه.
   MUNJIZ_URL: "",
   // true ما دام API أعلاه هو خادم بصيرة المشترك: لا يأخذ موقع جاهز من الخادم ألوان الموقع ولا نصوصه ولا قائمة خدماته ولا إعلاناته،

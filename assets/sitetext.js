@@ -4,7 +4,7 @@
 // Loaded right after config.js (or at the end of pages without it): applies the last saved texts at once,
 // then asks the server for the current ones. An empty field keeps the page's own text. Text is set with textContent only.
 (function(){
-const KEY='jahiz_site_v2',EN=document.documentElement.lang==='en',DEF_WA='97472232609',DEF_MAIL='baseeratactions@gmail.com';
+const KEY='jahiz_site_v2',EN=document.documentElement.lang==='en',DEF_WA='97451600498',DEF_MAIL='munijizqa@gmail.com';
 const L=EN?'en':'ar';
 // where each text lives on the page; read() gives the built-in text, put() replaces it
 const q=(d,s)=>d.querySelector(s);
