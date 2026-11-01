@@ -374,3 +374,8 @@ main:focus{outline:none}
 @media (max-width:430px){.mlogin .ml-t{display:none}.mlogin{padding:4px 9px;font-size:1rem}}
 @media (max-width:1100px){.top .wrap{gap:8px}.mlogin{margin-inline-start:6px}}
 footer .wrap.logins{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:center}
+
+/* share basket */
+.bshare{margin-top:12px;padding:12px;border:1px dashed var(--line,#d9d9d9);border-radius:12px;display:grid;gap:8px;font-size:14px}
+.bshare[hidden]{display:none}
+.bshare .row{display:flex;flex-wrap:wrap;gap:8px}

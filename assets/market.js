@@ -158,7 +158,25 @@ function renderBasket(){const n=[...cart.values()].reduce((a,b)=>a+b,0);
   $('bTotal').textContent=fmt(total())+' '+CUR;
   // one item is enough as long as the order reaches the minimum value
   const mn=$('bMin');if(mn&&MIN){const r=Math.max(0,MIN-total());mn.hidden=false;mn.className='bmin '+(cart.size&&r?'short':cart.size?'ok':'');
-    mn.textContent=!cart.size?L(`الحد الأدنى للطلب ${fmt(MIN)} ر.ق، ويمكن أن يكون صنفاً واحداً.`,`Minimum order QAR ${fmt(MIN)}; a single item is fine.`):r?L(`باقي ${fmt(Math.ceil(r))} ر.ق للوصول إلى الحد الأدنى (${fmt(MIN)} ر.ق).`,`QAR ${fmt(Math.ceil(r))} to go to reach the minimum (QAR ${fmt(MIN)}).`):L('وصلت إلى الحد الأدنى للطلب ✓','Minimum order reached ✓')}}
+    mn.textContent=!cart.size?L(`الحد الأدنى للطلب ${fmt(MIN)} ر.ق، ويمكن أن يكون صنفاً واحداً.`,`Minimum order QAR ${fmt(MIN)}; a single item is fine.`):r?L(`باقي ${fmt(Math.ceil(r))} ر.ق للوصول إلى الحد الأدنى (${fmt(MIN)} ر.ق).`,`QAR ${fmt(Math.ceil(r))} to go to reach the minimum (QAR ${fmt(MIN)}).`):L('وصلت إلى الحد الأدنى للطلب ✓','Minimum order reached ✓')}
+  if(typeof renderShare==='function')renderShare()}
+// ---- share the basket: a link that rebuilds the same basket on any device (#basket=CODE:QTY,...) ----
+const bMinEl=$('bMin');let shareBox=null;
+if(bMinEl){shareBox=document.createElement('div');shareBox.className='bshare';shareBox.id='bShare';shareBox.hidden=true;
+  shareBox.innerHTML=`<span>${L('شارك سلتك مع العائلة أو الزملاء ليكملوها أو يرسلوها:','Share your basket with family or colleagues to finish or send it:')}</span><div class="row"><button type="button" class="btn ghost sm" id="bCopy">🔗 ${L('انسخ رابط السلة','Copy basket link')}</button><a class="btn green sm" id="bWaShare" target="_blank" rel="noopener">${L('أرسلها على واتساب','Send on WhatsApp')}</a></div>`;
+  bMinEl.after(shareBox)}
+function shareLink(){return location.origin+location.pathname+'#basket='+[...cart].map(([c,q])=>c+':'+q).join(',')}
+function renderShare(){if(!shareBox)return;shareBox.hidden=!cart.size;if(!cart.size)return;
+  const msg=L('سلة من جاهز','A basket from Jahiz')+' ('+fmt(total())+' '+CUR+'):\n'+basketLines().join('\n')+'\n\n'+L('افتحها وأكمل الطلب:','Open it and complete the order:')+' '+shareLink();
+  $('bWaShare').href='https://wa.me/?text='+encodeURIComponent(msg)}
+$('bCopy')&&$('bCopy').addEventListener('click',()=>{const u=shareLink(),ok=()=>toast(L('نُسخ رابط السلة ✓','Basket link copied ✓'));
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(ok,()=>prompt(L('انسخ الرابط:','Copy the link:'),u));else prompt(L('انسخ الرابط:','Copy the link:'),u)});
+function openShared(){const m=location.hash.match(/^#basket=([A-Za-z0-9:,\-]+)$/);if(!m)return false;let n=0;
+  m[1].split(',').forEach(x=>{const [c,q]=x.split(':');if(byCode[c]){cart.set(c,Math.max(1,Math.min(99,parseInt(q,10)||1)));n++}});
+  history.replaceState(null,'','#order');
+  if(n){save();renderBasket();toast(L(`أُضيفت ${n} أصناف من السلة المشتركة ✓`,`${n} items added from the shared basket ✓`));const o=$('order');o&&o.scrollIntoView({block:'start'})}
+  else toast(L('رابط السلة غير صالح أو انتهت أصنافه','This basket link is invalid or its items are no longer listed'));return true}
+addEventListener('hashchange',openShared);
 // the floating basket button steps aside while the basket itself is on screen
 const ordSec=$('order');if(ordSec&&'IntersectionObserver' in window)new IntersectionObserver(([e])=>document.body.classList.toggle('in-order',e.isIntersecting),{threshold:.1}).observe(ordSec);
 const area=$('oArea');if(area)AREAS.forEach(a=>{const o=document.createElement('option');o.textContent=a;area.appendChild(o)});
@@ -240,5 +258,5 @@ document.querySelectorAll('[data-mail]').forEach(a=>{const m=CFG.EMAIL||'';a.tex
 const bg=$('burger');if(bg)bg.onclick=()=>{const o=!document.body.classList.contains('menu-open');document.body.classList.toggle('menu-open',o);bg.setAttribute('aria-expanded',o)};
 document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',()=>{document.body.classList.remove('menu-open');bg&&bg.setAttribute('aria-expanded','false')}));
 
-render();renderBaskets();renderBasket();route();
+render();renderBaskets();renderBasket();if(!openShared())route();
 })();
