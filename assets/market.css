@@ -379,3 +379,8 @@ footer .wrap.logins{display:flex;flex-direction:row;flex-wrap:wrap;justify-conte
 .bshare{margin-top:12px;padding:12px;border:1px dashed var(--line,#d9d9d9);border-radius:12px;display:grid;gap:8px;font-size:14px}
 .bshare[hidden]{display:none}
 .bshare .row{display:flex;flex-wrap:wrap;gap:8px}
+.bhist{margin-top:12px;padding:12px;border:1px solid var(--line,#e2e2e2);border-radius:12px;display:grid;gap:8px;font-size:14px}
+.bhist[hidden]{display:none}
+.bhist .bh{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.bhist .bh small{display:block;opacity:.7}
+.bhist .linkish{background:none;border:0;padding:0;font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;color:inherit;opacity:.75;justify-self:start}

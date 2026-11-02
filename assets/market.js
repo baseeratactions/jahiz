@@ -159,12 +159,23 @@ function renderBasket(){const n=[...cart.values()].reduce((a,b)=>a+b,0);
   // one item is enough as long as the order reaches the minimum value
   const mn=$('bMin');if(mn&&MIN){const r=Math.max(0,MIN-total());mn.hidden=false;mn.className='bmin '+(cart.size&&r?'short':cart.size?'ok':'');
     mn.textContent=!cart.size?L(`الحد الأدنى للطلب ${fmt(MIN)} ر.ق، ويمكن أن يكون صنفاً واحداً.`,`Minimum order QAR ${fmt(MIN)}; a single item is fine.`):r?L(`باقي ${fmt(Math.ceil(r))} ر.ق للوصول إلى الحد الأدنى (${fmt(MIN)} ر.ق).`,`QAR ${fmt(Math.ceil(r))} to go to reach the minimum (QAR ${fmt(MIN)}).`):L('وصلت إلى الحد الأدنى للطلب ✓','Minimum order reached ✓')}
-  if(typeof renderShare==='function')renderShare()}
+  if(typeof renderShare==='function'){renderShare();renderHist()}}
 // ---- share the basket: a link that rebuilds the same basket on any device (#basket=CODE:QTY,...) ----
 const bMinEl=$('bMin');let shareBox=null;
 if(bMinEl){shareBox=document.createElement('div');shareBox.className='bshare';shareBox.id='bShare';shareBox.hidden=true;
   shareBox.innerHTML=`<span>${L('شارك سلتك مع العائلة أو الزملاء ليكملوها أو يرسلوها:','Share your basket with family or colleagues to finish or send it:')}</span><div class="row"><button type="button" class="btn ghost sm" id="bCopy">🔗 ${L('انسخ رابط السلة','Copy basket link')}</button><a class="btn green sm" id="bWaShare" target="_blank" rel="noopener">${L('أرسلها على واتساب','Send on WhatsApp')}</a></div>`;
   bMinEl.after(shareBox)}
+// ---- previous orders on this device: reorder in one tap, and delivery details remembered ----
+const HKEY='jahiz_history',PKEY='jahiz_profile';let hist=[];try{hist=(JSON.parse(localStorage.getItem(HKEY)||'[]')||[]).filter(h=>h&&Array.isArray(h.items))}catch(e){}
+let histBox=null;if(shareBox){histBox=document.createElement('div');histBox.className='bhist';histBox.id='bHist';histBox.hidden=true;shareBox.after(histBox)}
+const dmy=t=>{const d=new Date(t),p=n=>String(n).padStart(2,'0');return p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()};
+function renderHist(){if(!histBox)return;const hs=hist.map((h,i)=>({h,i,items:h.items.filter(([c])=>byCode[c])})).filter(x=>x.items.length);histBox.hidden=!hs.length;if(!hs.length)return;
+  histBox.innerHTML=`<b>${L('طلباتك السابقة على هذا الجهاز','Your previous orders on this device')}</b>`+hs.map(({h,i,items})=>`<div class="bh"><span><bdi class="num" dir="ltr">${dmy(h.at)}</bdi> · ${items.length} ${L('أصناف','items')}${h.ref?` · <bdi dir="ltr" style="white-space:nowrap">${esc(h.ref)}</bdi>`:''}<small>${esc(items.slice(0,3).map(([c])=>byCode[c].n).join('، ')+(items.length>3?'…':''))}</small></span><button type="button" class="btn ghost sm" data-reorder="${i}">${L('اطلب مجدداً','Order again')}</button></div>`).join('')+`<button type="button" class="linkish" id="bHistClear">${L('امسح السجل من هذا الجهاز','Clear history on this device')}</button>`}
+histBox&&histBox.addEventListener('click',e=>{const b=e.target.closest('[data-reorder]');
+  if(b){const h=hist[+b.dataset.reorder];let n=0;h.items.forEach(([c,q])=>{if(byCode[c]){cart.set(c,Math.max(1,Math.min(99,q|0)));n++}});save();render();renderBaskets();renderBasket();toast(L(`أُضيفت ${n} أصناف إلى سلتك ✓`,`${n} items added to your basket ✓`));return}
+  if(e.target.id==='bHistClear'){hist=[];try{localStorage.removeItem(HKEY);localStorage.removeItem(PKEY)}catch(x){}renderHist()}});
+function remember(ref){if(!cart.size)return;hist.unshift({at:Date.now(),ref:ref||'',items:[...cart],total:total()});hist=hist.slice(0,5);
+  try{localStorage.setItem(HKEY,JSON.stringify(hist));localStorage.setItem(PKEY,JSON.stringify({n:$('oName').value.trim(),ph:$('oPhone').value.trim(),em:$('oMail').value.trim(),area:area?area.value:'',addr:$('oAddr').value.trim()}))}catch(e){}renderHist()}
 function shareLink(){return location.origin+location.pathname+'#basket='+[...cart].map(([c,q])=>c+':'+q).join(',')}
 function renderShare(){if(!shareBox)return;shareBox.hidden=!cart.size;if(!cart.size)return;
   const msg=L('سلة من جاهز','A basket from Jahiz')+' ('+fmt(total())+' '+CUR+'):\n'+basketLines().join('\n')+'\n\n'+L('افتحها وأكمل الطلب:','Open it and complete the order:')+' '+shareLink();
@@ -196,11 +207,12 @@ if(oF)oF.addEventListener('submit',async e=>{e.preventDefault();
   const services=[...lines,...info].join('\n');
   const msg=`${T.orderHead}\n${L('الاسم','Name')}: ${n}\n${L('الجوال','Mobile')}: ${ph}${em?'\n'+L('البريد','Email')+': '+em:''}\n\n${services}`;
   const wa=$('oWa');wa.href=`https://wa.me/${WA}?text=`+encodeURIComponent(msg);$('oOut').hidden=false;
+  if(!CFG.API)remember('');
   const st=$('oState');
   if(!CFG.API){st.className='status';st.innerHTML=L('اضغط «أرسل الطلب على واتساب» لإكمال طلبك.','Press “Send the order on WhatsApp” to complete your order.');return}
   st.className='status';st.textContent=T.sending;const btn=oF.querySelector('[type=submit]');btn.disabled=true;
   try{const j=await post({action:'request',name:n,phone:ph,email:em,type:sel($('oType')),plan:'',contact:sel($('oVia')),services,codes:[...cart.keys()],lang:EN?'en':'ar',page:location.href,hp:$('oHp').value});
-    if(!j.ok)throw new Error(j.error);st.className='status ok';st.innerHTML=T.sentOk(j.id,j.mailed);cart.clear();save();render();renderBasket()}
+    if(!j.ok)throw new Error(j.error);remember(j.id);st.className='status ok';st.innerHTML=T.sentOk(j.id,j.mailed);cart.clear();save();render();renderBasket()}
   catch(err){st.className='status bad';st.textContent=T.sentFail}
   finally{btn.disabled=false}
   $('oOut').scrollIntoView({block:'nearest'})});
@@ -258,5 +270,6 @@ document.querySelectorAll('[data-mail]').forEach(a=>{const m=CFG.EMAIL||'';a.tex
 const bg=$('burger');if(bg)bg.onclick=()=>{const o=!document.body.classList.contains('menu-open');document.body.classList.toggle('menu-open',o);bg.setAttribute('aria-expanded',o)};
 document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',()=>{document.body.classList.remove('menu-open');bg&&bg.setAttribute('aria-expanded','false')}));
 
+try{const pf=JSON.parse(localStorage.getItem(PKEY)||'null');if(pf){[['oName',pf.n],['oPhone',pf.ph],['oMail',pf.em],['oAddr',pf.addr]].forEach(([id,v])=>{const el=$(id);if(el&&!el.value&&v)el.value=v});if(area&&pf.area&&[...area.options].some(o=>o.value===pf.area))area.value=pf.area}}catch(e){}
 render();renderBaskets();renderBasket();if(!openShared())route();
 })();
