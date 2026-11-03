@@ -86,10 +86,21 @@ const SYN={'بندوره':'طماطم','رز':'ارز','بطاطا':'بطاطس'
 function match(s,q,wide){const t=norm([s.n,s.o,s.cat.ar,s.cat.en,s.gn,s.go,s.c].concat(s.d?[specs(s.d).join(' '),s.d.origin_en,s.d.origin,s.d.brand,s.d.brand_en,s.d.sup,s.d.sup_en,s.d.barcode,s.d.tags]:[]).concat(wide?[s.cat.about_en,s.cat.about_ar]:[]).filter(Boolean).join(' '));
   const one=w=>/[\u0600-\u06FF]/.test(w)?t.includes(w)||(SYN[w]&&t.includes(SYN[w])):new RegExp('(^|[^a-z0-9])'+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+(w.length<3?'($|[^a-z0-9])':'')).test(t);
   q=norm(q);return (SYN[q]&&t.includes(SYN[q]))||q.split(/\s+/).filter(Boolean).every(one)}
+// ---- nothing found: close spellings to try, or ask for it in the order ----
+function lev(a,b){if(a===b)return 0;const m=a.length,n=b.length;if(!m||!n)return m||n;let p=[...Array(n+1).keys()];for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
+const bare=w=>w.replace(/^(وال|بال|فال|ال)/,'');
+function suggest(q){const qw=norm(q).split(/\s+/).filter(w=>w.length>1).map(bare);if(!qw.length)return [];
+  const sc=all.map(s=>{const ws=norm(s.n).split(/[\s()\/،,-]+/).filter(Boolean).map(bare);let tot=0;
+    for(const w of qw){let best=9;for(const x of ws){const d=lev(w,x.slice(0,Math.max(w.length,x.length)));if(d<best)best=d}const lim=w.length<=3?1:w.length<=6?2:3;if(best>lim)return null;tot+=best}return {s,tot}}).filter(Boolean);
+  sc.sort((a,b)=>a.tot-b.tot||a.s.n.length-b.s.n.length);const top=sc.length?sc[0].tot:0,seen=new Set(),out=[];for(const {s,tot} of sc){if(tot>top)break;if(!seen.has(s.n)){seen.add(s.n);out.push(s)}if(out.length>=4)break}return out}
+function emptyHTML(q){const sg=suggest(q);
+  return `<div class="empty">${T.empty}${sg.length?`<p class="sugg">${L('هل تقصد:','Did you mean:')} ${sg.map(s=>`<button type="button" class="chip" data-sugg="${esc(s.n)}">${esc(s.n)}</button>`).join(' ')}</p>`:''}<p class="row" style="margin-top:10px"><button type="button" class="btn pri sm" data-askfor="${esc(q)}">${L('أضفه إلى ملاحظات طلبي','Add it to my order notes')}</button></p></div>`}
+document.addEventListener('click',e=>{const g=e.target.closest('[data-sugg]');if(g){$('sq').value=g.dataset.sugg;render();return}
+  const a=e.target.closest('[data-askfor]');if(a){const n=$('oNote');if(n){const line=L('أبحث عن: ','Looking for: ')+a.dataset.askfor;if(!n.value.includes(line))n.value=(n.value?n.value+'\n':'')+line;$('order').scrollIntoView({block:'start'});n.focus();toast(L('أضفناه إلى ملاحظات طلبك ✓','Added to your order notes ✓'))}}});
 function render(){const box=$('catalog');if(!box)return;const q=($('sq').value||'').trim();
   kbox&&kbox.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===kind));
   if(q){let hits=all.filter(s=>match(s,q));if(!hits.length)hits=all.filter(s=>match(s,q,true));
-    box.innerHTML=`<p class="lead">${esc(T.results(q))}</p>`+(hits.length?viewSw()+block(hits):`<div class="empty">${T.empty}</div>`);return}
+    box.innerHTML=`<p class="lead">${esc(T.results(q))}</p>`+(hits.length?viewSw()+block(hits):emptyHTML(q));return}
   if(open){const c=M.CATS.find(x=>x.code===open);
     box.innerHTML=`<div class="catv"><a class="btn sm ghost" href="#shop" style="align-self:flex-start">${T.back}</a><div class="cathead"><span class="ic" aria-hidden="true">${c.icon}</span><div><h3>${esc(catName(c))}</h3><p class="lead">${esc(EN?c.about_en:c.about_ar)}</p></div></div>
       ${catBody(c)}<p class="note">${T.estNote}</p></div>`;return}

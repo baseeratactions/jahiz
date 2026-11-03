@@ -384,3 +384,4 @@ footer .wrap.logins{display:flex;flex-direction:row;flex-wrap:wrap;justify-conte
 .bhist .bh{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .bhist .bh small{display:block;opacity:.7}
 .bhist .linkish{background:none;border:0;padding:0;font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;color:inherit;opacity:.75;justify-self:start}
+.empty .sugg{margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
