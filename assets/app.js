@@ -42,7 +42,7 @@ const T=EN?{
   prices:'قائمة الأسعار الكاملة',hi:n=>`أهلاً ${n}`,waAsk:(n,c)=>`السلام عليكم، أريد الاستفسار عن خدمة: ${n} (${c}).`,register:'تسجيل',regForQuote:'يرجى تسجيل بياناتك أولاً لنجهّز عرض السعر باسمك.',co:'الشركة',stampName:'جاهز',stampCity:'الدوحة · قطر',q:{title:'عرض سعر مبدئي',no:'رقم العرض',date:'التاريخ',valid:'صالح لمدة 14 يوماً من تاريخه.',client:'العميل',svc:'الخدمة',qty:'العدد',fee:'الأتعاب',total:'المجموع',sum:'إجمالي أتعاب جاهز',startNote:'أسعار الدراسات والاستشارات تبدأ من المبلغ المذكور وتُعتمد بعرض سعر مكتوب.',gov:'الرسوم الحكومية غير مشمولة، وتُدفع منفصلة بإيصالها الرسمي.',prelim:'هذا عرض مبدئي، ويُعتمد بعد مراجعة المستندات ونوع المعاملة.',custom:'تُسعَّر بعد المراجعة',subj:'طلب عرض سعر'},eOk:'يرجى الموافقة على سياسة الخصوصية لإرسال الطلب.',lVia:'وسيلة التواصل المفضلة',
   sec:{about:'تعرّف إلى جاهز',services:'الخدمات الحكومية',consult:'الدراسات والاستشارات',packages:'باقات الشركات',estimate:'احسب التكلفة',how:'كيف ننجز معاملتك',request:'اطلب خدمة أو عرض سعر',faq:'أسئلة شائعة',track:'تابع معاملتك',auctions:'مزادات قطر'}
 };
-const WA=CFG.WHATSAPP||'97472232609';
+const WA=CFG.WHATSAPP||'97451600498';
 
 // ---- catalogue: government services, setup bundles, consultancy ----
 const entName=(k,ar)=>EN?((D._entities||{})[k]||ar):ar;
@@ -281,7 +281,7 @@ $('f').addEventListener('submit',async e=>{e.preventDefault();
   const msg=`${T.msgHead}\n${T.lName}: ${n}\n${REG&&REG.company?T.co+': '+REG.company+'\n':''}${T.lPhone}: ${ph}\n${em?T.lMail+': '+em+'\n':''}${T.lType}: ${typeTxt}\n${via?T.lVia+': '+via+'\n':''}${plan?T.lPlan+': '+plan+'\n':''}${T.lSvc}:\n${sv}`;
   const Q=buildQuote({n,ph,em,typeTxt,plan,via,sv,co:(REG&&REG.company)||''});const full=msg+'\n\n'+Q.text;
   $('qdoc').innerHTML=Q.html;$('out').textContent=full;$('sendWa').href=`https://wa.me/${WA}?text=`+encodeURIComponent(full);
-  $('sendMail').href=`mailto:${CFG.EMAIL||'baseeratactions@gmail.com'}?${em?'cc='+encodeURIComponent(em)+'&':''}subject=${encodeURIComponent(T.q.subj+' '+Q.no+' - '+n)}&body=${encodeURIComponent(full)}`;
+  $('sendMail').href=`mailto:${CFG.EMAIL||'munijizqa@gmail.com'}?${em?'cc='+encodeURIComponent(em)+'&':''}subject=${encodeURIComponent(T.q.subj+' '+Q.no+' - '+n)}&body=${encodeURIComponent(full)}`;
   const st=$('sendState');$('outWrap').hidden=false;
   if(CFG.API){st.hidden=false;st.className='verdict';st.textContent=T.sending;
     try{const r=await fetch(CFG.API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'request',name:n,phone:ph,email:em,type:typeTxt,plan,contact:via,services:sv,codes:[...new Set([...sv.matchAll(/\(([A-Z]{2}-\d{2})\)/g)].map(m=>m[1]))],lang:EN?'en':'ar',page:location.href,hp:$('fHp').value})});
@@ -299,7 +299,7 @@ function buildQuote(c){const d=new Date(),pad=x=>String(x).padStart(2,'0');
   c.sv.split('\n').map(x=>x.trim()).filter(Boolean).forEach(line=>{const m=line.match(/\(([A-Z]{2}-\d{2})\)(?:\s*×\s*(\d+))?/);const s=m&&byCode[m[1]];
     if(!s){custom.push(line);return}const q=Math.max(1,parseInt(m[2])||1);sum+=s.p*q;if(s.from)from=true;rows.push({s,q})});
   const cur=T.cur;
-  const html=`<div class="qhead"><div class="qbrand">${LOGO}<div><b>${T.q.title}</b><span>${EN?'Jahiz':'جاهز'} · <span dir="ltr">${esc(CFG.PHONE||'+974 7223 2609')}</span> · ${esc(CFG.EMAIL||'baseeratactions@gmail.com')}</span></div></div><div class="num">${T.q.no}: ${no}<br>${T.q.date}: ${date}</div></div>
+  const html=`<div class="qhead"><div class="qbrand">${LOGO}<div><b>${T.q.title}</b><span>${EN?'Jahiz':'جاهز'} · <span dir="ltr">${esc(CFG.PHONE||'+974 5160 0498')}</span> · ${esc(CFG.EMAIL||'munijizqa@gmail.com')}</span></div></div><div class="num">${T.q.no}: ${no}<br>${T.q.date}: ${date}</div></div>
    <p><b>${T.q.client}:</b> ${esc(c.n)}${c.co?' · '+T.co+': '+esc(c.co):''} · <span dir="ltr">${esc(c.ph)}</span>${c.em?' · '+esc(c.em):''} · ${esc(c.typeTxt)}${c.plan?' · '+esc(c.plan):''}${c.via?' · '+T.lVia+': '+esc(c.via):''}</p>
    ${rows.length?`<div class="ptable"><table><thead><tr><th>${T.q.svc}</th><th>${T.q.qty}</th><th>${T.q.fee}</th><th>${T.q.total}</th></tr></thead><tbody>${rows.map(({s,q})=>`<tr><td>${esc(s.n)} <span class="code">${s.c}</span></td><td class="num">${q}</td><td class="num">${s.from?T.from+' ':''}${fmt(s.p)}</td><td class="num">${fmt(s.p*q)}</td></tr>`).join('')}</tbody><tfoot><tr><td colspan="3"><b>${T.q.sum}</b></td><td class="num"><b>${from?T.from+' ':''}${fmt(sum)} ${cur}</b></td></tr></tfoot></table></div>`:''}
    ${custom.length?`<p><b>${T.q.custom}:</b><br>${custom.map(esc).join('<br>')}</p>`:''}

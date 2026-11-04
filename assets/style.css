@@ -629,3 +629,9 @@ body.signed-client #whoLi{display:none!important}
 /* clear-UX pass (2026-10-19): secondary-page nav stays on one row on phones */
 @media (max-width:620px){.plainnav{flex-wrap:nowrap;overflow-x:auto;gap:4px;scrollbar-width:none}.plainnav::-webkit-scrollbar{display:none}.plainnav a,.plainnav button{white-space:nowrap;flex:none}}
 .plainnav a.acct{border:1.5px solid currentColor}
+/* text-strength accent: meets WCAG AA on light backgrounds */
+:root{--amber-text:#b0145a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--amber-text:var(--amber)}}
+:root[data-theme="dark"]{--amber-text:var(--amber)}
+.eyebrow,.hero .eyebrow{color:var(--amber-text)}
+footer .fc b{color:#b0145a}

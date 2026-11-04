@@ -4,7 +4,7 @@
 (function(){
 const EN=document.documentElement.lang==='en';
 const CFG=window.JAHIZ_CONFIG||{};
-const WA=CFG.WHATSAPP||'97472232609';
+const WA=CFG.WHATSAPP||'97451600498';
 const M=typeof MARKET!=='undefined'?MARKET:{CATS:[],KINDS:{},COMMISSION:[],TIERS:[]};
 M.BASKETS=M.BASKETS||[];M.PERIODS=M.PERIODS||{};M.DETAILS=M.DETAILS||{};
 const MIN=Math.max(0,+((M.SETTINGS||{}).minOrder)||0);

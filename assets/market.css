@@ -374,3 +374,10 @@ main:focus{outline:none}
 @media (max-width:430px){.mlogin .ml-t{display:none}.mlogin{padding:4px 9px;font-size:1rem}}
 @media (max-width:1100px){.top .wrap{gap:8px}.mlogin{margin-inline-start:6px}}
 footer .wrap.logins{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:center}
+/* text-strength accent: meets WCAG AA on light backgrounds */
+:root{--acc-text:#b0145a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--acc-text:var(--acc)}}
+:root[data-theme="dark"]{--acc-text:var(--acc)}
+.eyebrow,.acc-text{color:var(--acc-text)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tmkt .dn{color:var(--err)}}
+:root[data-theme="dark"] .tmkt .dn{color:var(--err)}
