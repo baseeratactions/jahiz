@@ -24,3 +24,5 @@ if(cur&&cur!==SRC){const h=document.createElement('div');h.id='gte';h.hidden=tru
   window.gtInit=()=>new google.translate.TranslateElement({pageLanguage:SRC,autoDisplay:false},'gte');
   const s=document.createElement('script');s.src='https://translate.google.com/translate_a/element.js?cb=gtInit';s.async=true;document.head.appendChild(s)}
 })();
+// التثبيت تطبيقاً على الكمبيوتر والجوال (القاعدة 32).
+(function(){try{if(window.__jzPwaL)return;window.__jzPwaL=1;var s=document.currentScript&&document.currentScript.src;if(!s)return;var e=document.createElement('script');e.src=new URL('pwa.js?v=20261106a',s).href;e.defer=true;document.head.appendChild(e)}catch(_){}})();
