@@ -33,3 +33,5 @@ function refresh(){const C=window.JAHIZ_CONFIG||{},api=C.API;if(!api||C.SHARED_S
   fetch(api,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'theme'})}).then(r=>r.json()).then(j=>{if(j&&j.ok){const t=j.theme&&hex(j.theme.primary)?j.theme:DEF;window.SITE_THEME.remember(t)}}).catch(()=>{})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh);else refresh();
 })();
+// التثبيت تطبيقاً على الكمبيوتر والجوال (القاعدة 32).
+(function(){try{if(window.__jzPwaL)return;window.__jzPwaL=1;var s=document.currentScript&&document.currentScript.src;if(!s)return;var e=document.createElement('script');e.src=new URL('pwa.js?v=20261106a',s).href;e.defer=true;document.head.appendChild(e)}catch(_){}})();

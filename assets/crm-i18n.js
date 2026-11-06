@@ -49,7 +49,7 @@ const W={
 'طلبات جديدة':'New requests','معاملات مفتوحة':'Open transactions','رسائل تنتظر الرد':'Messages waiting for a reply','متأخرة':'Late','منجزة هذا الشهر':'Completed this month','أتعاب منجزة هذا الشهر':'Fees completed this month',
 'ر.ق':'QAR','مستحق على العملاء':'Owed by clients','لا يوجد.':'None.','لا يوجد':'None','لا توجد بيانات.':'No data.','اتصل بالعميل للتأكد ثم فعّل الحساب من ملفه':'Call the client to confirm, then activate the account from their file',
 // requests
-'الطلبات الواردة':'Incoming requests','كل الحالات':'All statuses','بحث بالاسم أو الجوال':'Search by name or mobile','تصدير Excel':'Export to Excel','أُرسل':'Sent','رد بالبريد':'Reply by email','تحويل إلى معاملات':'Convert to transactions',
+'الطلبات الواردة':'Incoming requests','كل الحالات':'All statuses','تصفية الطلبات حسب الحالة':'Filter requests by status','تصفية المعاملات حسب الحالة':'Filter transactions by status','فترة التقرير':'Report period','بحث بالاسم أو الجوال':'Search by name or mobile','تصدير Excel':'Export to Excel','أُرسل':'Sent','رد بالبريد':'Reply by email','تحويل إلى معاملات':'Convert to transactions',
 'الرقم':'No.','العميل':'Client','الخدمات المطلوبة':'Requested services','الباقة':'Package','التأكيد بالبريد':'Email confirmation','الحالة والإجراء':'Status and action',
 // clients
 'بحث بالاسم أو الجوال أو الرقم الشخصي أو السجل':'Search by name, mobile, QID or CR','عميل جديد':'New client','رجوع إلى العملاء':'Back to clients','تعديل البيانات':'Edit details','معاملة جديدة':'New transaction','إرسال بريد':'Send email','واتساب':'WhatsApp','إضافة ملاحظة':'Add a note','عقد خدمة':'Service contract',

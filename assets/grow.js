@@ -4,7 +4,7 @@
 // links to the restaurants / management / partners / articles pages, and the forms and calculator on those pages.
 // Company facts are set in GROW below. An empty value is simply not shown (never invent an address or hours).
 (function(){
-const GROW={"key": "jahiz", "cfg": "JAHIZ_CONFIG", "name": {"ar": "جاهز", "en": "Jahiz"}, "wa": "97451600498", "cr": "", "city": {"ar": "الدوحة، قطر", "en": "Doha, Qatar"}, "hours": {"ar": "نستقبل طلباتك عبر الموقع وواتساب على مدار الساعة", "en": "Requests via the website and WhatsApp, 24/7"}, "map": "", "pages": []};
+const GROW={"key": "jahiz", "cfg": "JAHIZ_CONFIG", "name": {"ar": "جاهز", "en": "Jahiz"}, "wa": "97451600498", "cr": "", "city": {"ar": "لوسيل، قطر", "en": "Lusail, Qatar"}, "hours": {"ar": "المكتب من 6:00 صباحاً إلى 6:00 مساءً، والمنصة والخدمة الإلكترونية على مدار 24 ساعة", "en": "Office 6:00 am to 6:00 pm; the platform and online service 24 hours a day"}, "map": "", "pages": []};
 const EN=document.documentElement.lang==='en';
 const me=document.currentScript&&document.currentScript.src||'';
 const ROOT=me?me.replace(/assets\/grow\.js.*$/,''):'';
