@@ -72,9 +72,15 @@ function specs(d){return [EN?d.pack_en||d.pack:d.pack,EN?d.origin_en||d.origin:d
 // the supplier company, when the management names one (المورد), shows under the specifications and is searchable
 const supOf=d=>EN?d.sup_en||d.sup:d.sup;
 const imgSrc=u=>window.MARKET_STORE&&MARKET_STORE.src?MARKET_STORE.src(u):u;
+// favourites: the customer stars the items they buy often; kept on this device only and shown first in the shop
+const FKEY='jahiz_favs';let favs=[];try{favs=(JSON.parse(localStorage.getItem(FKEY)||'[]')||[]).filter(c=>byCode[c])}catch(e){}
+const saveFavs=()=>{try{localStorage.setItem(FKEY,JSON.stringify(favs))}catch(e){}};
+const favBtn=s=>{const on=favs.includes(s.c);return `<button type="button" class="fav${on?' on':''}" data-fav="${s.c}" aria-pressed="${on}" aria-label="${esc((on?L('إزالة من المفضلة: ','Remove from favourites: '):L('أضف إلى المفضلة: ','Add to favourites: '))+s.n)}" title="${on?L('في المفضلة','In favourites'):L('أضف إلى المفضلة','Add to favourites')}">${on?'★':'☆'}</button>`};
+function favsHTML(){const list=favs.map(c=>byCode[c]).filter(Boolean);if(!list.length)return '';const avail=list.filter(s=>!(s.d&&s.d.st==='out')&&s.p>0);
+  return `<section class="favs" aria-labelledby="favH"><div class="kindh"><h3 id="favH">★ ${L('مفضلتي','My favourites')}</h3><span class="mute">${list.length} ${L('صنف','items')}</span>${avail.length?`<button type="button" class="btn sm" data-favall>${L('أضف الكل إلى السلة','Add all to basket')}</button>`:''}</div>${block(list)}</section>`}
 function itemCard(s){const q=cart.get(s.c)||0,d=s.d||{},out=d.st==='out',sp=specs(d);
   return `<div class="item${out?' out':''}${d.feat?' feat':''}" data-c="${s.c}">${d.img?`<img class="ph" src="${esc(imgSrc(d.img))}" alt="${esc(s.n)}" loading="lazy" width="72" height="72">`:''}<div class="t"><b>${esc(s.n)}</b>${sp.length?`<span class="spec">${sp.map(esc).join(' · ')}</span>`:''}${d.sup?`<span class="sup">${L('المورد: ','Supplier: ')}${esc(supOf(d))}</span>`:''}<small>${esc(s.gn||catName(s.cat))} · <span class="code">${s.c}</span></small></div>
-   <div class="p">${priceHTML(s)}${out?`<span class="oos">${L('غير متوفر حالياً','Out of stock')}</span>`:q?qtyHTML(s,q):`<button type="button" class="add" data-add="${s.c}" aria-label="${esc(T.add+' '+s.n)}">${T.add}</button>`}</div></div>`}
+   <div class="p">${favBtn(s)}${priceHTML(s)}${out?`<span class="oos">${L('غير متوفر حالياً','Out of stock')}</span>`:q?qtyHTML(s,q):`<button type="button" class="add" data-add="${s.c}" aria-label="${esc(T.add+' '+s.n)}">${T.add}</button>`}</div></div>`}
 const qtyHTML=(s,q)=>`<span class="qty"><button type="button" data-dec="${s.c}" aria-label="${esc(T.dec+' '+s.n)}">−</button><output class="num">${q}</output><button type="button" data-inc="${s.c}" aria-label="${esc(T.inc+' '+s.n)}">+</button></span>`;
 // Arabic matches anywhere in a word (prefixes such as «ال»), English from the start of a word so «ac» does not hit «packed»
 // the category summary is searched only when no item name, group or specification matches, so «AC» does not list every accredited partner
@@ -104,7 +110,7 @@ function render(){const box=$('catalog');if(!box)return;const q=($('sq').value||
   if(open){const c=M.CATS.find(x=>x.code===open);
     box.innerHTML=`<div class="catv"><a class="btn sm ghost" href="#shop" style="align-self:flex-start">${T.back}</a><div class="cathead"><span class="ic" aria-hidden="true">${c.icon}</span><div><h3>${esc(catName(c))}</h3><p class="lead">${esc(EN?c.about_en:c.about_ar)}</p></div></div>
       ${catBody(c)}<p class="note">${T.estNote}</p></div>`;return}
-  box.innerHTML=kinds.filter(k=>kind==='all'||kind===k).map(k=>`<div class="kindh"><h3>${esc(EN?M.KINDS[k].en:M.KINDS[k].ar)}</h3><span class="mute">${M.CATS.filter(c=>c.kind===k).length} ${L('أقسام','categories')}</span></div><div class="cats">${M.CATS.filter(c=>c.kind===k).map(catTile).join('')}</div>`).join('')}
+  box.innerHTML=(kind==='all'?favsHTML():'')+kinds.filter(k=>kind==='all'||kind===k).map(k=>`<div class="kindh"><h3>${esc(EN?M.KINDS[k].en:M.KINDS[k].ar)}</h3><span class="mute">${M.CATS.filter(c=>c.kind===k).length} ${L('أقسام','categories')}</span></div><div class="cats">${M.CATS.filter(c=>c.kind===k).map(catTile).join('')}</div>`).join('')}
 // the same product from several origins or suppliers ("fam" in the item details) is shown once, with its prices compared
 const fams={};all.forEach(s=>{const f=s.d&&s.d.fam;if(f)(fams[f]=fams[f]||[]).push(s)});
 const famPick={};
@@ -118,7 +124,7 @@ function famCard(vs){const sorted=vs.slice().sort((a,b)=>a.p-b.p),lo=sorted[0].p
    ${inCart.length?`<small class="incart">${L('في سلتك: ','In your basket: ')}${inCart.map(s=>esc(vLabel(s))+' × '+cart.get(s.c)).join('، ')}</small>`:''}</div>`}
 // a whole list can also be read as rows (name, specifications, unit, price), which is quicker for long categories
 let VIEW='cards';try{VIEW=localStorage.getItem('jahiz_view')==='list'?'list':'cards'}catch(e){}
-function rowHTML(s){const q=cart.get(s.c)||0,d=s.d||{},sp=specs(d);return `<tr${d.st==='out'?' class="out"':''}><td><b>${esc(s.n)}</b>${sp.length?`<br><small>${sp.map(esc).join(' · ')}</small>`:''}</td><td class="u">${esc(s.u)}</td><td class="num">${s.p?`<b>${fmt(s.p)}</b> <small>${CUR}</small>`:`<small>${ONREQ}</small>`}</td><td>${d.st==='out'?`<span class="oos">${L('غير متوفر','Out')}</span>`:q?qtyHTML(s,q):`<button type="button" class="add sm" data-add="${s.c}" aria-label="${esc(T.add+' '+s.n)}">${T.add}</button>`}</td></tr>`}
+function rowHTML(s){const q=cart.get(s.c)||0,d=s.d||{},sp=specs(d);return `<tr${d.st==='out'?' class="out"':''}><td>${favBtn(s)}<b>${esc(s.n)}</b>${sp.length?`<br><small>${sp.map(esc).join(' · ')}</small>`:''}</td><td class="u">${esc(s.u)}</td><td class="num">${s.p?`<b>${fmt(s.p)}</b> <small>${CUR}</small>`:`<small>${ONREQ}</small>`}</td><td>${d.st==='out'?`<span class="oos">${L('غير متوفر','Out')}</span>`:q?qtyHTML(s,q):`<button type="button" class="add sm" data-add="${s.c}" aria-label="${esc(T.add+' '+s.n)}">${T.add}</button>`}</td></tr>`}
 function block(list){if(VIEW==='list')return `<div class="ilist"><table><thead><tr><th>${L('الصنف','Item')}</th><th>${L('الوحدة','Unit')}</th><th>${L('السعر','Price')}</th><th></th></tr></thead><tbody>${list.slice().sort((a,b)=>a.n===b.n?a.p-b.p:0).map(rowHTML).join('')}</tbody></table></div>`;
   return `<div class="items">${units(list).map(u=>Array.isArray(u)?famCard(u):itemCard(u)).join('')}</div>`}
 const viewSw=()=>`<div class="vsw" role="group" aria-label="${L('طريقة العرض','View')}"><button type="button" class="chip" data-view="cards" aria-pressed="${VIEW==='cards'}">${L('بطاقات','Cards')}</button><button type="button" class="chip" data-view="list" aria-pressed="${VIEW==='list'}">${L('قائمة','List')}</button></div>`;
@@ -142,7 +148,9 @@ function renderBaskets(){const box=$('bkts');if(!box)return;
   pb&&pb.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===per));
   box.innerHTML=M.BASKETS.filter(b=>per==='all'||b.period===per).map(basketCard).join('')}
 function setQty(c,q){if(q<=0)cart.delete(c);else cart.set(c,Math.min(99,q));save();render();renderBaskets();renderBasket()}
-document.addEventListener('click',e=>{const t=e.target.closest('[data-add],[data-inc],[data-dec],[data-rm]');if(!t)return;
+document.addEventListener('click',e=>{const fb=e.target.closest('[data-fav]');if(fb){const c=fb.dataset.fav,on=favs.includes(c);favs=on?favs.filter(x=>x!==c):[c,...favs].slice(0,60);saveFavs();render();toast(on?L('أُزيل من المفضلة','Removed from favourites'):L('أُضيف إلى المفضلة ★','Added to favourites ★'));const nb=document.querySelector(`[data-fav="${c}"]`);nb&&nb.focus();return}
+  if(e.target.closest('[data-favall]')){let n=0;favs.forEach(c=>{const s=byCode[c];if(s&&!(s.d&&s.d.st==='out')&&s.p>0&&!cart.has(c)){cart.set(c,1);n++}});save();render();renderBaskets();renderBasket();toast(n?L(`أُضيف ${n} من المفضلة إلى السلة`,`${n} favourites added to the basket`):L('كل المفضلة في السلة','All favourites are already in the basket'));return}
+  const t=e.target.closest('[data-add],[data-inc],[data-dec],[data-rm]');if(!t)return;
   if(t.dataset.add){const s=byCode[t.dataset.add];setQty(t.dataset.add,1);toast(T.added(s.n+(s.d&&s.d.fam?' ('+vLabel(s)+')':'')))}
   else if(t.dataset.inc)setQty(t.dataset.inc,(cart.get(t.dataset.inc)||0)+1);
   else if(t.dataset.dec)setQty(t.dataset.dec,(cart.get(t.dataset.dec)||0)-1);

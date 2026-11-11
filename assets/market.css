@@ -392,3 +392,9 @@ footer .wrap.logins{display:flex;flex-direction:row;flex-wrap:wrap;justify-conte
 .bhist .bh small{display:block;opacity:.7}
 .bhist .linkish{background:none;border:0;padding:0;font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;color:inherit;opacity:.75;justify-self:start}
 .empty .sugg{margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+
+/* favourites */
+.fav{background:none;border:0;color:#b9862b;font-size:1.25rem;line-height:1;min-width:36px;min-height:36px;padding:4px;cursor:pointer;border-radius:8px;flex:none}
+.fav:hover,.fav:focus-visible{background:rgba(185,134,43,.12)}.fav.on{color:#d99a00}
+.ilist td .fav{vertical-align:middle;margin-inline-end:4px}
+.favs{margin:0 0 18px;padding:12px;border:1px solid rgba(217,154,0,.35);border-radius:16px;background:rgba(217,154,0,.05)}.favs .kindh{gap:10px;flex-wrap:wrap;align-items:center}.favs .kindh .btn{margin-inline-start:auto}
