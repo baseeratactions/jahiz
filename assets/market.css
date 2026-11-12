@@ -398,3 +398,9 @@ footer .wrap.logins{display:flex;flex-direction:row;flex-wrap:wrap;justify-conte
 .fav:hover,.fav:focus-visible{background:rgba(185,134,43,.12)}.fav.on{color:#d99a00}
 .ilist td .fav{vertical-align:middle;margin-inline-end:4px}
 .favs{margin:0 0 18px;padding:12px;border:1px solid rgba(217,154,0,.35);border-radius:16px;background:rgba(217,154,0,.05)}.favs .kindh{gap:10px;flex-wrap:wrap;align-items:center}.favs .kindh .btn{margin-inline-start:auto}
+
+/* paste a shopping list */
+.plist{display:block!important;width:100%;box-sizing:border-box;flex-basis:100%;margin:10px 0 4px;border:1px dashed rgba(127,127,127,.45);border-radius:14px;padding:8px 12px}.plist summary{cursor:pointer;font-weight:700;min-height:36px;display:flex;align-items:center}
+.plist textarea{width:100%;box-sizing:border-box;font:inherit;padding:10px;border-radius:10px;border:1px solid rgba(127,127,127,.4);background:transparent;color:inherit;margin:6px 0}
+.plist label.mute{display:block}.plr li{text-align:start}.plist .plr label{display:flex!important;flex-direction:row!important;justify-content:flex-start;width:100%;grid-template-columns:none}.plr{list-style:none;padding:0;margin:6px 0;display:grid;gap:4px}.plr label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}.plr small{display:block;opacity:.7}.plr .miss{opacity:.85;padding:4px 0}
+.plr input{width:20px;height:20px;flex:none;margin-top:2px}

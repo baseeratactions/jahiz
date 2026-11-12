@@ -166,6 +166,33 @@ addEventListener('hashchange',route);
 $('hs')&&$('hs').addEventListener('submit',e=>{e.preventDefault();if($('hq'))$('sq').value=$('hq').value.trim();open=null;kind='all';render();$('catalog').scrollIntoView({block:'start'});$('sq').blur()});
 document.querySelectorAll('[data-kind]').forEach(a=>a.addEventListener('click',()=>{kind=a.dataset.kind;open=null;$('sq').value='';render()}));
 
+// ---- paste a shopping list: one item per line, matched to the catalogue; what is not found goes to the order notes ----
+(function(){const hs=$('hs');if(!hs)return;const d=document.createElement('details');d.className='plist';
+  d.innerHTML=`<summary>📝 ${L('عندك قائمة مشتريات؟ الصقها هنا ونجهّز سلتك','Have a shopping list? Paste it and we fill your basket')}</summary>
+  <label for="plT" class="mute sm">${L('صنف في كل سطر، ويمكن كتابة الكمية قبله أو بعده: «2 أرز بسمتي» أو «حليب × 3»','One item per line, with the quantity before or after it: “2 basmati rice” or “milk x 3”')}</label>
+  <textarea id="plT" rows="5" placeholder="${L('أرز بسمتي\n2 حليب\nطماطم','basmati rice\n2 milk\ntomatoes')}"></textarea>
+  <div class="row"><button type="button" class="btn pri sm" data-plgo>${L('طابِق القائمة','Match my list')}</button></div><div id="plR" aria-live="polite"></div>`;
+  hs.after(d)})();
+const toLat=t=>String(t).replace(/[٠-٩]/g,c=>'٠١٢٣٤٥٦٧٨٩'.indexOf(c));
+function parseLine(line){let t=toLat(line).replace(/^[\s\-•*·▪◦]+|\s+$/g,'');let q=1;
+  let m=t.match(/^(\d{1,2})\s*[x×*]?\s+(.+)$/i)||t.match(/^(.+?)\s*(?:[x×*]|:)\s*(\d{1,2})$/i)||t.match(/^(.+?)\s+(\d{1,2})$/);
+  if(m){if(/^\d/.test(m[1])){q=+m[1];t=m[2]}else{t=m[1];q=+m[2]}}return {name:t.trim(),q:Math.max(1,Math.min(99,q))}}
+let plRes=[];
+function plMatch(){const lines=($('plT').value||'').split(/\n+/).map(x=>x.trim()).filter(Boolean).slice(0,40);
+  plRes=lines.map(line=>{const {name,q}=parseLine(line);let hits=all.filter(s=>match(s,name)&&!(s.d&&s.d.st==='out')&&s.p>0);
+    const nn=norm(name),rank=x=>{const t=norm(x.n);return t===nn?0:t.startsWith(nn)?1:2};hits.sort((a,b)=>rank(a)-rank(b)||a.n.length-b.n.length||a.p-b.p);return {line,name,q,s:hits[0]||null,alt:hits.slice(1,4)}});
+  const found=plRes.filter(r=>r.s),miss=plRes.filter(r=>!r.s);
+  $('plR').innerHTML=!plRes.length?`<p class="mute">${L('اكتب صنفاً واحداً على الأقل.','Write at least one item.')}</p>`:
+   `<p><b>${L(`وجدنا ${found.length} من ${plRes.length}`,`Found ${found.length} of ${plRes.length}`)}</b></p><ul class="plr">${plRes.map((r,i)=>r.s?`<li><label><input type="checkbox" data-pli="${i}" checked><span><b>${esc(fullName(r.s))}</b> × ${r.q}<small>${esc(r.line)} · ${fmt(r.s.p*r.q)} ${CUR}</small></span></label></li>`:`<li class="miss"><span>⚠ ${esc(r.line)}<small>${L('غير موجود في المتجر، نضيفه إلى ملاحظات الطلب لنوفّره لك','Not in the shop; we will add it to your order notes and source it')}</small></span></li>`).join('')}</ul>
+   <div class="row"><button type="button" class="btn pri" data-pladd>${L('أضف إلى السلة','Add to basket')}</button></div>`}
+document.addEventListener('click',e=>{if(e.target.closest('[data-plgo]')){plMatch();return}
+  if(!e.target.closest('[data-pladd]'))return;let n=0;
+  plRes.forEach((r,i)=>{const cb=document.querySelector(`[data-pli="${i}"]`);if(r.s&&cb&&cb.checked){cart.set(r.s.c,Math.min(99,(cart.get(r.s.c)||0)+r.q));n++}});
+  const miss=plRes.filter(r=>!r.s).map(r=>r.line),note=$('oNote');
+  if(miss.length&&note){const add=miss.map(x=>L('أبحث عن: ','Looking for: ')+x).filter(x=>!note.value.includes(x));if(add.length)note.value=(note.value?note.value+'\n':'')+add.join('\n')}
+  save();render();renderBaskets();renderBasket();toast(L(`أضفنا ${n} صنفاً إلى السلة`+(miss.length?` و${miss.length} إلى الملاحظات`:''),`${n} items added to the basket`+(miss.length?`, ${miss.length} to the notes`:'')));
+  $('plT').value='';$('plR').innerHTML='';plRes=[]});
+
 // ---- basket and order ----
 const fullName=s=>s.n+(s.d&&s.d.fam?' ('+vLabel(s)+')':'');
 function basketLines(){return [...cart].map(([c,q])=>`${fullName(byCode[c])} (${c}) × ${q}`)}
