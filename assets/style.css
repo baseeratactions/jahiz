@@ -2,7 +2,7 @@ html,body{margin:0}
 
 /* Layout: navy header band with a watchful "eye" mark, then a working catalog: filter chips + searchable service list, packages with monthly/annual switch, cost estimator, request form */
 :root{
-  --bg:#f6f7f8;--surface:#ffffff;--ink:#26323d;--mute:#6b7682;--line:#e4e7ea;
+  --bg:#f6f7f8;--surface:#ffffff;--ink:#26323d;--mute:#5f6a76;--line:#e4e7ea;
   --navy:#6d28d9;--navy-ink:#ffffff;--amber:#db2777;--amber-soft:#f6f1e8;--amber-ink:#2a2416;
   --ok:#4a7a6c;--ok-soft:#ebf2ef;--chip:#eff1f3;
   --hero-bg:#ffffff;--hero-ink:#26323d;--hero-em:#6d28d9;--hero-card:#f6f7f8;
