@@ -251,3 +251,7 @@ td.good{color:var(--ok)}td.warn{color:var(--amber)}td.bad{color:#c0392b}
 /* لوحة الإدارة: نص أبيض على الوردي (تباين 4.6) بدل الداكن (3.35)، في الشارات والأزرار الرئيسية ووسم «حساب إدارة» */
 body.crm{--amber-ink:#ffffff}
 .crmwho em{color:#ffffff}
+
+/* الرسم الشهري يتسع لاثني عشر شهراً على الجوال، وجدول التقارير يمرّ داخل بطاقته، فلا تتمدد الصفحة أفقياً */
+#rpOut .panel{overflow-x:auto}
+@media (max-width:520px){.cols{gap:3px}.cols>.col{min-width:0}.cols .col small{font-size:10px}.cols .col:nth-last-child(even) small{visibility:hidden}}
