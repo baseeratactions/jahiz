@@ -528,7 +528,7 @@ const inP=(d,[a,b])=>{d=dOnly(d);return d>=a&&d<=b};
 
 // manager dashboard (admin): transactions, staff completion, revenue, costs and profit
 $('mgP').onchange=renderMgr;
-function renderMgr(){if(!isAdmin())return;const P=periodOf($('mgP').value);$('mgRange').textContent=$('mgP').value==='all'?'':`${P[0]} — ${P[1]}`;
+function renderMgr(){if(!isAdmin())return;const P=periodOf($('mgP').value);$('mgRange').textContent=$('mgP').value==='all'?'':`${dmy(P[0])} — ${dmy(P[1])}`;
   const T=DB.Transactions,live=T.filter(t=>t.status!=='ملغاة'),open=T.filter(t=>!CLOSED.includes(t.status)),late=open.filter(t=>{const d=days(t.dueDate);return d!==null&&d<0});
   const newP=T.filter(t=>inP(t.created,P)),doneP=T.filter(t=>t.status==='منجزة'&&inP(t.closed||t.updated,P));
   const rev=DB.Payments.filter(p=>inP(p.date,P)).reduce((a,p)=>a+(+p.amount||0),0),cost=DB.Expenses.filter(x=>inP(x.date,P)).reduce((a,x)=>a+(+x.amount||0),0);
@@ -772,7 +772,7 @@ function printClientStatement(id){const c=cli(id),ev=[];DB.Transactions.filter(t
 function renderPl(){if(!can('finance'))return;const P=periodOf($('plP').value),sum={};entries().filter(x=>inP(x.date,P)).forEach(x=>x.lines.forEach(l=>{const s=sum[l.a]=sum[l.a]||{dr:0,cr:0};s.dr+=+l.dr||0;s.cr+=+l.cr||0}));
   const A=coa(),inc=A.filter(a=>a.type==='income').map(a=>[a,natural('income',sum[a.code]||{dr:0,cr:0})]).filter(x=>x[1]),exp=A.filter(a=>a.type==='expense').map(a=>[a,natural('expense',sum[a.code]||{dr:0,cr:0})]).filter(x=>x[1]);
   const ti=inc.reduce((a,x)=>a+x[1],0),te=exp.reduce((a,x)=>a+x[1],0),nm=a=>esc(EN&&a.nameEn?a.nameEn:a.name);
-  $('plT').innerHTML=`<p class="mute sm">${$('plP').value==='all'?L('كل الفترات','All time'):P[0]+' — '+P[1]}</p><table class="fin"><tbody>
+  $('plT').innerHTML=`<p class="mute sm">${$('plP').value==='all'?L('كل الفترات','All time'):dmy(P[0])+' — '+dmy(P[1])}</p><table class="fin"><tbody>
    <tr class="h"><td colspan="2">${L('الإيرادات','Income')}</td></tr>${inc.map(([a,v])=>`<tr><td>${a.code} · ${nm(a)}</td><td class="num">${fmt(v)}</td></tr>`).join('')||`<tr><td class="mute">${L('لا يوجد','None')}</td><td></td></tr>`}<tr class="tot"><td>${L('إجمالي الإيرادات','Total income')}</td><td class="num">${fmt(ti)}</td></tr>
    <tr class="h"><td colspan="2">${L('المصروفات','Expenses')}</td></tr>${exp.map(([a,v])=>`<tr><td>${a.code} · ${nm(a)}</td><td class="num">${fmt(v)}</td></tr>`).join('')||`<tr><td class="mute">${L('لا يوجد','None')}</td><td></td></tr>`}<tr class="tot"><td>${L('إجمالي المصروفات','Total expenses')}</td><td class="num">${fmt(te)}</td></tr>
    <tr class="net"><td>${ti-te>=0?L('صافي الربح','Net profit'):L('صافي الخسارة','Net loss')}</td><td class="num">${money(Math.abs(ti-te))}</td></tr></tbody></table>`}
@@ -905,7 +905,7 @@ function renderRep(){if(!can('finance'))return;if(!$('rpD').value)$('rpD').value
   const prevD=new Date(P[0]);prevD.setDate(prevD.getDate()-1);const PP=rangeOf(t,dstr(prevD)),F=figures(P),G=figures(PP);RP={t,P,F};
   const ch=(a,b,inv)=>b?`<small class="${(inv?a<=b:a>=b)?'good':'bad'}">${a>=b?'▲':'▼'} ${Math.abs(Math.round((a-b)/Math.abs(b)*100))}%</small>`:'';
   const byC={};F.exps.forEach(x=>byC[x.category]=(byC[x.category]||0)+(+x.amount||0));const byM={};F.pays.forEach(p=>byM[p.method]=(byM[p.method]||0)+(+p.amount||0));
-  $('rpOut').innerHTML=`<div class="panel"><h3>${RP_NAME[t]}: <span class="num">${P[0]}${P[1]!==P[0]?' — '+P[1]:''}</span></h3><p class="mute sm">${L('المقارنة مع الفترة السابقة','Compared with the previous period')}: <span class="num">${PP[0]} — ${PP[1]}</span></p>
+  $('rpOut').innerHTML=`<div class="panel"><h3>${RP_NAME[t]}: <span class="num">${dmy(P[0])}${P[1]!==P[0]?' — '+dmy(P[1]):''}</span></h3><p class="mute sm">${L('المقارنة مع الفترة السابقة','Compared with the previous period')}: <span class="num">${dmy(PP[0])} — ${dmy(PP[1])}</span></p>
     <div class="kpis">${[[L('الإيراد المحصّل','Revenue collected'),money(F.rev),ch(F.rev,G.rev)],[L('المصروفات','Expenses'),money(F.cost),ch(F.cost,G.cost,1)],[L('صافي الربح','Net profit'),money(F.profit),ch(F.profit,G.profit)],[L('أتعاب المعاملات الجديدة','Fees on new transactions'),money(F.fees),ch(F.fees,G.fees)],
       [L('معاملات جديدة','New transactions'),F.tx.length,ch(F.tx.length,G.tx.length)],[L('معاملات أُنجزت','Transactions completed'),F.done,ch(F.done,G.done)],[L('عملاء جدد','New clients'),F.clients,ch(F.clients,G.clients)],[L('سندات القبض','Receipts'),F.pays.length,'']].map(([k,v,c])=>`<div class="kpi"><b class="num">${v}</b><span>${k} ${c}</span></div>`).join('')}</div></div>
     <div class="grid2"><div class="panel"><h3>${L('الإيراد حسب طريقة الدفع','Revenue by payment method')}</h3>${Object.keys(byM).length?`<table class="mini">${Object.entries(byM).map(([k,v])=>`<tr><td>${esc(k)}</td><td class="num">${fmt(v)}</td></tr>`).join('')}</table>`:`<p class="mute">${L('لا يوجد.','None.')}</p>`}</div>
@@ -915,7 +915,7 @@ function renderRep(){if(!can('finance'))return;if(!$('rpD').value)$('rpD').value
 $('rpT').onchange=$('rpD').onchange=renderRep;
 const shiftRp=n=>{const P=rangeOf($('rpT').value,$('rpD').value),d=new Date(n<0?P[0]:P[1]);d.setDate(d.getDate()+n);$('rpD').value=dstr(d);renderRep()};
 $('rpPrev').onclick=()=>shiftRp(-1);$('rpNext').onclick=()=>shiftRp(1);
-$('rpPrint').onclick=()=>printView('rpOut',RP_NAME[$('rpT').value]+' '+RP.P[0]+(RP.P[1]!==RP.P[0]?' — '+RP.P[1]:''));
+$('rpPrint').onclick=()=>printView('rpOut',RP_NAME[$('rpT').value]+' '+dmy(RP.P[0])+(RP.P[1]!==RP.P[0]?' — '+dmy(RP.P[1]):''));
 $('rpCsv').onclick=()=>{const F=RP.F,r=[[L('الإيراد المحصّل','Revenue collected'),F.rev],[L('المصروفات','Expenses'),F.cost],[L('صافي الربح','Net profit'),F.profit],[L('أتعاب المعاملات الجديدة','Fees on new transactions'),F.fees],[L('معاملات جديدة','New transactions'),F.tx.length],[L('معاملات أُنجزت','Transactions completed'),F.done],[L('عملاء جدد','New clients'),F.clients]];
   F.exps.forEach(x=>r.push([L('مصروف','Expense')+': '+x.category+' · '+x.date,-x.amount]));F.pays.forEach(p=>r.push([L('سند','Receipt')+' '+p.receiptNo+' · '+p.date,p.amount]));csvOut(`jahiz-report-${RP.t}-${RP.P[0]}.csv`,[L('البند','Item'),L('القيمة','Value')],r)};
 // balance sheet: assets = liabilities + equity + profit to date
@@ -938,7 +938,7 @@ function renderCf(){if(!can('finance'))return;const P=periodOf($('cfP').value),A
     const lab=e.auto==='pay'?L('التحصيل من العملاء','Collected from clients'):accName(other.a);parts[k][lab]=(parts[k][lab]||0)+cash});
   const sec=(t,o)=>{const s=Object.values(o).reduce((a,b)=>a+b,0);return [`<tr class="h"><td colspan="2">${t}</td></tr>`+(Object.entries(o).map(([k,v])=>`<tr><td>${esc(k)}</td><td class="num ${v<0?'bad':''}">${fmt(v)}</td></tr>`).join('')||`<tr><td class="mute">${L('لا يوجد','None')}</td><td></td></tr>`)+`<tr class="tot"><td>${L('صافي','Net')} ${t}</td><td class="num">${fmt(s)}</td></tr>`,s]};
   const [a,x]=sec(L('الأنشطة التشغيلية','Operating activities'),parts.op),[b,y]=sec(L('الأنشطة الاستثمارية','Investing activities'),parts.inv),[c,z]=sec(L('الأنشطة التمويلية','Financing activities'),parts.fin);
-  $('cfT').innerHTML=`<p class="mute sm num">${$('cfP').value==='all'?L('كل الفترات','All time'):P[0]+' — '+P[1]}</p><table class="fin"><tbody><tr><td>${L('النقدية في بداية الفترة (الصندوق والبنك)','Cash at the start (cash and bank)')}</td><td class="num">${fmt(open)}</td></tr>${a}${b}${c}
+  $('cfT').innerHTML=`<p class="mute sm num">${$('cfP').value==='all'?L('كل الفترات','All time'):dmy(P[0])+' — '+dmy(P[1])}</p><table class="fin"><tbody><tr><td>${L('النقدية في بداية الفترة (الصندوق والبنك)','Cash at the start (cash and bank)')}</td><td class="num">${fmt(open)}</td></tr>${a}${b}${c}
     <tr class="tot"><td>${L('صافي التغير في النقدية','Net change in cash')}</td><td class="num">${fmt(x+y+z)}</td></tr><tr class="net"><td>${L('النقدية في نهاية الفترة','Cash at the end')}</td><td class="num">${fmt(open+x+y+z)}</td></tr></tbody></table>`}
 $('cfPrint').onclick=()=>printView('cfT',L('قائمة التدفقات النقدية','Cash flow statement'));
 // receivables ageing
