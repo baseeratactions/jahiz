@@ -635,3 +635,4 @@ body.signed-client #whoLi{display:none!important}
 :root[data-theme="dark"]{--amber-text:var(--amber)}
 .eyebrow,.hero .eyebrow{color:var(--amber-text)}
 footer .fc b{color:#b0145a}
+.skip{position:absolute;inset-inline-start:12px;top:-60px;z-index:50;background:var(--pri);color:var(--pri-ink);padding:10px 16px;border-radius:10px;font-weight:700;text-decoration:none}.skip:focus{top:12px}main:focus{outline:none}
