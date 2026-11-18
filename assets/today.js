@@ -90,7 +90,11 @@ tick();setInterval(tick,1000);
 
 // ---- news (refreshed by a scheduled job on the site; plain text only, links must be http(s)) ----
 const safe=u=>{try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:null}catch(e){return null}};
+// data older than three days is not shown: prices and headlines must be current
+const fresh=j=>j&&j.updated&&!isNaN(new Date(j.updated))&&Date.now()-new Date(j.updated)<3*864e5;
+const dmyT=v=>{const p=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Qatar',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(v)).map(x=>[x.type,x.value]));return `${p.day}/${p.month}/${p.year} ${p.hour}:${p.minute}`};
 fetch((EN?'../':'')+'data/news.json?d='+PRday,{cache:'no-cache'}).then(r=>r.ok?r.json():Promise.reject()).then(j=>{
+  if(!fresh(j))throw 0;
   const list=((j&&j[EN?'en':'ar'])||[]).filter(x=>x&&x.title&&safe(x.link)).slice(0,6);
   if(!list.length)throw 0;
   nl.replaceChildren(...list.map(x=>{const li=el('li'),a=el('a',null,String(x.title).slice(0,180));a.href=safe(x.link);a.target='_blank';a.rel='noopener noreferrer nofollow';li.append(a);
@@ -98,11 +102,12 @@ fetch((EN?'../':'')+'data/news.json?d='+PRday,{cache:'no-cache'}).then(r=>r.ok?r
   const link=x=>{const a=el('a',null,String(x.title).slice(0,180));a.href=safe(x.link);a.target='_blank';a.rel='noopener noreferrer nofollow';return a};
   let i=0;const show=()=>{const x=list[i%list.length];tkLine.replaceChildren(link(x));if(x.source)tkLine.append(el('small','mute',' · '+String(x.source).slice(0,40)));tkLine.classList.remove('in');void tkLine.offsetWidth;tkLine.classList.add('in');i++};
   show();tkAll.hidden=false;if(list.length>1&&!matchMedia('(prefers-reduced-motion: reduce)').matches){let t=setInterval(show,6000);ticker.onmouseenter=()=>clearInterval(t);ticker.onmouseleave=()=>{clearInterval(t);t=setInterval(show,6000)}}
-  if(j.updated)nMeta.textContent=L('آخر تحديث: ','Updated: ')+String(j.updated).slice(0,16).replace('T',' ')+L(' · المصدر: أخبار Google',' · Source: Google News');
+  nMeta.textContent=L('آخر تحديث: ','Updated: ')+dmyT(j.updated)+L(' · المصدر: أخبار Google',' · Source: Google News');
 }).catch(()=>{ticker.hidden=true});
 
 // ---- market prices (numbers only, refreshed by the same scheduled job) ----
 fetch((EN?'../':'')+'data/markets.json?d='+PRday,{cache:'no-cache'}).then(r=>r.ok?r.json():Promise.reject()).then(j=>{
+  if(!fresh(j))return;
   const items=((j&&j.items)||[]).filter(x=>x&&typeof x.v==='number'&&isFinite(x.v)).slice(0,10);if(!items.length)return;
   const nf=new Intl.NumberFormat('en',{maximumFractionDigits:2});
   const row=el('div','mk-row');
