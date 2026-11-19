@@ -84,6 +84,7 @@ a{color:inherit}
 .hsearch{display:flex;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px;box-shadow:var(--shadow);max-width:560px}
 .hsearch input{flex:1;min-width:0;border:0;background:transparent;font:inherit;padding:8px 14px;color:var(--ink)}
 .hsearch input:focus{outline:none}
+.hsearch:focus-within{outline:3px solid var(--acc);outline-offset:2px}
 .hero .row{margin-top:18px}
 .flow{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
 .flow h3{font-size:17px}
