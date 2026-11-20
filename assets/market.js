@@ -72,9 +72,15 @@ function specs(d){return [EN?d.pack_en||d.pack:d.pack,EN?d.origin_en||d.origin:d
 // the supplier company, when the management names one (المورد), shows under the specifications and is searchable
 const supOf=d=>EN?d.sup_en||d.sup:d.sup;
 const imgSrc=u=>window.MARKET_STORE&&MARKET_STORE.src?MARKET_STORE.src(u):u;
+// favourites: the customer stars the items they buy often; kept on this device only and shown first in the shop
+const FKEY='jahiz_favs';let favs=[];try{favs=(JSON.parse(localStorage.getItem(FKEY)||'[]')||[]).filter(c=>byCode[c])}catch(e){}
+const saveFavs=()=>{try{localStorage.setItem(FKEY,JSON.stringify(favs))}catch(e){}};
+const favBtn=s=>{const on=favs.includes(s.c);return `<button type="button" class="fav${on?' on':''}" data-fav="${s.c}" aria-pressed="${on}" aria-label="${esc((on?L('إزالة من المفضلة: ','Remove from favourites: '):L('أضف إلى المفضلة: ','Add to favourites: '))+s.n)}" title="${on?L('في المفضلة','In favourites'):L('أضف إلى المفضلة','Add to favourites')}">${on?'★':'☆'}</button>`};
+function favsHTML(){const list=favs.map(c=>byCode[c]).filter(Boolean);if(!list.length)return '';const avail=list.filter(s=>!(s.d&&s.d.st==='out')&&s.p>0);
+  return `<section class="favs" aria-labelledby="favH"><div class="kindh"><h3 id="favH">★ ${L('مفضلتي','My favourites')}</h3><span class="mute">${list.length} ${L('صنف','items')}</span>${avail.length?`<button type="button" class="btn sm" data-favall>${L('أضف الكل إلى السلة','Add all to basket')}</button>`:''}</div>${block(list)}</section>`}
 function itemCard(s){const q=cart.get(s.c)||0,d=s.d||{},out=d.st==='out',sp=specs(d);
   return `<div class="item${out?' out':''}${d.feat?' feat':''}" data-c="${s.c}">${d.img?`<img class="ph" src="${esc(imgSrc(d.img))}" alt="${esc(s.n)}" loading="lazy" width="72" height="72">`:''}<div class="t"><b>${esc(s.n)}</b>${sp.length?`<span class="spec">${sp.map(esc).join(' · ')}</span>`:''}${d.sup?`<span class="sup">${L('المورد: ','Supplier: ')}${esc(supOf(d))}</span>`:''}<small>${esc(s.gn||catName(s.cat))} · <span class="code">${s.c}</span></small></div>
-   <div class="p">${priceHTML(s)}${out?`<span class="oos">${L('غير متوفر حالياً','Out of stock')}</span>`:q?qtyHTML(s,q):`<button type="button" class="add" data-add="${s.c}" aria-label="${esc(T.add+' '+s.n)}">${T.add}</button>`}</div></div>`}
+   <div class="p">${favBtn(s)}${priceHTML(s)}${out?`<span class="oos">${L('غير متوفر حالياً','Out of stock')}</span>`:q?qtyHTML(s,q):`<button type="button" class="add" data-add="${s.c}" aria-label="${esc(T.add+' '+s.n)}">${T.add}</button>`}</div></div>`}
 const qtyHTML=(s,q)=>`<span class="qty"><button type="button" data-dec="${s.c}" aria-label="${esc(T.dec+' '+s.n)}">−</button><output class="num">${q}</output><button type="button" data-inc="${s.c}" aria-label="${esc(T.inc+' '+s.n)}">+</button></span>`;
 // Arabic matches anywhere in a word (prefixes such as «ال»), English from the start of a word so «ac» does not hit «packed»
 // the category summary is searched only when no item name, group or specification matches, so «AC» does not list every accredited partner
@@ -86,14 +92,25 @@ const SYN={'بندوره':'طماطم','رز':'ارز','بطاطا':'بطاطس'
 function match(s,q,wide){const t=norm([s.n,s.o,s.cat.ar,s.cat.en,s.gn,s.go,s.c].concat(s.d?[specs(s.d).join(' '),s.d.origin_en,s.d.origin,s.d.brand,s.d.brand_en,s.d.sup,s.d.sup_en,s.d.barcode,s.d.tags]:[]).concat(wide?[s.cat.about_en,s.cat.about_ar]:[]).filter(Boolean).join(' '));
   const one=w=>/[\u0600-\u06FF]/.test(w)?t.includes(w)||(SYN[w]&&t.includes(SYN[w])):new RegExp('(^|[^a-z0-9])'+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+(w.length<3?'($|[^a-z0-9])':'')).test(t);
   q=norm(q);return (SYN[q]&&t.includes(SYN[q]))||q.split(/\s+/).filter(Boolean).every(one)}
+// ---- nothing found: close spellings to try, or ask for it in the order ----
+function lev(a,b){if(a===b)return 0;const m=a.length,n=b.length;if(!m||!n)return m||n;let p=[...Array(n+1).keys()];for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
+const bare=w=>w.replace(/^(وال|بال|فال|ال)/,'');
+function suggest(q){const qw=norm(q).split(/\s+/).filter(w=>w.length>1).map(bare);if(!qw.length)return [];
+  const sc=all.map(s=>{const ws=norm(s.n).split(/[\s()\/،,-]+/).filter(Boolean).map(bare);let tot=0;
+    for(const w of qw){let best=9;for(const x of ws){const d=lev(w,x.slice(0,Math.max(w.length,x.length)));if(d<best)best=d}const lim=w.length<=3?1:w.length<=6?2:3;if(best>lim)return null;tot+=best}return {s,tot}}).filter(Boolean);
+  sc.sort((a,b)=>a.tot-b.tot||a.s.n.length-b.s.n.length);const top=sc.length?sc[0].tot:0,seen=new Set(),out=[];for(const {s,tot} of sc){if(tot>top)break;if(!seen.has(s.n)){seen.add(s.n);out.push(s)}if(out.length>=4)break}return out}
+function emptyHTML(q){const sg=suggest(q);
+  return `<div class="empty">${T.empty}${sg.length?`<p class="sugg">${L('هل تقصد:','Did you mean:')} ${sg.map(s=>`<button type="button" class="chip" data-sugg="${esc(s.n)}">${esc(s.n)}</button>`).join(' ')}</p>`:''}<p class="row" style="margin-top:10px"><button type="button" class="btn pri sm" data-askfor="${esc(q)}">${L('أضفه إلى ملاحظات طلبي','Add it to my order notes')}</button></p></div>`}
+document.addEventListener('click',e=>{const g=e.target.closest('[data-sugg]');if(g){$('sq').value=g.dataset.sugg;render();return}
+  const a=e.target.closest('[data-askfor]');if(a){const n=$('oNote');if(n){const line=L('أبحث عن: ','Looking for: ')+a.dataset.askfor;if(!n.value.includes(line))n.value=(n.value?n.value+'\n':'')+line;$('order').scrollIntoView({block:'start'});n.focus();toast(L('أضفناه إلى ملاحظات طلبك ✓','Added to your order notes ✓'))}}});
 function render(){const box=$('catalog');if(!box)return;const q=($('sq').value||'').trim();
   kbox&&kbox.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===kind));
   if(q){let hits=all.filter(s=>match(s,q));if(!hits.length)hits=all.filter(s=>match(s,q,true));
-    box.innerHTML=`<p class="lead">${esc(T.results(q))}</p>`+(hits.length?viewSw()+block(hits):`<div class="empty">${T.empty}</div>`);return}
+    box.innerHTML=`<p class="lead">${esc(T.results(q))}</p>`+(hits.length?viewSw()+block(hits):emptyHTML(q));return}
   if(open){const c=M.CATS.find(x=>x.code===open);
     box.innerHTML=`<div class="catv"><a class="btn sm ghost" href="#shop" style="align-self:flex-start">${T.back}</a><div class="cathead"><span class="ic" aria-hidden="true">${c.icon}</span><div><h3>${esc(catName(c))}</h3><p class="lead">${esc(EN?c.about_en:c.about_ar)}</p></div></div>
       ${catBody(c)}<p class="note">${T.estNote}</p></div>`;return}
-  box.innerHTML=kinds.filter(k=>kind==='all'||kind===k).map(k=>`<div class="kindh"><h3>${esc(EN?M.KINDS[k].en:M.KINDS[k].ar)}</h3><span class="mute">${M.CATS.filter(c=>c.kind===k).length} ${L('أقسام','categories')}</span></div><div class="cats">${M.CATS.filter(c=>c.kind===k).map(catTile).join('')}</div>`).join('')}
+  box.innerHTML=(kind==='all'?favsHTML():'')+kinds.filter(k=>kind==='all'||kind===k).map(k=>`<div class="kindh"><h3>${esc(EN?M.KINDS[k].en:M.KINDS[k].ar)}</h3><span class="mute">${M.CATS.filter(c=>c.kind===k).length} ${L('أقسام','categories')}</span></div><div class="cats">${M.CATS.filter(c=>c.kind===k).map(catTile).join('')}</div>`).join('')}
 // the same product from several origins or suppliers ("fam" in the item details) is shown once, with its prices compared
 const fams={};all.forEach(s=>{const f=s.d&&s.d.fam;if(f)(fams[f]=fams[f]||[]).push(s)});
 const famPick={};
@@ -107,7 +124,7 @@ function famCard(vs){const sorted=vs.slice().sort((a,b)=>a.p-b.p),lo=sorted[0].p
    ${inCart.length?`<small class="incart">${L('في سلتك: ','In your basket: ')}${inCart.map(s=>esc(vLabel(s))+' × '+cart.get(s.c)).join('، ')}</small>`:''}</div>`}
 // a whole list can also be read as rows (name, specifications, unit, price), which is quicker for long categories
 let VIEW='cards';try{VIEW=localStorage.getItem('jahiz_view')==='list'?'list':'cards'}catch(e){}
-function rowHTML(s){const q=cart.get(s.c)||0,d=s.d||{},sp=specs(d);return `<tr${d.st==='out'?' class="out"':''}><td><b>${esc(s.n)}</b>${sp.length?`<br><small>${sp.map(esc).join(' · ')}</small>`:''}</td><td class="u">${esc(s.u)}</td><td class="num">${s.p?`<b>${fmt(s.p)}</b> <small>${CUR}</small>`:`<small>${ONREQ}</small>`}</td><td>${d.st==='out'?`<span class="oos">${L('غير متوفر','Out')}</span>`:q?qtyHTML(s,q):`<button type="button" class="add sm" data-add="${s.c}" aria-label="${esc(T.add+' '+s.n)}">${T.add}</button>`}</td></tr>`}
+function rowHTML(s){const q=cart.get(s.c)||0,d=s.d||{},sp=specs(d);return `<tr${d.st==='out'?' class="out"':''}><td>${favBtn(s)}<b>${esc(s.n)}</b>${sp.length?`<br><small>${sp.map(esc).join(' · ')}</small>`:''}</td><td class="u">${esc(s.u)}</td><td class="num">${s.p?`<b>${fmt(s.p)}</b> <small>${CUR}</small>`:`<small>${ONREQ}</small>`}</td><td>${d.st==='out'?`<span class="oos">${L('غير متوفر','Out')}</span>`:q?qtyHTML(s,q):`<button type="button" class="add sm" data-add="${s.c}" aria-label="${esc(T.add+' '+s.n)}">${T.add}</button>`}</td></tr>`}
 function block(list){if(VIEW==='list')return `<div class="ilist"><table><thead><tr><th>${L('الصنف','Item')}</th><th>${L('الوحدة','Unit')}</th><th>${L('السعر','Price')}</th><th></th></tr></thead><tbody>${list.slice().sort((a,b)=>a.n===b.n?a.p-b.p:0).map(rowHTML).join('')}</tbody></table></div>`;
   return `<div class="items">${units(list).map(u=>Array.isArray(u)?famCard(u):itemCard(u)).join('')}</div>`}
 const viewSw=()=>`<div class="vsw" role="group" aria-label="${L('طريقة العرض','View')}"><button type="button" class="chip" data-view="cards" aria-pressed="${VIEW==='cards'}">${L('بطاقات','Cards')}</button><button type="button" class="chip" data-view="list" aria-pressed="${VIEW==='list'}">${L('قائمة','List')}</button></div>`;
@@ -131,7 +148,9 @@ function renderBaskets(){const box=$('bkts');if(!box)return;
   pb&&pb.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===per));
   box.innerHTML=M.BASKETS.filter(b=>per==='all'||b.period===per).map(basketCard).join('')}
 function setQty(c,q){if(q<=0)cart.delete(c);else cart.set(c,Math.min(99,q));save();render();renderBaskets();renderBasket()}
-document.addEventListener('click',e=>{const t=e.target.closest('[data-add],[data-inc],[data-dec],[data-rm]');if(!t)return;
+document.addEventListener('click',e=>{const fb=e.target.closest('[data-fav]');if(fb){const c=fb.dataset.fav,on=favs.includes(c);favs=on?favs.filter(x=>x!==c):[c,...favs].slice(0,60);saveFavs();render();toast(on?L('أُزيل من المفضلة','Removed from favourites'):L('أُضيف إلى المفضلة ★','Added to favourites ★'));const nb=document.querySelector(`[data-fav="${c}"]`);nb&&nb.focus();return}
+  if(e.target.closest('[data-favall]')){let n=0;favs.forEach(c=>{const s=byCode[c];if(s&&!(s.d&&s.d.st==='out')&&s.p>0&&!cart.has(c)){cart.set(c,1);n++}});save();render();renderBaskets();renderBasket();toast(n?L(`أُضيف ${n} من المفضلة إلى السلة`,`${n} favourites added to the basket`):L('كل المفضلة في السلة','All favourites are already in the basket'));return}
+  const t=e.target.closest('[data-add],[data-inc],[data-dec],[data-rm]');if(!t)return;
   if(t.dataset.add){const s=byCode[t.dataset.add];setQty(t.dataset.add,1);toast(T.added(s.n+(s.d&&s.d.fam?' ('+vLabel(s)+')':'')))}
   else if(t.dataset.inc)setQty(t.dataset.inc,(cart.get(t.dataset.inc)||0)+1);
   else if(t.dataset.dec)setQty(t.dataset.dec,(cart.get(t.dataset.dec)||0)-1);
@@ -147,6 +166,33 @@ addEventListener('hashchange',route);
 $('hs')&&$('hs').addEventListener('submit',e=>{e.preventDefault();if($('hq'))$('sq').value=$('hq').value.trim();open=null;kind='all';render();$('catalog').scrollIntoView({block:'start'});$('sq').blur()});
 document.querySelectorAll('[data-kind]').forEach(a=>a.addEventListener('click',()=>{kind=a.dataset.kind;open=null;$('sq').value='';render()}));
 
+// ---- paste a shopping list: one item per line, matched to the catalogue; what is not found goes to the order notes ----
+(function(){const hs=$('hs');if(!hs)return;const d=document.createElement('details');d.className='plist';
+  d.innerHTML=`<summary>📝 ${L('عندك قائمة مشتريات؟ الصقها هنا ونجهّز سلتك','Have a shopping list? Paste it and we fill your basket')}</summary>
+  <label for="plT" class="mute sm">${L('صنف في كل سطر، ويمكن كتابة الكمية قبله أو بعده: «2 أرز بسمتي» أو «حليب × 3»','One item per line, with the quantity before or after it: “2 basmati rice” or “milk x 3”')}</label>
+  <textarea id="plT" rows="5" placeholder="${L('أرز بسمتي\n2 حليب\nطماطم','basmati rice\n2 milk\ntomatoes')}"></textarea>
+  <div class="row"><button type="button" class="btn pri sm" data-plgo>${L('طابِق القائمة','Match my list')}</button></div><div id="plR" aria-live="polite"></div>`;
+  hs.after(d)})();
+const toLat=t=>String(t).replace(/[٠-٩]/g,c=>'٠١٢٣٤٥٦٧٨٩'.indexOf(c));
+function parseLine(line){let t=toLat(line).replace(/^[\s\-•*·▪◦]+|\s+$/g,'');let q=1;
+  let m=t.match(/^(\d{1,2})\s*[x×*]?\s+(.+)$/i)||t.match(/^(.+?)\s*(?:[x×*]|:)\s*(\d{1,2})$/i)||t.match(/^(.+?)\s+(\d{1,2})$/);
+  if(m){if(/^\d/.test(m[1])){q=+m[1];t=m[2]}else{t=m[1];q=+m[2]}}return {name:t.trim(),q:Math.max(1,Math.min(99,q))}}
+let plRes=[];
+function plMatch(){const lines=($('plT').value||'').split(/\n+/).map(x=>x.trim()).filter(Boolean).slice(0,40);
+  plRes=lines.map(line=>{const {name,q}=parseLine(line);let hits=all.filter(s=>match(s,name)&&!(s.d&&s.d.st==='out')&&s.p>0);
+    const nn=norm(name),rank=x=>{const t=norm(x.n);return t===nn?0:t.startsWith(nn)?1:2};hits.sort((a,b)=>rank(a)-rank(b)||a.n.length-b.n.length||a.p-b.p);return {line,name,q,s:hits[0]||null,alt:hits.slice(1,4)}});
+  const found=plRes.filter(r=>r.s),miss=plRes.filter(r=>!r.s);
+  $('plR').innerHTML=!plRes.length?`<p class="mute">${L('اكتب صنفاً واحداً على الأقل.','Write at least one item.')}</p>`:
+   `<p><b>${L(`وجدنا ${found.length} من ${plRes.length}`,`Found ${found.length} of ${plRes.length}`)}</b></p><ul class="plr">${plRes.map((r,i)=>r.s?`<li><label><input type="checkbox" data-pli="${i}" checked><span><b>${esc(fullName(r.s))}</b> × ${r.q}<small>${esc(r.line)} · ${fmt(r.s.p*r.q)} ${CUR}</small></span></label></li>`:`<li class="miss"><span>⚠ ${esc(r.line)}<small>${L('غير موجود في المتجر، نضيفه إلى ملاحظات الطلب لنوفّره لك','Not in the shop; we will add it to your order notes and source it')}</small></span></li>`).join('')}</ul>
+   <div class="row"><button type="button" class="btn pri" data-pladd>${L('أضف إلى السلة','Add to basket')}</button></div>`}
+document.addEventListener('click',e=>{if(e.target.closest('[data-plgo]')){plMatch();return}
+  if(!e.target.closest('[data-pladd]'))return;let n=0;
+  plRes.forEach((r,i)=>{const cb=document.querySelector(`[data-pli="${i}"]`);if(r.s&&cb&&cb.checked){cart.set(r.s.c,Math.min(99,(cart.get(r.s.c)||0)+r.q));n++}});
+  const miss=plRes.filter(r=>!r.s).map(r=>r.line),note=$('oNote');
+  if(miss.length&&note){const add=miss.map(x=>L('أبحث عن: ','Looking for: ')+x).filter(x=>!note.value.includes(x));if(add.length)note.value=(note.value?note.value+'\n':'')+add.join('\n')}
+  save();render();renderBaskets();renderBasket();toast(L(`أضفنا ${n} صنفاً إلى السلة`+(miss.length?` و${miss.length} إلى الملاحظات`:''),`${n} items added to the basket`+(miss.length?`, ${miss.length} to the notes`:'')));
+  $('plT').value='';$('plR').innerHTML='';plRes=[]});
+
 // ---- basket and order ----
 const fullName=s=>s.n+(s.d&&s.d.fam?' ('+vLabel(s)+')':'');
 function basketLines(){return [...cart].map(([c,q])=>`${fullName(byCode[c])} (${c}) × ${q}`)}
@@ -158,7 +204,36 @@ function renderBasket(){const n=[...cart.values()].reduce((a,b)=>a+b,0);
   $('bTotal').textContent=fmt(total())+' '+CUR;
   // one item is enough as long as the order reaches the minimum value
   const mn=$('bMin');if(mn&&MIN){const r=Math.max(0,MIN-total());mn.hidden=false;mn.className='bmin '+(cart.size&&r?'short':cart.size?'ok':'');
-    mn.textContent=!cart.size?L(`الحد الأدنى للطلب ${fmt(MIN)} ر.ق، ويمكن أن يكون صنفاً واحداً.`,`Minimum order QAR ${fmt(MIN)}; a single item is fine.`):r?L(`باقي ${fmt(Math.ceil(r))} ر.ق للوصول إلى الحد الأدنى (${fmt(MIN)} ر.ق).`,`QAR ${fmt(Math.ceil(r))} to go to reach the minimum (QAR ${fmt(MIN)}).`):L('وصلت إلى الحد الأدنى للطلب ✓','Minimum order reached ✓')}}
+    mn.textContent=!cart.size?L(`الحد الأدنى للطلب ${fmt(MIN)} ر.ق، ويمكن أن يكون صنفاً واحداً.`,`Minimum order QAR ${fmt(MIN)}; a single item is fine.`):r?L(`باقي ${fmt(Math.ceil(r))} ر.ق للوصول إلى الحد الأدنى (${fmt(MIN)} ر.ق).`,`QAR ${fmt(Math.ceil(r))} to go to reach the minimum (QAR ${fmt(MIN)}).`):L('وصلت إلى الحد الأدنى للطلب ✓','Minimum order reached ✓')}
+  if(typeof renderShare==='function'){renderShare();renderHist()}}
+// ---- share the basket: a link that rebuilds the same basket on any device (#basket=CODE:QTY,...) ----
+const bMinEl=$('bMin');let shareBox=null;
+if(bMinEl){shareBox=document.createElement('div');shareBox.className='bshare';shareBox.id='bShare';shareBox.hidden=true;
+  shareBox.innerHTML=`<span>${L('شارك سلتك مع العائلة أو الزملاء ليكملوها أو يرسلوها:','Share your basket with family or colleagues to finish or send it:')}</span><div class="row"><button type="button" class="btn ghost sm" id="bCopy">🔗 ${L('انسخ رابط السلة','Copy basket link')}</button><a class="btn green sm" id="bWaShare" target="_blank" rel="noopener">${L('أرسلها على واتساب','Send on WhatsApp')}</a></div>`;
+  bMinEl.after(shareBox)}
+// ---- previous orders on this device: reorder in one tap, and delivery details remembered ----
+const HKEY='jahiz_history',PKEY='jahiz_profile';let hist=[];try{hist=(JSON.parse(localStorage.getItem(HKEY)||'[]')||[]).filter(h=>h&&Array.isArray(h.items))}catch(e){}
+let histBox=null;if(shareBox){histBox=document.createElement('div');histBox.className='bhist';histBox.id='bHist';histBox.hidden=true;shareBox.after(histBox)}
+const dmy=t=>{const d=new Date(t),p=n=>String(n).padStart(2,'0');return p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()};
+function renderHist(){if(!histBox)return;const hs=hist.map((h,i)=>({h,i,items:h.items.filter(([c])=>byCode[c])})).filter(x=>x.items.length);histBox.hidden=!hs.length;if(!hs.length)return;
+  histBox.innerHTML=`<b>${L('طلباتك السابقة على هذا الجهاز','Your previous orders on this device')}</b>`+hs.map(({h,i,items})=>`<div class="bh"><span><bdi class="num" dir="ltr">${dmy(h.at)}</bdi> · ${items.length} ${L('أصناف','items')}${h.ref?` · <bdi dir="ltr" style="white-space:nowrap">${esc(h.ref)}</bdi>`:''}<small>${esc(items.slice(0,3).map(([c])=>byCode[c].n).join('، ')+(items.length>3?'…':''))}</small></span><button type="button" class="btn ghost sm" data-reorder="${i}">${L('اطلب مجدداً','Order again')}</button></div>`).join('')+`<button type="button" class="linkish" id="bHistClear">${L('امسح السجل من هذا الجهاز','Clear history on this device')}</button>`}
+histBox&&histBox.addEventListener('click',e=>{const b=e.target.closest('[data-reorder]');
+  if(b){const h=hist[+b.dataset.reorder];let n=0;h.items.forEach(([c,q])=>{if(byCode[c]){cart.set(c,Math.max(1,Math.min(99,q|0)));n++}});save();render();renderBaskets();renderBasket();toast(L(`أُضيفت ${n} أصناف إلى سلتك ✓`,`${n} items added to your basket ✓`));return}
+  if(e.target.id==='bHistClear'){hist=[];try{localStorage.removeItem(HKEY);localStorage.removeItem(PKEY)}catch(x){}renderHist()}});
+function remember(ref){if(!cart.size)return;hist.unshift({at:Date.now(),ref:ref||'',items:[...cart],total:total()});hist=hist.slice(0,5);
+  try{localStorage.setItem(HKEY,JSON.stringify(hist));localStorage.setItem(PKEY,JSON.stringify({n:$('oName').value.trim(),ph:$('oPhone').value.trim(),em:$('oMail').value.trim(),area:area?area.value:'',addr:$('oAddr').value.trim()}))}catch(e){}renderHist()}
+function shareLink(){return location.origin+location.pathname+'#basket='+[...cart].map(([c,q])=>c+':'+q).join(',')}
+function renderShare(){if(!shareBox)return;shareBox.hidden=!cart.size;if(!cart.size)return;
+  const msg=L('سلة من جاهز','A basket from Jahiz')+' ('+fmt(total())+' '+CUR+'):\n'+basketLines().join('\n')+'\n\n'+L('افتحها وأكمل الطلب:','Open it and complete the order:')+' '+shareLink();
+  $('bWaShare').href='https://wa.me/?text='+encodeURIComponent(msg)}
+$('bCopy')&&$('bCopy').addEventListener('click',()=>{const u=shareLink(),ok=()=>toast(L('نُسخ رابط السلة ✓','Basket link copied ✓'));
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(ok,()=>prompt(L('انسخ الرابط:','Copy the link:'),u));else prompt(L('انسخ الرابط:','Copy the link:'),u)});
+function openShared(){const m=location.hash.match(/^#basket=([A-Za-z0-9:,\-]+)$/);if(!m)return false;let n=0;
+  m[1].split(',').forEach(x=>{const [c,q]=x.split(':');if(byCode[c]){cart.set(c,Math.max(1,Math.min(99,parseInt(q,10)||1)));n++}});
+  history.replaceState(null,'','#order');
+  if(n){save();renderBasket();toast(L(`أُضيفت ${n} أصناف من السلة المشتركة ✓`,`${n} items added from the shared basket ✓`));const o=$('order');o&&o.scrollIntoView({block:'start'})}
+  else toast(L('رابط السلة غير صالح أو انتهت أصنافه','This basket link is invalid or its items are no longer listed'));return true}
+addEventListener('hashchange',openShared);
 // the floating basket button steps aside while the basket itself is on screen
 const ordSec=$('order');if(ordSec&&'IntersectionObserver' in window)new IntersectionObserver(([e])=>document.body.classList.toggle('in-order',e.isIntersecting),{threshold:.1}).observe(ordSec);
 const area=$('oArea');if(area)AREAS.forEach(a=>{const o=document.createElement('option');o.textContent=a;area.appendChild(o)});
@@ -178,11 +253,12 @@ if(oF)oF.addEventListener('submit',async e=>{e.preventDefault();
   const services=[...lines,...info].join('\n');
   const msg=`${T.orderHead}\n${L('الاسم','Name')}: ${n}\n${L('الجوال','Mobile')}: ${ph}${em?'\n'+L('البريد','Email')+': '+em:''}\n\n${services}`;
   const wa=$('oWa');wa.href=`https://wa.me/${WA}?text=`+encodeURIComponent(msg);$('oOut').hidden=false;
+  if(!CFG.API)remember('');
   const st=$('oState');
   if(!CFG.API){st.className='status';st.innerHTML=L('اضغط «أرسل الطلب على واتساب» لإكمال طلبك.','Press “Send the order on WhatsApp” to complete your order.');return}
   st.className='status';st.textContent=T.sending;const btn=oF.querySelector('[type=submit]');btn.disabled=true;
   try{const j=await post({action:'request',name:n,phone:ph,email:em,type:sel($('oType')),plan:'',contact:sel($('oVia')),services,codes:[...cart.keys()],lang:EN?'en':'ar',page:location.href,hp:$('oHp').value});
-    if(!j.ok)throw new Error(j.error);st.className='status ok';st.innerHTML=T.sentOk(j.id,j.mailed);cart.clear();save();render();renderBasket()}
+    if(!j.ok)throw new Error(j.error);remember(j.id);st.className='status ok';st.innerHTML=T.sentOk(j.id,j.mailed);cart.clear();save();render();renderBasket()}
   catch(err){st.className='status bad';st.textContent=T.sentFail}
   finally{btn.disabled=false}
   $('oOut').scrollIntoView({block:'nearest'})});
@@ -240,5 +316,6 @@ document.querySelectorAll('[data-mail]').forEach(a=>{const m=CFG.EMAIL||'';a.tex
 const bg=$('burger');if(bg)bg.onclick=()=>{const o=!document.body.classList.contains('menu-open');document.body.classList.toggle('menu-open',o);bg.setAttribute('aria-expanded',o)};
 document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',()=>{document.body.classList.remove('menu-open');bg&&bg.setAttribute('aria-expanded','false')}));
 
-render();renderBaskets();renderBasket();route();
+try{const pf=JSON.parse(localStorage.getItem(PKEY)||'null');if(pf){[['oName',pf.n],['oPhone',pf.ph],['oMail',pf.em],['oAddr',pf.addr]].forEach(([id,v])=>{const el=$(id);if(el&&!el.value&&v)el.value=v});if(area&&pf.area&&[...area.options].some(o=>o.value===pf.area))area.value=pf.area}}catch(e){}
+render();renderBaskets();renderBasket();if(!openShared())route();
 })();
