@@ -385,9 +385,9 @@ ul.promises span{color:var(--mute);font-size:14.5px}
 .plainnav .linkbtn{text-decoration:none;opacity:.9}
 .portal{max-width:980px;display:flex;flex-direction:column;gap:16px}
 .portal h1,.portal h2.h1{font-size:clamp(24px,3.6vw,32px);margin:0}
-.portal h3{font-size:17px;margin:4px 0 0}
+.portal h3,.portal form.panel h2{font-size:17px;margin:4px 0 0}
 .portal .panel{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.portal form.panel h3{grid-column:1/-1;color:var(--navy);border-bottom:1px solid var(--line);padding-bottom:6px;margin-top:6px}
+.portal form.panel h3,.portal form.panel h2{grid-column:1/-1;color:var(--navy);border-bottom:1px solid var(--line);padding-bottom:6px;margin-top:6px}
 #auth,#dash{display:flex;flex-direction:column;gap:14px}
 #auth[hidden],#dash[hidden],#clientAuth[hidden]{display:none}
 #clientAuth{display:flex;flex-direction:column;gap:14px}
