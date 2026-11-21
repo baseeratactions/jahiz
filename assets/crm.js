@@ -658,7 +658,7 @@ function renderTheme(){if(!isAdmin()||!TH)return;const cur=TH.current;thSel=thSe
   $('thList').innerHTML=PALETTES.map((x,i)=>`<button type="button" class="swatch" data-th="${i}" aria-pressed="${x.primary===thSel.primary&&x.accent===thSel.accent}"><span class="sw2"><i style="background:${x.primary}"></i><i style="background:${x.accent}"></i></span><span>${EN?x.en:x.name}${i===0?` <small class="mute">(${L('الافتراضي','default')})</small>`:''}</span></button>`).join('');
   $('thP').value=thSel.primary;$('thA').value=thSel.accent;previewTheme()}
 function previewTheme(){const p=thSel.primary,a=thSel.accent,c=TH.contrast(p,'#ffffff'),c2=TH.contrast(p,'#f6f7f8');
-  $('thPrev').querySelector('.thbar').style.background=p;$('thPrev').querySelector('.thbtn').style.background=p;$('thPrev').querySelector('.thtag').style.background=a;
+  $('thPrev').querySelector('.thbar').style.background=p;$('thPrev').querySelector('.thbtn').style.background=p;const tg=$('thPrev').querySelector('.thtag');tg.style.background=a;tg.style.color=TH.contrast(a,'#ffffff')>=TH.contrast(a,'#2a2416')?'#ffffff':'#2a2416';
   const okc=c>=4.5;$('thCheck').innerHTML=okc?`<span class="good">✓ ${L('وضوح النص الأبيض على اللون الأساسي','White text on the main colour')}: ${c.toFixed(1)}:1</span>`:`<span class="bad">${L('اللون الأساسي فاتح جداً، فلن يُقرأ النص الأبيض عليه','The main colour is too light for white text')} (${c.toFixed(1)}:1). ${L('اختر لوناً أغمق.','Choose a darker colour.')}</span>`;
   $('thSave').disabled=!okc;TH.apply(thSel)}
 $('thList').addEventListener('click',e=>{const b=e.target.closest('[data-th]');if(!b)return;const x=PALETTES[+b.dataset.th];thSel={primary:x.primary,accent:x.accent,name:x.name};renderTheme()});
