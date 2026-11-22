@@ -405,3 +405,16 @@ footer .wrap.logins{display:flex;flex-direction:row;flex-wrap:wrap;justify-conte
 .plist textarea{width:100%;box-sizing:border-box;font:inherit;padding:10px;border-radius:10px;border:1px solid rgba(127,127,127,.4);background:transparent;color:inherit;margin:6px 0}
 .plist label.mute{display:block}.plr li{text-align:start}.plist .plr label{display:flex!important;flex-direction:row!important;justify-content:flex-start;width:100%;grid-template-columns:none}.plr{list-style:none;padding:0;margin:6px 0;display:grid;gap:4px}.plr label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}.plr small{display:block;opacity:.7}.plr .miss{opacity:.85;padding:4px 0}
 .plr input{width:20px;height:20px;flex:none;margin-top:2px}
+/* my budget under the basket total */
+.bbud{margin:8px 0 10px;display:grid;gap:6px;font-size:14px}
+.bbud .linkbtn{background:none;border:0;padding:4px 0;font:inherit;color:var(--pri);font-weight:700;cursor:pointer;text-align:start;text-decoration:underline;text-underline-offset:3px;min-height:32px}
+.bbud .bt{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px}
+.bbud .neg{color:var(--acc)}
+.bbud .bar{height:10px;border-radius:99px;background:var(--chip);overflow:hidden}
+.bbud .bar i{display:block;height:100%;background:var(--pri);border-radius:inherit;transition:width .25s}
+.bbud.near .bar i{background:#d99a1e}.bbud.over .bar i{background:var(--acc)}
+.bbud small{color:var(--mute,#6b6b6b)}
+.bbud .row{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:center}
+.bbud.edit label{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-weight:700}
+.bbud.edit input{width:110px;min-height:42px;padding:8px 10px;border-radius:10px;border:1px solid var(--line,#ccc);font:inherit;background:transparent;color:inherit}
+.bbud.edit input[aria-invalid="true"]{border-color:var(--acc)}

@@ -205,7 +205,31 @@ function renderBasket(){const n=[...cart.values()].reduce((a,b)=>a+b,0);
   // one item is enough as long as the order reaches the minimum value
   const mn=$('bMin');if(mn&&MIN){const r=Math.max(0,MIN-total());mn.hidden=false;mn.className='bmin '+(cart.size&&r?'short':cart.size?'ok':'');
     mn.textContent=!cart.size?L(`الحد الأدنى للطلب ${fmt(MIN)} ر.ق، ويمكن أن يكون صنفاً واحداً.`,`Minimum order QAR ${fmt(MIN)}; a single item is fine.`):r?L(`باقي ${fmt(Math.ceil(r))} ر.ق للوصول إلى الحد الأدنى (${fmt(MIN)} ر.ق).`,`QAR ${fmt(Math.ceil(r))} to go to reach the minimum (QAR ${fmt(MIN)}).`):L('وصلت إلى الحد الأدنى للطلب ✓','Minimum order reached ✓')}
-  if(typeof renderShare==='function'){renderShare();renderHist()}}
+  if(typeof renderShare==='function'){renderShare();renderHist()}
+  renderBudget()}
+// ---- my budget: the shopper sets a ceiling and sees what is left, or by how much the basket goes over (saved on this device) ----
+var budBox=null,BUD=0;try{BUD=Math.max(0,parseInt(localStorage.getItem('jahiz_budget')||'0',10)||0)}catch(e){}
+function renderBudget(){if(!budBox){const tl=$('bTotal');const tot=tl&&tl.closest('.total');if(!tot)return;
+    budBox=document.createElement('div');budBox.className='bbud';budBox.id='bBud';tot.after(budBox);
+    budBox.addEventListener('click',e=>{const t=e.target.closest('[data-bud]');if(!t)return;const a=t.dataset.bud;
+      if(a==='edit'){budBox.dataset.edit='1';renderBudget();const i=budBox.querySelector('input');i&&i.focus();return}
+      if(a==='off'){BUD=0;try{localStorage.removeItem('jahiz_budget')}catch(x){}delete budBox.dataset.edit;renderBudget();return}
+      if(a==='cancel'){delete budBox.dataset.edit;renderBudget();return}});
+    budBox.addEventListener('submit',e=>{e.preventDefault();const i=budBox.querySelector('input');
+      const v=parseInt(String(i.value).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^\d]/g,''),10)||0;
+      if(v<1){i.setAttribute('aria-invalid','true');i.focus();return}
+      BUD=Math.min(v,999999);try{localStorage.setItem('jahiz_budget',String(BUD))}catch(x){}delete budBox.dataset.edit;renderBudget();
+      toast(L(`حُفظت ميزانيتك: ${fmt(BUD)} ${CUR} ✓`,`Budget saved: ${CUR} ${fmt(BUD)} ✓`))})}
+  if(budBox.dataset.edit){budBox.className='bbud edit';
+    budBox.innerHTML=`<form class="row"><label>${L('ميزانيتي لهذا الطلب','My budget for this order')} <input type="text" inputmode="numeric" dir="ltr" maxlength="7" value="${BUD||''}" placeholder="300" aria-describedby="bBudU"> <span id="bBudU">${CUR}</span></label><button class="btn sm">${L('حفظ','Save')}</button><button type="button" class="btn ghost sm" data-bud="cancel">${L('إلغاء','Cancel')}</button></form>`;return}
+  if(!BUD){budBox.className='bbud';budBox.innerHTML=`<button type="button" class="linkbtn" data-bud="edit">🎯 ${L('حدّد ميزانيتك لتعرف المتبقي وأنت تتسوق','Set a budget to see what is left as you shop')}</button>`;return}
+  const t=total(),left=BUD-t,pc=Math.min(100,Math.round(t/BUD*100)),over=left<0;
+  let tip='';if(over&&cart.size){let mx=null;cart.forEach((q,c)=>{const v=byCode[c].p*q;if(!mx||v>mx.v)mx={c,v}});
+    if(mx)tip=`<small>${L('أعلى بند في سلتك: ','Your largest line: ')}${esc(fullName(byCode[mx.c]))} (${fmt(mx.v)} ${CUR})</small>`}
+  budBox.className='bbud'+(over?' over':pc>=85?' near':'');
+  budBox.innerHTML=`<div class="bt"><span>${L('ميزانيتك','Your budget')} <b class="num">${fmt(BUD)} ${CUR}</b></span><span class="${over?'neg':''}">${over?L(`تجاوزتها بـ <b class="num">${fmt(Math.ceil(-left))} ${CUR}</b>`,`Over by <b class="num">${CUR} ${fmt(Math.ceil(-left))}</b>`):L(`المتبقي <b class="num">${fmt(Math.floor(left))} ${CUR}</b>`,`Left <b class="num">${CUR} ${fmt(Math.floor(left))}</b>`)}</span></div>
+<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pc}" aria-label="${L('نسبة الإجمالي من الميزانية','Basket total as a share of the budget')}"><i style="width:${pc}%"></i></div>${tip}
+<div class="row"><button type="button" class="linkbtn" data-bud="edit">${L('تعديل','Edit')}</button><button type="button" class="linkbtn" data-bud="off">${L('إلغاء الميزانية','Remove budget')}</button></div>`}
 // ---- share the basket: a link that rebuilds the same basket on any device (#basket=CODE:QTY,...) ----
 const bMinEl=$('bMin');let shareBox=null;
 if(bMinEl){shareBox=document.createElement('div');shareBox.className='bshare';shareBox.id='bShare';shareBox.hidden=true;
