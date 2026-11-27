@@ -373,21 +373,21 @@ $('delT').onclick=async()=>{$('dlgT').close();if(!await ask('حذف المعام
 // ---- email ----
 const TPL={
   recv:['تأكيد استلام الطلب','استلمنا طلبك | جاهز','السلام عليكم {name}،\n\nشكراً لتواصلك مع جاهز. استلمنا طلبك وسنراجعه ونعود إليك خلال ساعتين عمل بقائمة المستندات والسعر.\n\nمع التحية،\nفريق جاهز'],
-  docs:['طلب المستندات','المستندات المطلوبة لمعاملتك | جاهز','السلام عليكم {name}،\n\nلإتمام {service} نحتاج المستندات التالية:\n{docs}\n\nأتعاب جاهز: {fee} ر.ق، والرسوم الحكومية تُدفع منفصلة بإيصالها الرسمي.\nيمكنك الرد على هذا البريد بالمستندات أو إرسالها على واتساب ‎+974 5160 0498 أو البريد munijizqa@gmail.com.\n\nمع التحية،\nفريق جاهز'],
+  docs:['طلب المستندات','المستندات المطلوبة لمعاملتك | جاهز','السلام عليكم {name}،\n\nلإتمام {service} نحتاج المستندات التالية:\n{docs}\n\nأتعاب جاهز: {fee} ر.ق، والرسوم الحكومية تُدفع منفصلة بإيصالها الرسمي.\nيمكنك الرد على هذا البريد بالمستندات أو إرسالها من صفحة «حسابي» على موقع جاهز.\n\nمع التحية،\nفريق جاهز'],
   status:['تحديث حالة المعاملة','تحديث على معاملتك {txn} | جاهز','السلام عليكم {name}،\n\nنبلغك أن حالة معاملتك ({service}) أصبحت: {status}.\n{ref}\nسنبلغك بأي تحديث جديد.\n\nمع التحية،\nفريق جاهز'],
   done:['إنجاز المعاملة','تم إنجاز معاملتك {txn} | جاهز','السلام عليكم {name}،\n\nيسعدنا إبلاغك بإنجاز معاملتك ({service}).\n{expiry}\nسنسلّمك المستند والإيصالات الرسمية، وسنذكّرك قبل موعد التجديد.\n\nشكراً لثقتك،\nفريق جاهز'],
-  renew:['تذكير بالتجديد','تذكير: موعد تجديد قريب | جاهز','السلام عليكم {name}،\n\nنذكّرك بأن {service} ينتهي بتاريخ {expiryDate}. يمكننا تجديده لك قبل الموعد لتجنب الغرامات.\nرد على هذا البريد أو راسلنا على واتساب ‎+974 5160 0498 أو البريد munijizqa@gmail.com لنبدأ.\n\nمع التحية،\nفريق جاهز'],
+  renew:['تذكير بالتجديد','تذكير: موعد تجديد قريب | جاهز','السلام عليكم {name}،\n\nنذكّرك بأن {service} ينتهي بتاريخ {expiryDate}. يمكننا تجديده لك قبل الموعد لتجنب الغرامات.\nرد على هذا البريد أو راسلنا من صفحة «حسابي» على موقع جاهز لنبدأ.\n\nمع التحية،\nفريق جاهز'],
   quote:['عرض سعر','عرض سعر من جاهز','السلام عليكم {name}،\n\nبناءً على طلبك، نرفق عرض السعر التالي:\n- الخدمة: {service}\n- أتعاب جاهز: {fee} ر.ق\n- الرسوم الحكومية التقديرية: {govFee} ر.ق (تُدفع بإيصال رسمي)\n\nلبدء العمل نحتاج منكم:\n- اسم المسؤول عن التواصل وبريده وجواله.\n- هاتف المسؤول عن الأوتوب أو بطاقة العمل.\n- نسبة الزيادة المطلوبة لكل الأصناف.\n- ملف الأصناف Excel، أو يُعدّه جاهز مقابل 300 ر.ق إضافية.\n\nالعرض ساري 14 يوماً.\n\nمع التحية،\nفريق جاهز'],
   free:['رسالة حرة','','السلام عليكم {name}،\n\n\n\nمع التحية،\nفريق جاهز']
 };
 // English versions of the same emails, for clients who signed up in English (or by choice in the dialog)
-const SIGN_EN='\n\nKind regards,\nJahiz team',CONTACT_EN='WhatsApp +974 5160 0498 or email munijizqa@gmail.com';
+const SIGN_EN='\n\nKind regards,\nJahiz team',CONTACT_EN='My account on the Jahiz website';
 const TPL_EN={
   recv:['Request received | Jahiz','Dear {name},\n\nThank you for contacting Jahiz. We have received your request and will review it and come back to you within two working hours with the documents needed and the price.'+SIGN_EN],
-  docs:['Documents needed for your transaction | Jahiz','Dear {name},\n\nTo complete {service} we need the following documents:\n{docs}\n\nJahiz fee: {fee} QAR. Government fees are paid separately against their official receipt.\nYou can reply to this email with the documents, or send them by '+CONTACT_EN+'.'+SIGN_EN],
+  docs:['Documents needed for your transaction | Jahiz','Dear {name},\n\nTo complete {service} we need the following documents:\n{docs}\n\nJahiz fee: {fee} QAR. Government fees are paid separately against their official receipt.\nYou can reply to this email with the documents, or send them from '+CONTACT_EN+'.'+SIGN_EN],
   status:['Update on your transaction {txn} | Jahiz','Dear {name},\n\nThe status of your transaction ({service}) is now: {status}.\n{ref}\nWe will let you know of any further update.'+SIGN_EN],
   done:['Your transaction {txn} is completed | Jahiz','Dear {name},\n\nWe are pleased to tell you that your transaction ({service}) is completed.\n{expiry}\nWe will hand you the document and the official receipts, and remind you before it is due for renewal.\n\nThank you for your trust,\nJahiz team'],
-  renew:['Reminder: a renewal is coming up | Jahiz','Dear {name},\n\nThis is a reminder that {service} expires on {expiryDate}. We can renew it for you before then to avoid fines.\nReply to this email or contact us by '+CONTACT_EN+' to start.'+SIGN_EN],
+  renew:['Reminder: a renewal is coming up | Jahiz','Dear {name},\n\nThis is a reminder that {service} expires on {expiryDate}. We can renew it for you before then to avoid fines.\nReply to this email or message us from '+CONTACT_EN+' to start.'+SIGN_EN],
   quote:['Quote from Jahiz','Dear {name},\n\nAs requested, here is our quote:\n- Service: {service}\n- Jahiz fee: {fee} QAR\n- Estimated government fees: {govFee} QAR (paid against an official receipt)\n\nThe quote is valid for 14 days.'+SIGN_EN],
   free:['','Dear {name},\n\n'+SIGN_EN]
 };
@@ -625,7 +625,7 @@ function printDoc(title,body){const w=window.open('','_blank');if(!w){toast(L('�
   body{font-family:Tahoma,Arial,sans-serif;color:#1d2733;margin:32px;font-size:14px;line-height:1.7}header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #0e5e4a;padding-bottom:12px;margin-bottom:18px}
   header b{font-size:22px;color:#0e5e4a}header small{display:block;color:#5d6b78}h1{font-size:20px;margin:0 0 4px}table{width:100%;border-collapse:collapse;margin:14px 0}th,td{border:1px solid #cfd6dd;padding:7px 10px;text-align:start}th{background:#f1f4f6}
   .tot td,.tot th{font-weight:700}.h td,.h th{background:#eef2f4;font-weight:700}.net td,.net th{font-weight:800;border-top:2px solid #0e5e4a;background:#faf6ea}td.num,th.num{text-align:end}.big{font-size:20px;font-weight:700}.note{color:#5d6b78;font-size:12.5px;margin-top:22px}.sig{display:flex;justify-content:space-between;margin-top:46px}.sig div{border-top:1px solid #999;padding-top:6px;width:40%;text-align:center}
-  @media print{body{margin:14mm}}</style></head><body><header><div><b>${brand}</b><small>${L('الدوحة، قطر','Doha, Qatar')}</small></div><div style="text-align:end"><small dir="ltr">+974 5160 0498</small><small dir="ltr">munijizqa@gmail.com</small></div></header>${body}
+  @media print{body{margin:14mm}}</style></head><body><header><div><b>${brand}</b><small>${L('لوسيل، قطر','Lusail, Qatar')}</small></div><div style="text-align:end">${(window.JAHIZ_CONFIG||{}).PHONE?`<small dir="ltr">${esc(JAHIZ_CONFIG.PHONE)}</small>`:''}${(window.JAHIZ_CONFIG||{}).EMAIL?`<small dir="ltr">${esc(JAHIZ_CONFIG.EMAIL)}</small>`:''}</div></header>${body}
   <script>window.onload=()=>setTimeout(()=>window.print(),300)<\/script></body></html>`);w.document.close()}
 const trx=x=>EN&&window.CRM_I18N?CRM_I18N.tr(String(x||'')):x;   // the print window has no live translator
 function printReceipt(id){const p=DB.Payments.find(x=>x.id===id);if(!p)return;const t=DB.Transactions.find(x=>x.id===p.txnId)||{},c=cli(p.clientId);

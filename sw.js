@@ -1,7 +1,7 @@
 // جاهز: عامل الخدمة لتطبيق الكمبيوتر والجوال.
 // الشبكة أولاً دائماً؛ النسخة المحفوظة تُستخدم فقط عند انقطاع الإنترنت. لا يخزّن أي طلب إلى الخادم ولا بيانات العملاء،
 // يخدم صفحات جاهز وحدها، ولا يمسّ أي موقع آخر.
-const CACHE = 'jahiz-v20261123a';
+const CACHE = 'jahiz-v20261127a';
 const CORE = ['./', 'index.html', 'portal.html', 'login.html', 'about.html', 'privacy.html', 'legal.html', 'standards.html', '404.html',
   'en/index.html', 'en/portal.html', 'en/login.html', 'en/about.html',
   'site.webmanifest', 'assets/style.css', 'assets/market.css', 'assets/icon-192.png', 'assets/icon-512.png', 'assets/apple-touch-icon.png'];

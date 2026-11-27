@@ -4,7 +4,7 @@
 (function(){
 const EN=document.documentElement.lang==='en';
 const CFG=window.JAHIZ_CONFIG||{};
-const WA=CFG.WHATSAPP||'97451600498';
+const WA=String(CFG.WHATSAPP||'').replace(/\D/g,'');
 const M=typeof MARKET!=='undefined'?MARKET:{CATS:[],KINDS:{},COMMISSION:[],TIERS:[]};
 M.BASKETS=M.BASKETS||[];M.PERIODS=M.PERIODS||{};M.DETAILS=M.DETAILS||{};
 const MIN=Math.max(0,+((M.SETTINGS||{}).minOrder)||0);
@@ -276,7 +276,7 @@ if(oF)oF.addEventListener('submit',async e=>{e.preventDefault();
   if(cart.size)info.push(`${T.est}: ${fmt(total())} ${CUR}`);
   const services=[...lines,...info].join('\n');
   const msg=`${T.orderHead}\n${L('الاسم','Name')}: ${n}\n${L('الجوال','Mobile')}: ${ph}${em?'\n'+L('البريد','Email')+': '+em:''}\n\n${services}`;
-  const wa=$('oWa');wa.href=`https://wa.me/${WA}?text=`+encodeURIComponent(msg);$('oOut').hidden=false;
+  const wa=$('oWa');wa.hidden=!WA;wa.href=`https://wa.me/${WA}?text=`+encodeURIComponent(msg);$('oOut').hidden=false;
   if(!CFG.API)remember('');
   const st=$('oState');
   if(!CFG.API){st.className='status';st.innerHTML=L('اضغط «أرسل الطلب على واتساب» لإكمال طلبك.','Press “Send the order on WhatsApp” to complete your order.');return}
@@ -306,7 +306,7 @@ if(pF)pF.addEventListener('submit',async e=>{e.preventDefault();
   const services=[L('طلب انضمام شريك معتمد','Partner application'),`${L('الشركة أو المتجر','Company or shop')}: ${co}`,`${L('المجال','Field')}: ${sel(pCat).replace(/^\S+\s/,'')} (${pCat.value})`,
     `${L('السجل التجاري','Commercial registration')}: ${$('pCr').value.trim()||'-'}`,`${L('مناطق التغطية','Coverage')}: ${$('pArea').value.trim()||'-'}`,`${L('حسابات التواصل','Social accounts')}: ${$('pSocial').value.trim()||'-'}`,$('pMsg').value.trim()].filter(Boolean).join('\n');
   const msg=`${T.partnerHead}\n${L('الاسم','Name')}: ${n}\n${L('الجوال','Mobile')}: ${ph}${em?'\n'+L('البريد','Email')+': '+em:''}\n${services}`;
-  $('pWa').href=`https://wa.me/${WA}?text=`+encodeURIComponent(msg);$('pOut').hidden=false;const st=$('pState');
+  $('pWa').hidden=!WA;$('pWa').href=`https://wa.me/${WA}?text=`+encodeURIComponent(msg);$('pOut').hidden=false;const st=$('pState');
   if(!CFG.API){st.className='status';st.textContent=L('اضغط «أرسل على واتساب» لإكمال طلب الانضمام.','Press “Send on WhatsApp” to complete your application.');return}
   st.className='status';st.textContent=T.sending;const btn=pF.querySelector('[type=submit]');btn.disabled=true;
   try{const j=await post({action:'request',name:co+' - '+n,phone:ph,email:em,type:L('شريك معتمد','Partner'),plan:'',contact:'',services,codes:[pCat.value],lang:EN?'en':'ar',page:location.href,hp:$('pHp').value});
@@ -331,10 +331,10 @@ if(tF)tF.addEventListener('submit',async e=>{e.preventDefault();const out=$('trk
 const soc=$('social'),S=CFG.SOCIAL||{};
 const NAMES={instagram:'Instagram',tiktok:'TikTok',snapchat:'Snapchat',x:'X',facebook:'Facebook'};
 if(soc){const links=Object.entries(NAMES).filter(([k])=>/^https:\/\//.test(S[k]||'')).map(([k,n])=>`<a href="${esc(S[k])}" target="_blank" rel="noopener">${n}</a>`);
-  soc.innerHTML=`<a href="https://wa.me/${WA}" target="_blank" rel="noopener">WhatsApp</a>`+links.join('')}
-document.querySelectorAll('a[href^="https://wa.me/"]').forEach(a=>{if(!a.id)a.href=a.href.replace(/wa\.me\/\d+/,'wa.me/'+WA)});
-document.querySelectorAll('[data-phone]').forEach(a=>{a.textContent=CFG.PHONE||('+'+WA);if(a.tagName==='A')a.href='tel:+'+WA});
-document.querySelectorAll('[data-mail]').forEach(a=>{const m=CFG.EMAIL||'';a.textContent=m;a.href='mailto:'+m;a.hidden=!m});
+  soc.innerHTML=(WA?`<a href="https://wa.me/${WA}" target="_blank" rel="noopener">WhatsApp</a>`:'')+links.join('')}
+if(WA)document.querySelectorAll('a[href^="https://wa.me/"]').forEach(a=>{if(!a.id)a.href=a.href.replace(/wa\.me\/\d*/,'wa.me/'+WA)});
+document.querySelectorAll('[data-phone]').forEach(a=>{const p=CFG.PHONE||(WA?'+'+WA:'');a.textContent=(a.getAttribute('data-pre')||'')+p;if(a.tagName==='A'){a.href=p?'tel:+'+p.replace(/\D/g,''):'tel:';a.hidden=!p}});
+document.querySelectorAll('[data-mail]').forEach(a=>{const m=CFG.EMAIL||'';a.textContent=(a.getAttribute('data-pre')||'')+m;a.href='mailto:'+m;a.hidden=!m});
 
 // ---- mobile menu ----
 const bg=$('burger');if(bg)bg.onclick=()=>{const o=!document.body.classList.contains('menu-open');document.body.classList.toggle('menu-open',o);bg.setAttribute('aria-expanded',o)};
