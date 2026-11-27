@@ -23,10 +23,10 @@
 <a class="skip" href="#main">تخطَّ إلى المحتوى الرئيسي</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="index.html"><img src="assets/jahiz-mark-v3.svg" alt="" width="34" height="34" style="border-radius:9px;display:block">جاهز</a>
-  <div class="plainnav"><a href="index.html">الرئيسية</a><a href="index.html#shop">تسوّق</a><button type="button" class="linkbtn" id="logout" hidden>خروج</button><a href="en/portal.html" class="lang" lang="en">English</a></div>
+  <div class="plainnav" role="navigation" aria-label="روابط الموقع"><a href="index.html">الرئيسية</a><a href="index.html#shop">تسوّق</a><button type="button" class="linkbtn" id="logout" hidden>خروج</button><a href="en/portal.html" class="lang" lang="en">English</a></div>
 </div></header>
 <main class="sec" id="main" tabindex="-1"><div class="wrap portal">
-<div id="noApi" class="pnote" hidden><b>الحسابات تعمل بعد تشغيل نظام العملاء</b><p>نعمل حالياً على تجهيز الحسابات، وإلى أن تكتمل يسعدنا استقبال طلباتك ومتابعتها معك على واتساب.</p><div class="pbtns"><a class="btn sm pri" href="https://wa.me/97451600498" target="_blank" rel="noopener">تواصل على واتساب</a></div></div>
+<div id="noApi" class="pnote" hidden><b>الحسابات تعمل بعد تشغيل نظام العملاء</b><p>نعمل حالياً على تجهيز الحسابات، وإلى أن تكتمل يسعدنا استقبال طلباتك ومتابعتها معك على واتساب.</p><div class="pbtns"><a class="btn sm pri" href="https://wa.me/" target="_blank" rel="noopener">تواصل على واتساب</a></div></div>
 
 <section id="auth">
   <div id="clientAuth">
@@ -49,7 +49,7 @@
       <label>تأكيد كلمة المرور<input id="fPass2" type="password" autocomplete="new-password" dir="ltr" minlength="8"></label>
     </div>
     <span class="err full" id="fErr" role="alert"></span>
-    <div class="contact full"><button class="btn pri" type="submit" id="fBtn">أرسل الرمز</button><button class="linkbtn sm" type="button" id="fBack">رجوع إلى الدخول</button><a class="sm" href="https://wa.me/97451600498" target="_blank" rel="noopener">لا يوجد بريد في حسابك؟ راسلنا على واتساب</a></div>
+    <div class="contact full"><button class="btn pri" type="submit" id="fBtn">أرسل الرمز</button><button class="linkbtn sm" type="button" id="fBack">رجوع إلى الدخول</button><a class="sm" href="https://wa.me/" target="_blank" rel="noopener">لا يوجد بريد في حسابك؟ راسلنا على واتساب</a></div>
   </form>
   <form id="signF" class="panel" hidden novalidate>
     <h2 class="full">1. بيانات المسؤول</h2>
@@ -154,10 +154,11 @@
   </div>
 </section>
 </div></main>
-<footer><div class="wrap fc"><b>للتواصل</b><a href="tel:+97451600498" dir="ltr">☎ +974 5160 0498</a><a href="https://wa.me/97451600498" target="_blank" rel="noopener">واتساب</a><a href="mailto:munijizqa@gmail.com" dir="ltr">✉ munijizqa@gmail.com</a></div><div class="wrap"><span>جاهز · لوسيل، قطر</span><span><a href="legal.html">المستندات القانونية</a> · <a href="privacy.html">الخصوصية</a></span></div></footer>
+<footer><div class="wrap fc"><b>للتواصل</b><a href="tel:" data-phone data-pre="☎ " dir="ltr"></a><a href="https://wa.me/" target="_blank" rel="noopener">واتساب</a><a href="mailto:" data-mail data-pre="✉ " dir="ltr"></a></div><div class="wrap"><span>جاهز · لوسيل، قطر</span><span><a href="legal.html">المستندات القانونية</a> · <a href="privacy.html">الخصوصية</a></span></div></footer>
 <div class="toast" id="toast" hidden></div>
-<script src="assets/config.js?v=20261019v"></script>
-<script src="assets/sitetext.js?v=20261019v"></script>
+<script src="assets/config.js?v=20261127"></script>
+<script src="assets/contact.js?v=20261127" defer></script>
+<script src="assets/sitetext.js?v=20261127"></script>
 <script src="assets/data.js?v=20261024j"></script>
 <script src="assets/details.js?v=20261024i"></script>
 <script src="assets/catalog.js?v=20261024i"></script>
