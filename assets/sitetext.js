@@ -4,7 +4,7 @@
 // Loaded right after config.js (or at the end of pages without it): applies the last saved texts at once,
 // then asks the server for the current ones. An empty field keeps the page's own text. Text is set with textContent only.
 (function(){
-const KEY='jahiz_site_v2',EN=document.documentElement.lang==='en',DEF_WA='97451600498',DEF_MAIL='munijizqa@gmail.com';
+const KEY='jahiz_site_v2',EN=document.documentElement.lang==='en',DEF_WA='',DEF_MAIL='';
 const L=EN?'en':'ar';
 // where each text lives on the page; read() gives the built-in text, put() replaces it
 const q=(d,s)=>d.querySelector(s);
@@ -28,13 +28,13 @@ function apply(s){if(!s)return;const t=s[L]||{};
     if(n.nodeType===3){const lead=n.textContent.match(/^\s*/)[0],tail=n.textContent.match(/\s*$/)[0];n.textContent=lead+t[k]+tail}else n.textContent=t[k]});
   const C=window.JAHIZ_CONFIG;
   const wa=/^\d{8,15}$/.test(s.wa||'')?s.wa:'',ph=/^\d{8,15}$/.test(s.phone||'')?s.phone:wa,em=/^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(s.email||'')?s.email:'';
-  if(C){if(wa)C.WHATSAPP=wa;if(ph)C.PHONE=showPhone(ph);if(em)C.EMAIL=em}
+  if(C){if(wa)C.WHATSAPP=wa;if(ph)C.PHONE=showPhone(ph);if(em)C.EMAIL=em;if(window.jahizContact)window.jahizContact()}
   if(wa)document.querySelectorAll('a[href*="wa.me/"]').forEach(a=>{a.href=a.href.replace(/wa\.me\/\d+/,'wa.me/'+wa)});
   if(ph)document.querySelectorAll('a[href^="tel:"]').forEach(a=>{a.href='tel:+'+ph});
   if(em)document.querySelectorAll('a[href^="mailto:"]').forEach(a=>{a.href=a.href.replace(/^mailto:[^?]*/,'mailto:'+em)});
   // visible copies of the phone and email in text
-  const oldPh=[showPhone(DEF_WA),'+'+DEF_WA,DEF_WA],swaps=[];
-  if(ph)oldPh.forEach(o=>swaps.push([o,showPhone(ph)]));if(em)swaps.push([DEF_MAIL,em]);
+  const oldPh=DEF_WA?[showPhone(DEF_WA),'+'+DEF_WA,DEF_WA]:[],swaps=[];
+  if(ph)oldPh.forEach(o=>swaps.push([o,showPhone(ph)]));if(em&&DEF_MAIL)swaps.push([DEF_MAIL,em]);
   if(!swaps.length||!document.body)return;
   const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
   while((n=w.nextNode())){let v=n.textContent,c=v;for(const [o,x] of swaps)if(o!==x&&c.includes(o))c=c.split(o).join(x);if(c!==v)n.textContent=c}}
